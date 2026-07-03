@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CCMV Journey Planner v1.1.2｜Desktop Review</title>
+  <title>CCMV Journey Planner v1.1.3｜Cleanup</title>
   <style>
 :root{
   --cream:#fbf6ed;
@@ -124,6 +124,14 @@ h1{font-size:52px;letter-spacing:.03em;line-height:.92}
 .primary-action{margin-top:16px;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:13px 18px;font-weight:700;cursor:pointer;box-shadow:0 14px 30px rgba(43,36,27,.16)}
 @media (max-width: 820px){.intro-card p{max-width:100%}.dashboard-start{margin-bottom:18px}}
 
+
+/* v1.1.3 cleanup */
+.details{grid-template-columns:repeat(2,1fr)}
+.refined-review{padding:0;overflow:hidden;background:rgba(255,253,248,.92);border:1px solid rgba(180,138,50,.28)}
+.review-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding:26px 28px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fffdf8,#f7edda)}
+.review-head h2{margin:2px 0 6px;font-size:30px}.review-copy{margin:0;color:var(--muted);line-height:1.8;max-width:720px}.review-status{border:1px solid #e1cca0;background:#fff6df;color:#73500f;border-radius:999px;padding:9px 14px;font-weight:900;white-space:nowrap}.review-rows{display:grid;gap:0;padding:4px 28px 0}.review-row{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center;padding:18px 0;border-bottom:1px solid #efe2cb}.review-label{display:flex;align-items:center;gap:12px}.review-label span{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#f2e3c4;color:#79530d;font-size:12px;font-weight:900}.review-label b{color:#3a2d1c}.compact-stars,.compact-choice{display:flex;flex-wrap:wrap;gap:8px}.compact-stars button{width:42px;height:42px;border-radius:50%;padding:0;font-weight:900}.compact-choice button{min-width:94px}.review-note-field{padding:22px 28px 26px}.review-note-field label{display:block;font-weight:900;color:#6f4d12;margin-bottom:8px}.review-note-field textarea{width:100%;min-height:96px;border:1px solid #e8dcc7;border-radius:18px;background:#fffaf2;padding:14px;font-family:inherit;color:var(--ink);resize:vertical}.refined-review .shared-list{margin:0 28px 26px}.refined-review .submit-day{display:inline-flex;margin-top:12px;padding:10px 18px;background:#2b241b;color:#fff;border-color:#2b241b}.refined-review .submit-day:hover{background:var(--gold);border-color:var(--gold)}
+@media(max-width:900px){.details{grid-template-columns:1fr}.review-head{display:block;padding:22px}.review-status{display:inline-block;margin-top:12px}.review-rows{padding:0 22px}.review-row{grid-template-columns:1fr;gap:12px}.review-note-field{padding:20px 22px}.refined-review .shared-list{margin:0 22px 22px}.compact-choice button{min-width:auto}}
+
 </style>
 </head>
 <body>
@@ -153,7 +161,7 @@ h1{font-size:52px;letter-spacing:.03em;line-height:.92}
   <main class="main">
     <header class="topbar">
       <div>
-        <span class="version-ribbon">v1.1.2 Desktop Review</span>
+        <span class="version-ribbon">v1.1.3 Cleanup</span>
         <p class="eyebrow">Saigon Girls Trip 2026</p>
         <h1>CCMV Journey Planner</h1>
         <p class="dates">30 Oct – 3 Nov 2026 · 4 mamas · 5 days</p>
@@ -195,23 +203,23 @@ const days = [
       ['11:15','60 mins','Phở SOL - Bến Thành','🔥 必食','以下機後第一餐河粉展開西貢旅程。石鍋炙燒牛骨髓牛排河粉、黃金油條及生雞蛋為重點。','石鍋河粉 / Quẩy','酒店步行 8–10 mins','4人可點2碗分食'],
       ['12:30','90 mins','中央郵局・紅教堂・書街','⭐ 順路打卡','三個景點距離相近，可用較輕鬆方式完成第一日經典路線。','免費 / 影相','Phở SOL → 中央郵局 Grab 5 mins','太熱可縮短停留'],
       ['14:00','2–3 hrs','The Cafe Apartments + Nha Suga Spa','🔥 室內避暑','Spa 位於 The Cafe Apartments 內，可同時安排療程、特色咖啡店及小店探索。','Spa / Café / Photo','書街 → Cafe Apartments Grab 5 mins','療程長短可按個人需要調整'],
-      ['17:30','2 hrs','Omakase Tiger','🔥 Welcome Dinner','性價比高，座位少而有儀式感；17:30 場次可欣賞日落景色。','12道套餐 / Sunset','Cafe Apartments → Omakase Grab 15 mins','需提前預約'],
+      ['17:30','2 hrs','Omakase Tiger','🍽️ Welcome Dinner','性價比高，座位少而有儀式感；17:30 場次可欣賞日落景色。','12道套餐 / Sunset','Cafe Apartments → Omakase Grab 15 mins','需提前預約'],
       ['19:45','30–45 mins','阮惠步行街・Cafe Apartments 夜景','💡 有體力先','晚餐後如時間許可，順路返回阮惠步行街欣賞 Cafe Apartments 亮燈夜景。','夜景 / 合照','Omakase → 阮惠 Grab 15–20 mins','太累可直接返酒店']
     ]
   },
   {
-    id:'day2', label:'Day 2', date:'31 Oct (Sat)', title:'Cooking & Shopping', subtitle:'Cooking、Shopping 與精緻晚餐', theme:'最充實', pace:'Medium Busy', summary:['步行 1.5km+','Grab 4次','Spa 1次','Shopping 6核心站','晚餐 LÚNE'],
+    id:'day2', label:'Day 2', date:'31 Oct (Sat)', title:'Cooking & Shopping', subtitle:'Cooking、Shopping 與精緻晚餐', theme:'最充實', pace:'Medium Busy', summary:['步行 1.5km+','Grab 4次','Spa 1次','Shopping 6核心站','晚餐｜LÚNE'],
     note:'第二天是體驗最集中的一天，因此安排採取清晰的前後段節奏。早上以地道早餐與 Cooking Class 作為主軸，讓午餐自然包含在課程之中；午後先安排 Spa，避開炎熱時段，也讓身體有時間轉換狀態。購物路線集中在第一郡核心範圍，方便按體力取捨。晚餐則保留較精緻的節點，讓充實的一天有安定收結。',
     activities:[
       ['08:30','60 mins','Cơm Tấm Mộc - Lý Tự Trọng','⭐ 地道早餐','以炭烤厚切豬排碎米飯開始一天，適合四人分食試味。','Cơm Tấm Sườn','酒店步行約8 mins','可按精神狀態決定份量'],
       ['10:00','3 hrs','Saigon Cooking Class','🔥 核心體驗','三小時親手烹飪越南菜，完成後即場享用，直接作為午餐。','越南菜 / Lunch included','早餐 → Cooking Class Grab 5 mins','需預約'],
       ['13:15','2 hrs','Mộc Kim Spa & Beauty','🔥 避暑安排','課程後正值炎熱時段，先做草本水療及整理儀容，再出發購物。','草本洗頭 / Spa','Cooking Class → Spa 10–15 mins','可寄放隨身物品'],
       ['15:30','3–4 hrs','第一郡購物動線','🔥 核心行程','由 LIBÉ、Dauple、NOSBYN 至 The New Playground，按地理位置順路安排。','Casual Wear / Local Brands','全程約1.5km','可選店時間不足可 skip'],
-      ['19:00','2 hrs','LÚNE Restaurant & Bar','🔥 精緻晚餐','購物路線完成後直接前往餐廳，距離短，適合作為充實一天的收結。','Michelin Selected / French Dinner','Vincom → LÚNE Grab 5 mins','提前1個月預約']
+      ['19:00','2 hrs','LÚNE Restaurant & Bar','🍽️ 晚餐','購物路線完成後直接前往餐廳，距離短，適合作為充實一天的收結。','Michelin Selected / 法式晚餐','Vincom → LÚNE Grab 5 mins','提前1個月預約']
     ]
   },
   {
-    id:'day3', label:'Day 3', date:'1 Nov (Sun)', title:'Thảo Điền Lifestyle', subtitle:'感受西貢另一種生活節奏', theme:'Lifestyle', pace:'Relaxed', summary:['跨區 Thảo Điền','Café 2間','Spa 1次','Shopping 慢逛','Dinner Little Bear'],
+    id:'day3', label:'Day 3', date:'1 Nov (Sun)', title:'Thảo Điền Lifestyle', subtitle:'感受西貢另一種生活節奏', theme:'Lifestyle', pace:'Relaxed', summary:['跨區 Thảo Điền','Café 2間','Spa 1次','Shopping 慢逛','晚餐｜Little Bear'],
     note:'第三天刻意放慢速度，讓旅程由市中心轉向更具生活感的 Thảo Điền。早上先以地道小店與短暫打卡作輕量開始，之後把時間留給街區漫步、選物店與咖啡休息。這一天不追求密集完成景點，而是讓大家有空間逛得從容。傍晚安排 Spa，再順路前往晚餐，避免回酒店再出發造成折返。',
     activities:[
       ['09:00','60 mins','Quán Thuý 94 - Miến Cua','🔥 地道早餐','老字號蟹肉粉絲，招牌蟹肉炒粉絲湯及炸蟹肉春捲。','蟹肉粉絲 / 春捲','酒店 → 店舖 Grab 8–10 mins','營業至14:00'],
@@ -220,11 +228,11 @@ const days = [
       ['11:45','3 hrs','Thảo Điền 街區漫步','🔥 今日核心','Saigon Concept、YouOn、OHQUAO 等特色選物店及生活小店，節奏較慢。','Lifestyle / Local Shops','粉紅教堂 → 草田 Grab 15 mins','按喜好自由取捨'],
       ['13:30','60 mins','Bakes / The Dreamers Bakery','⭐ 下午茶','兩間店相距很近，可按當日想食甜點或蛋撻選擇。','法式甜點 / 蛋撻','步行可達','4人分食2–3件'],
       ['15:45','2 hrs','Mộc Hương Wellness Thảo Điền','🔥 Spa','法式別墅式 Spa，適合在草田區慢活行程中段休息。','草本熱石 / 蒸氣房','步行 2–3 mins','可寄存戰利品'],
-      ['19:00','2 hrs','Little Bear','🔥 Dinner','以現代手法演繹越南風味，與前兩晚餐飲體驗不同。','Modern Vietnamese','Spa → Little Bear Grab 3 mins','務必預約']
+      ['19:00','2 hrs','Little Bear','🍽️ 晚餐','以現代手法演繹越南風味，與前兩晚餐飲體驗不同。','Modern Vietnamese','Spa → Little Bear Grab 3 mins','務必預約']
     ]
   },
   {
-    id:'day4', label:'Day 4', date:'2 Nov (Mon)', title:'History & Finale', subtitle:'歷史、人文與最後一場 Shopping', theme:'Culture + Shopping', pace:'Medium Busy', summary:['Museum 2hrs','Pizza 4P\'s','Shopping 8站','足底按摩','Dinner Quince'],
+    id:'day4', label:'Day 4', date:'2 Nov (Mon)', title:'History & Finale', subtitle:'歷史、人文與最後一場 Shopping', theme:'Culture + Shopping', pace:'Medium Busy', summary:['Museum 2hrs','Pizza 4P\'s','Shopping 8站','足底按摩','晚餐｜Quince'],
     note:'今天由酒店附近 The Running Bean 的一杯咖啡開始，再前往戰爭遺蹟博物館，從另一個角度認識西貢的歷史。午餐安排於人氣餐廳 Pizza 4P\'s，之後展開旅程最後一場購物，把握時間尋找最後的心頭好。傍晚安排足底按摩，讓雙腳稍作休息，再返回酒店整理戰利品。晚餐選擇 Quince Saigon，其木火料理一直深受推薦，亦為今次旅程帶來另一種截然不同的餐飲體驗。如體力許可，晚上可到 Rooftop Bar 欣賞西貢夜景，為最後一個晚上增添一點餘韻。',
     activities:[
       ['08:30','60 mins','The Running Bean','⭐ Morning Coffee','由酒店附近咖啡開始，讓今日節奏不會一早太急。','蛋咖啡 / 椰子咖啡','酒店附近','輕食即可'],
@@ -232,7 +240,7 @@ const days = [
       ['11:30','90 mins','Pizza 4P\'s Hai Bà Trưng','🔥 Lunch','順路前往 Phú Nhuận 前的午餐點，評分高且方向不走回頭路。','Burrata Pizza / Crab Pasta','博物館 → Pizza Grab 8 mins','建議預約'],
       ['13:30','3 hrs','Phú Nhuận 購物動線','🔥 最後 Shopping','以 11 Garmentory 為核心，再視時間沿 Trần Huy Liệu 及 Trần Quang Diệu 逛店。','Designer Brands','Pizza → 11 Garmentory Grab 15 mins','後段店舖可按時間 skip'],
       ['17:30','105 mins','Temple Leaf Spa Land','🔥 足底按摩','Shopping 後集中放鬆雙腳，為晚餐前稍作休息。','足底90 mins / 熱石','購物尾站 → Spa 12–15 mins','需預約'],
-      ['20:15','2 hrs','Quince Saigon','🔥 Farewell Dinner','以木火料理及歐陸風格作為最後一個完整晚上的重點晚餐。','Wood-fired Cuisine','酒店 → Quince Grab 8–10 mins','每月1日開放訂位'],
+      ['20:15','2 hrs','Quince Saigon','🍽️ Farewell Dinner','以木火料理及歐陸風格作為最後一個完整晚上的重點晚餐。','Wood-fired / 歐陸料理','酒店 → Quince Grab 8–10 mins','每月1日開放訂位'],
       ['22:15','Optional','Social Club Rooftop Bar','💡 視體力','如大家仍有精神，可作最後夜景選項。','Rooftop / Mocktail','Quince → Bar Grab 5 mins','自由選項']
     ]
   },
@@ -265,7 +273,7 @@ let sharedComments = [];
 let syncStatus = endpoint ? 'Google Sheet sync ready' : 'Demo mode：未設定 Google Sheet，暫時只儲存在此裝置';
 const reviewerIcons = {Christal:'🧸', Crystal:'👓', Mero:'✝️', Vivian:'👟'};
 const navItems = [{id:'dashboard', label:'🏠 Dashboard', title:'Review Guide'}, ...days.map(d=>({id:d.id, label:'📅 '+d.label, title:d.title})), {id:'summary', label:'📝 Final Review', title:'所有已提交意見'}];
-const iconSystem = ['💛 今日安排','🗓 Timeline','📍 Activity','💡 Planner Notes','⭐ Priority','🕒 Buffer','💬 Discussion','📝 Day Review'];
+const iconSystem = ['💛 今日安排','🗓 Timeline','📍 Activity','⭐ Priority','🕒 Buffer','💬 Discussion','📝 Day Review'];
 
 
 function key(...parts){return ['ccmvJPbeta', reviewerSelect.value, ...parts].join(':')}
@@ -316,7 +324,7 @@ function activityHTML(d,a,idx){
     <div class="card">
       <div class="card-head"><div><h3>${a[2]}</h3><div class="tag-row"><span class="tag gold">${a[3]}</span><span class="tag">${a[5]}</span></div></div></div>
       <p>${a[4]}</p>
-      <div class="details"><div class="detail-box"><b>📍 移動</b>${a[6]}</div><div class="detail-box"><b>🕒 Buffer</b>${a[7]}</div><div class="detail-box"><b>💡 Planner Notes</b>節奏 / 路線 / 想保留 / 想調整</div></div>
+      <div class="details"><div class="detail-box"><b>📍 移動</b>${a[6]}</div><div class="detail-box"><b>🕒 Buffer</b>${a[7]}</div></div>
       <div class="comment-box"><label>💬 Discussion</label><textarea data-key="${k}" placeholder="留下你的觀察：節奏、路線、時間，或希望保留的安排。"></textarea><button class="submit-mini" data-submit-activity="${idx}">Submit Comment</button></div>
       ${sharedCommentsHTML(shared)}
     </div>
@@ -333,12 +341,36 @@ function reviewHTML(d){
   const pace = localStorage.getItem(key(d.id,'pace'));
   const approval = localStorage.getItem(key(d.id,'approval'));
   const dayReviews = sharedComments.filter(c => c.dayId === d.id && (c.rating || c.pace || c.approval || c.overallComment));
-  return `<section class="day-review"><p class="eyebrow">📝 Day Review</p><h2>今日整體意見</h2><div class="review-grid">
-    <div><b>整體評分</b><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${String(n)===rating?'active':''}" data-rate="${n}">★ ${n}</button>`).join('')}</div></div>
-    <div><b>節奏</b><div class="choice">${['剛剛好','有少少趕','太鬆'].map(x=>`<button class="${x===pace?'active':''}" data-pace="${x}">${x}</button>`).join('')}</div></div>
-    <div><b>可以 Lock 嗎？</b><div class="choice">${['OK','小修改','再討論'].map(x=>`<button class="${x===approval?'active':''}" data-approval="${x}">${x}</button>`).join('')}</div></div>
-    <div style="grid-column:1/-1"><b>整體建議</b><textarea data-key="${key(d.id,'overallComment')}" placeholder="請留下希望保留、調整或再討論的地方。"></textarea><button class="submit-day" data-submit-day="${d.id}">Submit Day Review</button></div>
-  </div>${dayReviewsHTML(dayReviews)}</section>`
+  return `<section class="day-review refined-review">
+    <div class="review-head">
+      <div>
+        <p class="eyebrow">📝 Day Review</p>
+        <h2>今日整體意見</h2>
+        <p class="review-copy">請用最簡單方式留下整體判斷：節奏是否合適、是否可以保留，以及有沒有需要調整的地方。</p>
+      </div>
+      <div class="review-status">${approval ? escapeHTML(approval) : 'Pending'}</div>
+    </div>
+    <div class="review-rows">
+      <div class="review-row">
+        <div class="review-label"><span>01</span><b>整體評分</b></div>
+        <div class="stars compact-stars">${[1,2,3,4,5].map(n=>`<button class="${String(n)===rating?'active':''}" data-rate="${n}">${n}</button>`).join('')}</div>
+      </div>
+      <div class="review-row">
+        <div class="review-label"><span>02</span><b>節奏感</b></div>
+        <div class="choice compact-choice">${['剛剛好','有少少趕','太鬆'].map(x=>`<button class="${x===pace?'active':''}" data-pace="${x}">${x}</button>`).join('')}</div>
+      </div>
+      <div class="review-row">
+        <div class="review-label"><span>03</span><b>是否可以 Lock</b></div>
+        <div class="choice compact-choice">${['OK','小修改','再討論'].map(x=>`<button class="${x===approval?'active':''}" data-approval="${x}">${x}</button>`).join('')}</div>
+      </div>
+    </div>
+    <div class="review-note-field">
+      <label>整體建議</label>
+      <textarea data-key="${key(d.id,'overallComment')}" placeholder="例如：想保留、想改時間、覺得太趕、或者有一個位置想再討論。"></textarea>
+      <button class="submit-day" data-submit-day="${d.id}">Submit Day Review</button>
+    </div>
+    ${dayReviewsHTML(dayReviews)}
+  </section>`
 }
 
 function dayReviewsHTML(items){
@@ -439,7 +471,7 @@ function goPanel(id){activeDay=id;localStorage.setItem('ccmv-active-day',activeD
 function renderDashboard(){
   content.innerHTML = `
     <article class="day-hero compact visible-update-card dashboard-lite">
-      <div class="day-meta"><span class="pill">v1.1.2</span><span class="pill">Desktop Review</span><span class="pill">Ready for comments</span></div>
+      <div class="day-meta"><span class="pill">v1.1.3</span><span class="pill">Review Cleanup</span><span class="pill">Ready for comments</span></div>
       <div class="day-title"><div><h2>Review Dashboard</h2><p class="subtitle">A simple starting point before reviewing each day.</p></div></div>
       <div class="plan-note"><b>💛 Review Guide</b><br>請由左方分頁進入 Day 1–5，逐日查看安排，然後在每個 Activity 下方留下意見。重點是節奏、路線、時間、餐廳及需要調整的位置。每日最後可留下整體 review，最後再到 Final Review 檢查所有意見。</div>
       <div class="reviewers compact-reviewers">
