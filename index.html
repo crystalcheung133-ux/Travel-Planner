@@ -4,140 +4,44 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Journey Planner｜Saigon Girls Trip 2026</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="watermark watermark-main"><img src="assets/ccmv-logo.jpeg" alt=""></div>
-  <aside class="sidebar">
-    <div class="brand">
-      <img src="assets/ccmv-logo.jpeg" alt="CCMV Logo" class="logo">
-      <div class="brand-title">Journey<br><span>Planner</span></div>
-      <p>Plan together. Travel better.</p>
-    </div>
-    <nav>
-      <a href="#dashboard" class="active">總覽 Dashboard</a>
-      <a href="#day1">Day 1｜初見西貢</a>
-      <a href="#day2">Day 2｜廚藝課 & 購物日</a>
-      <a href="#day3">Day 3｜第二郡探索日</a>
-      <a href="#day4">Day 4｜文化藝術日</a>
-      <a href="#day5">Day 5｜悠閒早午餐 & 返程</a>
-      <a href="#overall">Overall Review｜整體意見</a>
-    </nav>
-    <div class="trip-card">
-      <strong>Saigon Girls Trip 2026</strong>
-      <span>30 Oct – 3 Nov 2026</span>
-      <small>4 位旅伴一起完成這趟旅程 ♡</small>
-    </div>
-  </aside>
+  <div class="watermark"></div>
+  <header class="topbar">
+    <div class="brand"><img src="assets/ccmv-logo.jpeg" alt="CCMV logo"><div><b>Journey Planner</b><span>Saigon Girls Trip 2026</span></div></div>
+    <nav><a href="#day1">Day 1</a><a href="#day2">Day 2</a><a href="#day3">Day 3</a><a href="#day4">Day 4</a><a href="#day5">Day 5</a><a href="#overall">Overall</a></nav>
+  </header>
 
   <main>
-    <section id="dashboard" class="hero panel">
-      <div>
-        <p class="eyebrow">CCMV Presents</p>
-        <h1>Journey Planner</h1>
-        <p class="lead">一份可以討論、可以修改、可以一起完成嘅行程。</p>
-        <div class="chips"><span>Saigon 2026</span><span>4 Mamas</span><span>Review Tool v0.1</span></div>
-      </div>
-      <img src="assets/ccmv-logo.jpeg" alt="CCMV Logo" class="hero-logo">
+    <section class="hero">
+      <img src="assets/ccmv-logo.jpeg" alt="CCMV logo" class="hero-logo">
+      <p class="eyebrow">Plan together. Travel better.</p>
+      <h1>一份可以討論嘅 Itinerary</h1>
+      <p>重點唔係投票，而係睇清楚每一日會唔會太趕、邊啲係必去、邊啲可以遲咗就 skip。</p>
+      <div class="legend"><span>★★★★★ Must Do</span><span>★★★ Nice to Have</span><span>★ Backup / Skip</span></div>
     </section>
 
-    <section class="panel dashboard-grid">
-      <a class="day-card ready" href="#day1"><b>Day 1</b><span>初見西貢</span><small>完整 Review Ready →</small></a>
-      <a class="day-card" href="#day2"><b>Day 2</b><span>廚藝課 & 購物日</span><small>Coming next</small></a>
-      <a class="day-card" href="#day3"><b>Day 3</b><span>第二郡探索日</span><small>Coming next</small></a>
-      <a class="day-card" href="#day4"><b>Day 4</b><span>文化藝術日</span><small>Coming next</small></a>
-      <a class="day-card" href="#day5"><b>Day 5</b><span>悠閒早午餐 & 返程</span><small>Coming next</small></a>
-      <a class="day-card" href="#overall"><b>Overall</b><span>整體意見</span><small>Final thoughts</small></a>
+    <section class="dashboard card">
+      <h2>Trip Overview</h2>
+      <div class="day-grid">
+        <a href="#day1"><b>Day 1</b><span>Arrival・Pho・Spa・Omakase</span></a>
+        <a href="#day2"><b>Day 2</b><span>Cooking Class・Spa・D1 Shopping・LÚNE</span></a>
+        <a href="#day3"><b>Day 3</b><span>Pink Church・Thảo Điền・Little Bear</span></a>
+        <a href="#day4"><b>Day 4</b><span>Museum・Phú Nhuận・Quince</span></a>
+        <a href="#day5"><b>Day 5</b><span>Final bites・Souvenirs・Airport Spa</span></a>
+      </div>
     </section>
 
-    <section id="day1" class="day-section">
-      <div class="section-head">
-        <p class="eyebrow">30 Oct 2026｜Friday</p>
-        <h2>Day 1｜初見西貢</h2>
-        <p>主題：先放低行李、食第一餐越南粉、慢慢行經典景點，再用 Spa 同 Welcome Dinner 開始旅程。</p>
-      </div>
+    <div id="days"></div>
 
-      <div class="timeline">
-        <article class="activity">
-          <div class="time"><b>09:30</b><span>預留 45 分鐘</span></div>
-          <div class="content-card">
-            <div class="activity-main">
-              <div class="icon">🏨</div><div><h3>Fusion Original Saigon Centre</h3><p class="tags"><span>酒店</span><span>Drop luggage</span><span>Buffer</span></p><p>先到酒店放低行李、梳洗，預留交通及入境時間，作為第一個 Buffer，令行程更從容。</p></div>
-            </div>
-            <textarea placeholder="有咩想講？例如：時間夠唔夠？要唔要加早餐？"></textarea>
-          </div>
-        </article>
-
-        <article class="activity">
-          <div class="time"><b>10:30</b><span>預留 45 分鐘</span></div>
-          <div class="content-card">
-            <div class="activity-main">
-              <div class="icon">🍜</div><div><h3>Phở SOL <em>★★★★★</em></h3><p class="tags"><span>越南菜</span><span>人氣推薦</span><span>第一餐</span></p><p><strong>點解揀？</strong> 西貢人氣河粉店，湯底清甜，環境乾淨，距離酒店方便，適合作為第一餐。</p><ul><li>必食：Signature Beef Pho</li><li>推介：Vietnamese Iced Coffee</li></ul></div>
-            </div>
-            <textarea placeholder="有咩想講？例如：想唔想改 Phở Việt Nam？"></textarea>
-          </div>
-        </article>
-
-        <article class="activity">
-          <div class="time"><b>11:30</b><span>預留 45 分鐘</span></div>
-          <div class="content-card">
-            <div class="activity-main">
-              <div class="icon">⛪</div><div><h3>巴黎聖母教堂 & Book Street</h3><p class="tags"><span>景點</span><span>打卡</span><span>悠閒散步</span></p><p><strong>點解揀？</strong> 第一天唔安排太重 shopping，先慢慢感受西貢氣氛。教堂、中央郵局及 Book Street 位置近，適合輕鬆行。</p><ul><li>步行：約 8–12 分鐘</li><li>重點：影相、買明信片、咖啡小休</li></ul></div>
-            </div>
-            <textarea placeholder="有咩想講？例如：會唔會太熱？要唔要縮短？"></textarea>
-          </div>
-        </article>
-
-        <article class="activity">
-          <div class="time"><b>14:00</b><span>Check-in / Rest</span></div>
-          <div class="content-card">
-            <div class="activity-main">
-              <div class="icon">🛏️</div><div><h3>回酒店 Check-in & 休息</h3><p class="tags"><span>休息</span><span>Refresh</span><span>Buffer</span></p><p>正式入住、整理行李、換衫。呢段係特登留出嚟，避免早機加午間天氣令大家太攰。</p></div>
-            </div>
-            <textarea placeholder="有咩想講？例如：想休息耐啲？"></textarea>
-          </div>
-        </article>
-
-        <article class="activity">
-          <div class="time"><b>15:00</b><span>預留 90 分鐘</span></div>
-          <div class="content-card">
-            <div class="activity-main">
-              <div class="icon">💆</div><div><h3>Nhà Suga Premium Spa</h3><p class="tags"><span>Spa</span><span>放鬆</span><span>高評價</span></p><p><strong>點解揀？</strong> 評價穩定、環境乾淨舒服。安排喺晚餐前，等大家由早機同炎熱天氣回復過嚟。</p><ul><li>建議：90 分鐘 body massage / package</li><li>目的：放鬆、梳洗後準備晚餐</li></ul></div>
-            </div>
-            <textarea placeholder="有咩想講？例如：Spa 會唔會太早/太長？"></textarea>
-          </div>
-        </article>
-
-        <article class="activity">
-          <div class="time"><b>17:30</b><span>預留 2 小時</span></div>
-          <div class="content-card">
-            <div class="activity-main">
-              <div class="icon">🍣</div><div><h3>Omakase Tiger <em>★★★★★</em></h3><p class="tags"><span>日式</span><span>Omakase</span><span>Welcome Dinner</span></p><p><strong>點解揀？</strong> 第一晚想有儀式感，但唔想食到太夜。日落時份、座位氣氛好，適合作為旅程開始嘅 Welcome Dinner。</p><ul><li>必食：Chef’s Omakase / seasonal dishes</li><li>Dress code：Smart casual</li></ul></div>
-            </div>
-            <textarea placeholder="有咩想講？例如：第一晚食 Omakase OK 嗎？"></textarea>
-          </div>
-        </article>
-      </div>
-
-      <form class="review-box panel">
-        <h3>Day 1 整體意見</h3>
-        <label>今日整體感覺</label><div class="stars">☆ ☆ ☆ ☆ ☆</div>
-        <label>節奏合適嗎？</label><div class="options"><button type="button">剛剛好</button><button type="button">有少少趕</button><button type="button">太鬆</button></div>
-        <label>最期待邊個部分？</label><select><option>請選擇</option><option>Phở SOL</option><option>教堂 / Book Street</option><option>Spa</option><option>Omakase Tiger</option></select>
-        <label>有冇其他想法或建議？</label><textarea placeholder="可以簡單寫：OK / 想改 / 有保留 / 替代建議"></textarea>
-        <label>Day 1 可以 Lock 嗎？</label><div class="approval"><button type="button" class="ok">✓ OK</button><button type="button" class="edit">✎ 小修改</button><button type="button" class="talk">☻ 再討論</button></div>
-      </form>
+    <section id="overall" class="review-panel card">
+      <h2>Overall Review｜整體意見</h2>
+      <label>整體期待程度</label><select data-key="overall-rating"><option>★★★★★</option><option>★★★★</option><option>★★★</option><option>★★</option><option>★</option></select>
+      <label>如果只可以改一樣，你會改咩？</label><textarea data-key="overall-change" placeholder="例如：Day 4 會唔會太趕？"></textarea>
+      <label>Final Approval</label><select data-key="overall-approval"><option>✅ 可以 Lock</option><option>⚠️ 小修改</option><option>❌ 想再討論</option></select>
     </section>
-
-    <section id="day2" class="placeholder panel"><h2>Day 2｜廚藝課 & 購物日</h2><p>v0.2 會加入完整 Timeline、餐廳原因、Review。</p></section>
-    <section id="day3" class="placeholder panel"><h2>Day 3｜第二郡探索日</h2><p>v0.2 會加入完整內容。</p></section>
-    <section id="day4" class="placeholder panel"><h2>Day 4｜文化藝術日</h2><p>v0.2 會加入完整內容。</p></section>
-    <section id="day5" class="placeholder panel"><h2>Day 5｜悠閒早午餐 & 返程</h2><p>v0.2 會加入完整內容。</p></section>
-    <section id="overall" class="placeholder panel"><h2>Overall Review｜整體意見</h2><p>最期待、最擔心、最後 approval 會放喺呢度。</p></section>
   </main>
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

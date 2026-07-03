@@ -1,11 +1,11 @@
-# Journey Planner v0.1
+# Journey Planner v0.2
 
-Static MVP for Saigon Girls Trip 2026.
+Static HTML/CSS/JS version for Saigon Girls Trip 2026.
 
-Files:
-- index.html
-- styles.css
-- app.js
-- assets/ccmv-logo.jpeg
+Includes:
+- CCMV logo and watermark
+- Day 1–5 detailed planner timeline
+- Priority / buffer / skip-if-late notes
+- Activity comments and day approval fields using localStorage
 
-Deploy: upload all files to a new GitHub repository, then import to Vercel.
+Deploy by uploading all files to GitHub and connecting the repository to Vercel.
