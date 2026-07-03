@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journey Planner | Saigon 2026 Review Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-route="home" aria-label="Go to home">
+        <span class="brand-mark">JP</span>
+        <span>
+          <strong>Journey Planner</strong>
+          <small>Plan together. Travel better.</small>
+        </span>
+      </button>
+      <button class="ghost-btn" data-route="admin">Admin View</button>
+    </header>
+
+    <main id="app"></main>
+  </div>
+
+  <template id="home-template">
+    <section class="hero">
+      <div class="eyebrow">Four Mamas · Pre-trip collaboration</div>
+      <h1>Plan together.<br>Travel better.</h1>
+      <p>Review the Saigon 2026 itinerary, vote on each day, share concerns, and lock the final version before the companion site goes live for travel.</p>
+      <div class="hero-actions">
+        <button class="primary-btn" data-route="dashboard">Enter Workspace</button>
+        <button class="secondary-btn" data-route="admin">View Review Summary</button>
+      </div>
+    </section>
+  </template>
+
+  <template id="dashboard-template">
+    <section class="page-stack">
+      <div class="panel trip-panel">
+        <div>
+          <div class="eyebrow">Trip Workspace</div>
+          <h2>Saigon Girls Trip 2026</h2>
+          <p class="muted">Version 2.3 Candidate · 30 Oct – 3 Nov 2026</p>
+        </div>
+        <div class="score-card">
+          <strong id="progress-number">0%</strong>
+          <span>Reviewed</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-heading">
+          <h3>Participants</h3>
+          <span id="participant-progress">0 / 4 completed</span>
+        </div>
+        <div class="participant-grid" id="participants"></div>
+        <div class="progress-track"><div id="progress-bar"></div></div>
+      </div>
+
+      <div class="section-heading loose">
+        <h3>Review Itinerary</h3>
+        <button class="ghost-btn small" id="reset-demo">Reset demo data</button>
+      </div>
+      <div class="day-grid" id="day-grid"></div>
+    </section>
+  </template>
+
+  <template id="review-template">
+    <section class="page-stack narrow">
+      <button class="back-btn" data-route="dashboard">← Back to Workspace</button>
+      <div class="panel">
+        <div class="eyebrow" id="review-version">Version 2.3 Candidate</div>
+        <h2 id="review-title"></h2>
+        <p class="muted" id="review-summary"></p>
+        <div class="mini-itinerary" id="review-items"></div>
+      </div>
+
+      <form class="panel form-panel" id="review-form">
+        <label>
+          <span>Your name</span>
+          <select name="person" required>
+            <option value="">Choose participant</option>
+            <option>Christal</option>
+            <option>Crystal</option>
+            <option>Mero</option>
+            <option>Vivian</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Overall feeling</span>
+          <select name="rating" required>
+            <option value="">Choose rating</option>
+            <option value="5">★★★★★ Love it</option>
+            <option value="4">★★★★ Good</option>
+            <option value="3">★★★ Some concerns</option>
+            <option value="2">★★ Needs discussion</option>
+            <option value="1">★ Not comfortable</option>
+          </select>
+        </label>
+
+        <fieldset>
+          <legend>Status</legend>
+          <div class="option-row">
+            <label><input type="radio" name="status" value="Love it" required> Love it</label>
+            <label><input type="radio" name="status" value="Minor changes"> Minor changes</label>
+            <label><input type="radio" name="status" value="Needs discussion"> Needs discussion</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Any concerns?</legend>
+          <div class="chip-grid">
+            <label><input type="checkbox" name="concerns" value="Timing"> Timing</label>
+            <label><input type="checkbox" name="concerns" value="Walking"> Walking</label>
+            <label><input type="checkbox" name="concerns" value="Budget"> Budget</label>
+            <label><input type="checkbox" name="concerns" value="Food"> Food</label>
+            <label><input type="checkbox" name="concerns" value="Shopping"> Shopping</label>
+            <label><input type="checkbox" name="concerns" value="Transport"> Transport</label>
+            <label><input type="checkbox" name="concerns" value="Weather"> Weather</label>
+            <label><input type="checkbox" name="concerns" value="Other"> Other</label>
+          </div>
+        </fieldset>
+
+        <label>
+          <span>What would you change?</span>
+          <textarea name="change" placeholder="Anything too rushed, too relaxed, or not your style?"></textarea>
+        </label>
+
+        <label>
+          <span>Replacement ideas</span>
+          <textarea name="replacement" placeholder="If you prefer another restaurant, spa, shop, cafe, or activity, write it here."></textarea>
+        </label>
+
+        <label>
+          <span>Favourite part</span>
+          <textarea name="favourite" placeholder="What are you most excited about?"></textarea>
+        </label>
+
+        <button class="primary-btn full" type="submit">Save Review</button>
+        <p class="save-note" id="save-note"></p>
+      </form>
+    </section>
+  </template>
+
+  <template id="admin-template">
+    <section class="page-stack">
+      <button class="back-btn" data-route="dashboard">← Back to Workspace</button>
+      <div class="panel trip-panel">
+        <div>
+          <div class="eyebrow">Owner Dashboard</div>
+          <h2>Review Summary</h2>
+          <p class="muted">Local demo storage now. Supabase can replace this later without changing the flow.</p>
+        </div>
+        <button class="secondary-btn" id="export-json">Export JSON</button>
+      </div>
+      <div class="admin-grid" id="admin-grid"></div>
+    </section>
+  </template>
+  
+  <script src="app.js"></script>
+</body>
+</html>
