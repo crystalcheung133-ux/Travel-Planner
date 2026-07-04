@@ -299,7 +299,49 @@ body::before {
 .dashboard-summary{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin:14px 0}.summary-card{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.62);padding:14px;font-family:var(--sans)}.summary-card strong{display:block;font-family:var(--font);font-size:30px;line-height:1}.summary-card span{font-size:12px;color:var(--muted)}.summary-card .mini{margin-top:7px;font-size:13px;color:var(--ink)}
 .review-filter{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}.review-filter button{border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;padding:7px 11px;font-family:var(--sans);font-size:13px;color:var(--ink);cursor:pointer}.review-filter button.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .progress-breakdown{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}.progress-breakdown span{border-radius:999px;background:rgba(142,111,63,.10);padding:5px 7px;text-align:center;color:var(--ink);font-size:11px}.review-badge{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(255,250,243,.70);font-family:var(--sans);font-size:12px;color:var(--muted)}.review-badge.approved{background:rgba(142,111,63,.13);color:var(--ink);border-color:rgba(142,111,63,.28);font-weight:700}.thread-item.filtered-out{display:none}.pending-list{margin-top:10px;display:grid;gap:6px}.pending-pill{font-family:var(--sans);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.55);color:var(--muted)}
+
+.supabase-panel{margin:14px 0 16px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.58);padding:14px;font-family:var(--sans)}
+.supabase-status{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.supabase-status b{font-family:var(--font);font-size:17px}
+.sync-pill{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:rgba(255,250,243,.72);font-size:12px;color:var(--muted)}
+.sync-pill.online{background:rgba(142,111,63,.13);color:var(--ink);border-color:rgba(142,111,63,.28);font-weight:700}
+.sync-pill.warn{background:rgba(231,186,73,.16);color:var(--ink);border-color:rgba(231,186,73,.35)}
+.supabase-panel details{margin-top:10px}.supabase-panel summary{cursor:pointer;color:var(--ink);font-weight:700}.schema-box{margin-top:8px;white-space:pre-wrap;overflow:auto;max-height:260px;border:1px solid var(--line);border-radius:14px;background:rgba(255,250,243,.72);padding:12px;font-size:11px;line-height:1.45;color:var(--muted)}
 @media(max-width:720px){.progress-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reviewer-inner{align-items:flex-start}.reviewer-pills{width:100%}.dashboard-summary{grid-template-columns:1fr}.progress-breakdown{grid-template-columns:1fr}}
+
+
+
+/* Build 09.5 · Home hero aligned with day hero */
+.hero-card.home-clean.home-hero-slim{
+  max-width:none;
+  margin:0;
+  padding:32px 34px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 138px;
+  align-items:center;
+  gap:22px;
+  min-height:190px;
+}
+.hero-card.home-clean.home-hero-slim::after{display:none}
+.home-hero-slim h1{font-size:clamp(42px,5.6vw,68px)}
+.home-hero-slim p{max-width:650px}
+.home-logo-full{
+  width:138px;
+  height:138px;
+  min-height:0;
+  justify-self:end;
+  align-self:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  border-radius:0;
+}
+#home .progress-panel{margin-top:22px}
+@media(max-width:640px){
+  .hero-card.home-clean.home-hero-slim{grid-template-columns:1fr auto;padding:26px 24px;gap:14px;min-height:150px}
+  .home-logo-full{width:82px;height:82px}
+  .home-hero-slim h1{font-size:38px}
+}
 
 </style>
 </head>
@@ -328,7 +370,7 @@ body::before {
 <main class="container">
 <section class="page active" data-page="" id="home">
 <div class="hero intro-only">
-<div class="hero-card cardmark home-clean">
+<div class="hero-card cardmark home-clean home-hero-slim">
 <div>
 <p class="eyebrow">Before the trip · Four friends</p>
 <h1>Journey Planner</h1>
@@ -338,12 +380,58 @@ body::before {
 <button data-open="final">Overall Review</button>
 </div>
 </div>
+<div class="seal home-logo-full" aria-label="CCMV logo"></div>
 </div>
 </div>
 <div class="progress-panel cardmark" id="progressDashboard">
 <p class="eyebrow">Build 09.4 · Review Progress</p>
 <h3>Progress Dashboard</h3>
 <p class="muted">每位媽媽按活動選 Keep / Discuss / Replace，再在每日 Day Wrap-up 完成總結。Dashboard 會即時用此裝置嘅 review data 更新。</p>
+
+<div class="supabase-panel" data-supabase-panel>
+  <div class="supabase-status">
+    <div>
+      <b>Sync Preparation</b>
+      <p class="muted" style="margin:4px 0 0">Build 10.1 已加入 Supabase readiness layer。未填 Supabase URL / anon key 時會繼續用 offline localStorage，不會影響 GitHub / Vercel deploy。</p>
+    </div>
+    <span class="sync-pill" data-sync-status>Offline mode</span>
+  </div>
+  <details>
+    <summary>Supabase schema for Build 10</summary>
+    <pre class="schema-box">-- CCMV Journey Planner Build 10 schema
+-- Run this once in Supabase SQL Editor before enabling sync.
+
+create table if not exists ccmv_reviews (
+  id text primary key,
+  plan_id text not null default 'ccmv-saigon-2026',
+  review_type text not null check (review_type in ('activity','day_wrap','overall')),
+  item_id text not null,
+  reviewer text not null check (reviewer in ('Christal','Crystal','Mero','Vivian')),
+  reaction text check (reaction in ('keep','discuss','replace')),
+  status text,
+  comment text,
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists ccmv_reviews_plan_idx on ccmv_reviews(plan_id);
+create index if not exists ccmv_reviews_item_idx on ccmv_reviews(plan_id, review_type, item_id);
+
+alter table ccmv_reviews enable row level security;
+
+create policy "ccmv_reviews_read_all"
+on ccmv_reviews for select
+using (true);
+
+create policy "ccmv_reviews_insert_all"
+on ccmv_reviews for insert
+with check (true);
+
+create policy "ccmv_reviews_update_all"
+on ccmv_reviews for update
+using (true)
+with check (true);</pre>
+  </details>
+</div>
 <div class="dashboard-summary" data-dashboard-summary></div>
 <div class="review-filter" aria-label="Review filter" data-review-filter>
 <button data-filter-reviewer="All">All</button>
@@ -941,6 +1029,35 @@ body::before {
 </section>
 </main>
 <script>
+
+const CCMV_SUPABASE={
+  url:'',
+  anonKey:'',
+  planId:'ccmv-saigon-2026'
+};
+let supabaseClient=null;
+function isSupabaseConfigured(){return Boolean(CCMV_SUPABASE.url && CCMV_SUPABASE.anonKey && CCMV_SUPABASE.url.startsWith('https://'));}
+function setSyncStatus(text,mode='offline'){
+  const el=document.querySelector('[data-sync-status]');
+  if(!el) return;
+  el.textContent=text;
+  el.className='sync-pill '+(mode==='online'?'online':mode==='warn'?'warn':'');
+}
+function loadScript(src){return new Promise((resolve,reject)=>{const existing=[...document.scripts].find(s=>s.src===src); if(existing) return resolve(); const script=document.createElement('script'); script.src=src; script.onload=resolve; script.onerror=reject; document.head.appendChild(script);});}
+async function initSupabaseReadiness(){
+  if(!isSupabaseConfigured()){setSyncStatus('Offline mode · localStorage active'); return;}
+  try{
+    setSyncStatus('Checking Supabase…','warn');
+    await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+    supabaseClient=window.supabase.createClient(CCMV_SUPABASE.url,CCMV_SUPABASE.anonKey);
+    const {error}=await supabaseClient.from('ccmv_reviews').select('id').eq('plan_id',CCMV_SUPABASE.planId).limit(1);
+    if(error){setSyncStatus('Supabase connected · schema needed','warn'); console.warn('CCMV Supabase schema check:',error.message); return;}
+    setSyncStatus('Supabase ready · offline fallback active','online');
+  }catch(err){
+    console.warn('CCMV Supabase readiness failed:',err);
+    setSyncStatus('Offline fallback · Supabase unavailable','warn');
+  }
+}
 const reviewers={Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'};
 const reviewerNames=Object.keys(reviewers);
 let currentReviewer=localStorage.getItem('ccmv:reviewer')||'Crystal';
@@ -1173,6 +1290,7 @@ document.addEventListener('input',e=>{
   if(save && ta.dataset.original!==undefined) save.disabled=ta.value.trim()===ta.dataset.original.trim();
 });
 showPage(location.hash?location.hash.replace('#',''):'home');
+initSupabaseReadiness();
 </script>
 </body>
 </html>
