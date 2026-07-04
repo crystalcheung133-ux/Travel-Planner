@@ -295,7 +295,11 @@ body::before {
 .review-thread{margin-top:10px;display:grid;gap:8px}.thread-item{border:1px solid var(--line);border-radius:16px;padding:10px 12px;background:rgba(255,255,255,.58);font-family:var(--sans);font-size:13px}.thread-item b{font-family:var(--font);font-size:15px}.thread-item p{margin:4px 0 0;color:var(--muted)}
 .day-wrap{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:24px;background:rgba(255,250,243,.78)}.day-wrap h3{margin-top:0}.wrap-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.wrap-actions button{border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;padding:8px 12px;font-family:var(--sans);cursor:pointer}.wrap-actions button.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}.wrap-status{font-family:var(--sans);font-size:12px;color:var(--muted);margin-left:8px}
 .final-review-list{display:grid;gap:10px;margin-top:16px}.final-review-item{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.55);font-family:var(--sans)}.final-review-item b{font-family:var(--font);font-size:17px}.final-review-item small{color:var(--muted)}
-@media(max-width:720px){.progress-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reviewer-inner{align-items:flex-start}.reviewer-pills{width:100%}}
+/* Build 09.4 · UX Polish */
+.dashboard-summary{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin:14px 0}.summary-card{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.62);padding:14px;font-family:var(--sans)}.summary-card strong{display:block;font-family:var(--font);font-size:30px;line-height:1}.summary-card span{font-size:12px;color:var(--muted)}.summary-card .mini{margin-top:7px;font-size:13px;color:var(--ink)}
+.review-filter{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}.review-filter button{border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;padding:7px 11px;font-family:var(--sans);font-size:13px;color:var(--ink);cursor:pointer}.review-filter button.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.progress-breakdown{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}.progress-breakdown span{border-radius:999px;background:rgba(142,111,63,.10);padding:5px 7px;text-align:center;color:var(--ink);font-size:11px}.review-badge{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(255,250,243,.70);font-family:var(--sans);font-size:12px;color:var(--muted)}.review-badge.approved{background:rgba(142,111,63,.13);color:var(--ink);border-color:rgba(142,111,63,.28);font-weight:700}.thread-item.filtered-out{display:none}.pending-list{margin-top:10px;display:grid;gap:6px}.pending-pill{font-family:var(--sans);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.55);color:var(--muted)}
+@media(max-width:720px){.progress-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reviewer-inner{align-items:flex-start}.reviewer-pills{width:100%}.dashboard-summary{grid-template-columns:1fr}.progress-breakdown{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -337,9 +341,17 @@ body::before {
 </div>
 </div>
 <div class="progress-panel cardmark" id="progressDashboard">
-<p class="eyebrow">Build 09 · Review Progress</p>
+<p class="eyebrow">Build 09.4 · Review Progress</p>
 <h3>Progress Dashboard</h3>
 <p class="muted">每位媽媽按活動選 Keep / Discuss / Replace，再在每日 Day Wrap-up 完成總結。Dashboard 會即時用此裝置嘅 review data 更新。</p>
+<div class="dashboard-summary" data-dashboard-summary></div>
+<div class="review-filter" aria-label="Review filter" data-review-filter>
+<button data-filter-reviewer="All">All</button>
+<button data-filter-reviewer="Christal">🧸 Christal</button>
+<button data-filter-reviewer="Crystal">👓 Crystal</button>
+<button data-filter-reviewer="Mero">✝️ Mero</button>
+<button data-filter-reviewer="Vivian">👟 Vivian</button>
+</div>
 <div class="progress-grid" data-progress-grid=""></div>
 </div>
 </section>
@@ -932,7 +944,10 @@ body::before {
 const reviewers={Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'};
 const reviewerNames=Object.keys(reviewers);
 let currentReviewer=localStorage.getItem('ccmv:reviewer')||'Crystal';
+let currentFilter=localStorage.getItem('ccmv:reviewFilter')||'All';
 const pages=[...document.querySelectorAll('[data-page]')];
+const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const stamp=()=>new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
 function safeCardKey(card){
   if(!card.dataset.card){
     const title=(card.querySelector('h4')?.textContent||'activity').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -941,6 +956,46 @@ function safeCardKey(card){
   return card.dataset.card;
 }
 function reviewKey(type,id,person=currentReviewer){return `ccmv09:${type}:${id}:${person}`;}
+function ensureCommentControls(box,kind='activity'){
+  const actions=box.querySelector('.comment-actions');
+  if(!actions) return;
+  let save=actions.querySelector(kind==='activity'?'[data-save]':kind==='wrap'?'[data-wrap-save]':'[data-overall-save]');
+  if(!save){ save=document.createElement('button'); save.textContent='Save'; save.setAttribute(kind==='activity'?'data-save':kind==='wrap'?'data-wrap-save':'data-overall-save',''); actions.prepend(save); }
+  if(!actions.querySelector('[data-edit]')){ const b=document.createElement('button'); b.textContent='Edit'; b.setAttribute('data-edit',''); actions.insertBefore(b, save.nextSibling); }
+  if(!actions.querySelector('[data-cancel]')){ const b=document.createElement('button'); b.textContent='Cancel'; b.setAttribute('data-cancel',''); actions.insertBefore(b, actions.querySelector('[data-clear]')||actions.querySelector('[data-status]')||actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||null); }
+  if(kind!=='activity' && !actions.querySelector('[data-clear]')){ const b=document.createElement('button'); b.textContent='Clear'; b.setAttribute('data-clear',''); actions.insertBefore(b, actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||null); }
+  if(!actions.querySelector('[data-status]') && !actions.querySelector('[data-wrap-note]') && !actions.querySelector('[data-overall-note]')){ const s=document.createElement('span'); s.setAttribute('data-status',''); actions.appendChild(s); }
+}
+function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeholderSaved}){
+  ensureCommentControls(box, box.closest('[data-day-wrap]')?'wrap':box.closest('[data-overall-review]')?'overall':'activity');
+  const ta=box.querySelector('textarea');
+  const save=box.querySelector(saveSelector);
+  const edit=box.querySelector('[data-edit]');
+  const cancel=box.querySelector('[data-cancel]');
+  const clear=box.querySelector('[data-clear]');
+  const status=box.querySelector(statusSelector)||box.querySelector('[data-status]');
+  const isEditing=box.dataset.editing==='true';
+  if(document.activeElement!==ta) ta.value=saved||'';
+  ta.dataset.original=saved||'';
+  if(saved && !isEditing){
+    ta.readOnly=true;
+    ta.placeholder=placeholderSaved||'Saved comment';
+    save.hidden=true;
+    edit.hidden=false;
+    cancel.hidden=true;
+    if(clear) clear.hidden=false;
+    if(status) status.textContent=editedAt?`Last edited ${editedAt}`:`Saved for ${reviewers[currentReviewer]}`;
+  }else{
+    ta.readOnly=false;
+    save.hidden=false;
+    save.textContent=saved?'Update':'Save';
+    save.disabled=!!saved && ta.value.trim()===(saved||'');
+    edit.hidden=true;
+    cancel.hidden=!saved;
+    if(clear) clear.hidden=!saved;
+    if(status) status.textContent=saved?'Editing saved comment':'Not saved yet';
+  }
+}
 function showPage(id){
   pages.forEach(p=>p.classList.toggle('active',p.id===id));
   document.querySelectorAll('.topnav button').forEach(b=>b.classList.toggle('active',b.dataset.open===id));
@@ -952,54 +1007,82 @@ function showPage(id){
 function setReviewer(name){
   currentReviewer=reviewers[name]?name:'Crystal';
   localStorage.setItem('ccmv:reviewer',currentReviewer);
+  document.querySelectorAll('.comment-box,[data-day-wrap],[data-overall-review]').forEach(b=>delete b.dataset.editing);
   renderAll();
 }
 function renderReviewer(){
   document.querySelector('[data-current-reviewer-label]').textContent=reviewers[currentReviewer];
   document.querySelectorAll('[data-reviewer]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.reviewer===currentReviewer));
 }
+function reactionLabel(r){return r?({keep:'Keep',discuss:'Discuss',replace:'Replace'}[r]||r):'Comment';}
+function reactionIcon(r){return ({keep:'🟢',discuss:'🟡',replace:'🔴'}[r]||'⚪');}
+function cardTitle(card){return (card.querySelector('h4')?.textContent||'Review item').trim();}
+function filterAllows(name){return currentFilter==='All'||currentFilter===name;}
+function renderFilter(){document.querySelectorAll('[data-filter-reviewer]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.filterReviewer===currentFilter));}
 function renderActivity(card){
   const id=safeCardKey(card);
   card.querySelectorAll('[data-reaction]').forEach(b=>b.classList.toggle('selected',localStorage.getItem(reviewKey('reaction',id))===b.dataset.reaction));
-  const ta=card.querySelector('.comment-box textarea');
+  const box=card.querySelector('.comment-box');
   const saved=localStorage.getItem(reviewKey('comment',id));
-  if(ta && document.activeElement!==ta) ta.value=saved||'';
-  const status=card.querySelector('[data-status]');
-  if(status) status.textContent=saved?'Saved for '+reviewers[currentReviewer]:'';
+  const editedAt=localStorage.getItem(reviewKey('comment-edited',id));
+  if(box) setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改'});
+  let badge=card.querySelector('[data-approval-badge]');
+  if(!badge){ badge=document.createElement('div'); badge.setAttribute('data-approval-badge',''); badge.className='review-badge'; const reactionBox=card.querySelector('.reaction'); if(reactionBox) reactionBox.insertAdjacentElement('afterend',badge); }
+  const keepCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))==='keep').length;
+  const reviewedCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))).length;
+  badge.className='review-badge'+(keepCount===reviewerNames.length?' approved':'');
+  badge.textContent=keepCount===reviewerNames.length?'✅ Approved by everyone · 4 / 4 Keep':`${reviewedCount} / 4 reviewed · ${keepCount} Keep`;
   const thread=card.querySelector('[data-thread]');
   if(thread){
     const items=reviewerNames.map(name=>{
       const reaction=localStorage.getItem(reviewKey('reaction',id,name));
       const comment=localStorage.getItem(reviewKey('comment',id,name));
+      const time=localStorage.getItem(reviewKey('comment-edited',id,name));
       if(!reaction && !comment) return '';
-      const label=reaction?reaction.charAt(0).toUpperCase()+reaction.slice(1):'Comment';
-      return `<div class="thread-item"><b>${reviewers[name]} · ${label}</b>${comment?`<p>${comment.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</p>`:''}</div>`;
+      if(!filterAllows(name)) return '';
+      return `<div class="thread-item"><b>${reviewers[name]} · ${reactionIcon(reaction)} ${reactionLabel(reaction)}</b>${comment?`<p>${esc(comment)}</p>`:''}${time?`<p><small>Last edited ${time}</small></p>`:''}</div>`;
     }).join('');
-    thread.innerHTML=items||'<div class="thread-item"><b>No comments yet</b><p>選好 reviewer 後留下第一個 comment。</p></div>';
+    thread.innerHTML=items||`<div class="thread-item"><b>No ${currentFilter==='All'?'comments':currentFilter+' comments'} yet</b><p>選好 reviewer 後留下第一個 comment。</p></div>`;
   }
 }
 function renderWrap(box){
+  ensureCommentControls(box,'wrap');
   const day=box.dataset.dayWrap;
-  const status=localStorage.getItem(reviewKey('wrap-status',day));
-  box.querySelectorAll('[data-wrap-status]').forEach(b=>b.classList.toggle('selected',b.dataset.wrapStatus===status));
-  const ta=box.querySelector('textarea');
-  const comment=localStorage.getItem(reviewKey('wrap-comment',day));
-  if(ta && document.activeElement!==ta) ta.value=comment||'';
-  const note=box.querySelector('[data-wrap-note]');
-  if(note) note.textContent=(status||comment)?'Saved for '+reviewers[currentReviewer]:'';
+  const statusValue=localStorage.getItem(reviewKey('wrap-status',day));
+  box.querySelectorAll('[data-wrap-status]').forEach(b=>b.classList.toggle('selected',b.dataset.wrapStatus===statusValue));
+  const saved=localStorage.getItem(reviewKey('wrap-comment',day));
+  const editedAt=localStorage.getItem(reviewKey('wrap-comment-edited',day));
+  setupCommentBox(box,{saved,editedAt,saveSelector:'[data-wrap-save]',statusSelector:'[data-wrap-note]',placeholderSaved:'Saved day wrap-up / 已儲存，可按 Edit 修改'});
 }
 function renderDashboard(){
+  renderFilter();
   const grid=document.querySelector('[data-progress-grid]');
-  if(!grid) return;
+  const summary=document.querySelector('[data-dashboard-summary]');
   const cards=[...document.querySelectorAll('.activity')];
   const wraps=[...document.querySelectorAll('[data-day-wrap]')];
+  const totalSteps=cards.length+wraps.length;
+  const totalPossible=totalSteps*reviewerNames.length;
+  const allReactions=[];
+  cards.forEach(c=>reviewerNames.forEach(name=>{ const r=localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)); if(r) allReactions.push(r); }));
+  const wrapDone=wraps.reduce((sum,w)=>sum+reviewerNames.filter(name=>localStorage.getItem(reviewKey('wrap-status',w.dataset.dayWrap,name))||localStorage.getItem(reviewKey('wrap-comment',w.dataset.dayWrap,name))).length,0);
+  const done=allReactions.length+wrapDone;
+  const pct=totalPossible?Math.round(done/totalPossible*100):0;
+  const keep=allReactions.filter(r=>r==='keep').length, discuss=allReactions.filter(r=>r==='discuss').length, replace=allReactions.filter(r=>r==='replace').length;
+  const approved=cards.filter(c=>reviewerNames.every(name=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='keep')).length;
+  const pending=cards.filter(c=>reviewerNames.some(name=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)))).slice(0,4);
+  if(summary){
+    summary.innerHTML=`<div class="summary-card"><strong>${pct}%</strong><span>Overall ready score</span><div class="mini">${done}/${totalPossible} review steps completed · ${approved}/${cards.length} items fully approved</div><div class="progress-meter"><i style="width:${pct}%"></i></div></div><div class="summary-card"><strong>${allReactions.length}</strong><span>Total item reviews</span><div class="progress-breakdown"><span>🟢 ${keep} Keep</span><span>🟡 ${discuss} Discuss</span><span>🔴 ${replace} Replace</span></div>${pending.length?`<div class="pending-list">${pending.map(c=>`<div class="pending-pill">Pending · ${esc(cardTitle(c))}</div>`).join('')}</div>`:`<div class="mini">All review items have at least one response.</div>`}</div>`;
+  }
+  if(!grid) return;
   grid.innerHTML=reviewerNames.map(name=>{
     const reactions=cards.filter(c=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))).length;
     const dayDone=wraps.filter(w=>localStorage.getItem(reviewKey('wrap-status',w.dataset.dayWrap,name))||localStorage.getItem(reviewKey('wrap-comment',w.dataset.dayWrap,name))).length;
-    const total=cards.length+wraps.length;
     const done=reactions+dayDone;
-    const pct=total?Math.round(done/total*100):0;
-    return `<div class="progress-card"><b>${reviewers[name]}</b><span>${done}/${total} review steps · ${pct}%</span><div class="progress-meter"><i style="width:${pct}%"></i></div></div>`;
+    const personPct=totalSteps?Math.round(done/totalSteps*100):0;
+    const personKeep=cards.filter(c=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='keep').length;
+    const personDiscuss=cards.filter(c=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='discuss').length;
+    const personReplace=cards.filter(c=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='replace').length;
+    return `<div class="progress-card"><b>${reviewers[name]}</b><span>${done}/${totalSteps} review steps · ${personPct}%</span><div class="progress-meter"><i style="width:${personPct}%"></i></div><div class="progress-breakdown"><span>🟢 ${personKeep}</span><span>🟡 ${personDiscuss}</span><span>🔴 ${personReplace}</span></div></div>`;
   }).join('');
 }
 function renderFinal(){
@@ -1010,7 +1093,7 @@ function renderFinal(){
     const rows=reviewerNames.map(name=>{
       const st=localStorage.getItem(reviewKey('wrap-status',day,name));
       const cm=localStorage.getItem(reviewKey('wrap-comment',day,name));
-      return `<div><small>${reviewers[name]}</small> ${st?`<b>${st}</b>`:'<span class="muted">not reviewed</span>'}${cm?` — ${cm.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}`:''}</div>`;
+      return `<div><small>${reviewers[name]}</small> ${st?`<b>${st}</b>`:'<span class="muted">not reviewed</span>'}${cm?` — ${esc(cm)}`:''}</div>`;
     }).join('');
     return `<div class="final-review-item"><b>${day.toUpperCase()}</b>${rows}</div>`;
   }).join('');
@@ -1018,52 +1101,77 @@ function renderFinal(){
 function renderOverall(){
   const box=document.querySelector('[data-overall-review]');
   if(!box) return;
+  ensureCommentControls(box,'overall');
   const id=box.dataset.overallReview;
-  const status=localStorage.getItem(reviewKey('overall-status',id));
-  box.querySelectorAll('[data-overall-status]').forEach(b=>b.classList.toggle('selected',b.dataset.overallStatus===status));
-  const ta=box.querySelector('textarea');
-  const comment=localStorage.getItem(reviewKey('overall-comment',id));
-  if(ta && document.activeElement!==ta) ta.value=comment||'';
-  const note=box.querySelector('[data-overall-note]');
-  if(note) note.textContent=(status||comment)?'Saved for '+reviewers[currentReviewer]:'';
+  const statusValue=localStorage.getItem(reviewKey('overall-status',id));
+  box.querySelectorAll('[data-overall-status]').forEach(b=>b.classList.toggle('selected',b.dataset.overallStatus===statusValue));
+  const saved=localStorage.getItem(reviewKey('overall-comment',id));
+  const editedAt=localStorage.getItem(reviewKey('overall-comment-edited',id));
+  setupCommentBox(box,{saved,editedAt,saveSelector:'[data-overall-save]',statusSelector:'[data-overall-note]',placeholderSaved:'Saved overall comment / 已儲存，可按 Edit 修改'});
   const thread=box.querySelector('[data-overall-thread]');
   if(thread){
     const items=reviewerNames.map(name=>{
       const st=localStorage.getItem(reviewKey('overall-status',id,name));
       const cm=localStorage.getItem(reviewKey('overall-comment',id,name));
+      const time=localStorage.getItem(reviewKey('overall-comment-edited',id,name));
       if(!st && !cm) return '';
-      return `<div class="thread-item"><b>${reviewers[name]} · ${st||'Comment'}</b>${cm?`<p>${cm.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</p>`:''}</div>`;
+      if(!filterAllows(name)) return '';
+      return `<div class="thread-item"><b>${reviewers[name]} · ${st||'Comment'}</b>${cm?`<p>${esc(cm)}</p>`:''}${time?`<p><small>Last edited ${time}</small></p>`:''}</div>`;
     }).join('');
     thread.innerHTML=items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>';
   }
 }
 function renderAll(){renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
+function saveActivity(card){
+  const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
+  localStorage.setItem(reviewKey('comment',id),ta.value.trim());
+  localStorage.setItem(reviewKey('comment-edited',id),stamp());
+  delete box.dataset.editing; renderAll();
+}
+function saveWrap(box){
+  const id=box.dataset.dayWrap, ta=box.querySelector('textarea');
+  localStorage.setItem(reviewKey('wrap-comment',id),ta.value.trim());
+  localStorage.setItem(reviewKey('wrap-comment-edited',id),stamp());
+  delete box.dataset.editing; renderAll();
+}
+function saveOverall(box){
+  const id=box.dataset.overallReview, ta=box.querySelector('textarea');
+  localStorage.setItem(reviewKey('overall-comment',id),ta.value.trim());
+  localStorage.setItem(reviewKey('overall-comment-edited',id),stamp());
+  delete box.dataset.editing; renderAll();
+}
 document.addEventListener('click',e=>{
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
   const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); return; }
+  const filter=e.target.closest('[data-filter-reviewer]'); if(filter){ currentFilter=filter.dataset.filterReviewer; localStorage.setItem('ccmv:reviewFilter',currentFilter); renderAll(); return; }
+  const edit=e.target.closest('[data-edit]');
+  if(edit){ const box=edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]'); box.dataset.editing='true'; renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); return; }
+  const cancel=e.target.closest('[data-cancel]');
+  if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]'); delete box.dataset.editing; renderAll(); return; }
   const rb=e.target.closest('[data-reaction]');
   if(rb){ const card=rb.closest('.activity'); localStorage.setItem(reviewKey('reaction',safeCardKey(card)),rb.dataset.reaction); renderAll(); return; }
-  const save=e.target.closest('[data-save]');
-  if(save){ const card=save.closest('.activity'), ta=card.querySelector('.comment-box textarea'); localStorage.setItem(reviewKey('comment',safeCardKey(card)),ta.value.trim()); renderAll(); return; }
+  const save=e.target.closest('[data-save]'); if(save){ saveActivity(save.closest('.activity')); return; }
   const clear=e.target.closest('[data-clear]');
-  if(clear){ const card=clear.closest('.activity'); localStorage.removeItem(reviewKey('comment',safeCardKey(card))); renderAll(); return; }
+  if(clear){
+    const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
+    if(activity){ const id=safeCardKey(activity); localStorage.removeItem(reviewKey('comment',id)); localStorage.removeItem(reviewKey('comment-edited',id)); delete activity.querySelector('.comment-box').dataset.editing; }
+    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; localStorage.removeItem(reviewKey('wrap-comment',id)); localStorage.removeItem(reviewKey('wrap-comment-edited',id)); delete wrapBox.dataset.editing; }
+    else if(overallBox){ const id=overallBox.dataset.overallReview; localStorage.removeItem(reviewKey('overall-comment',id)); localStorage.removeItem(reviewKey('overall-comment-edited',id)); delete overallBox.dataset.editing; }
+    renderAll(); return;
+  }
   const wrap=e.target.closest('[data-wrap-status]');
   if(wrap){ const box=wrap.closest('[data-day-wrap]'); localStorage.setItem(reviewKey('wrap-status',box.dataset.dayWrap),wrap.dataset.wrapStatus); renderAll(); return; }
-  const wrapSave=e.target.closest('[data-wrap-save]');
-  if(wrapSave){ const box=wrapSave.closest('[data-day-wrap]'); localStorage.setItem(reviewKey('wrap-comment',box.dataset.dayWrap),box.querySelector('textarea').value.trim()); renderAll(); return; }
+  const wrapSave=e.target.closest('[data-wrap-save]'); if(wrapSave){ saveWrap(wrapSave.closest('[data-day-wrap]')); return; }
   const overall=e.target.closest('[data-overall-status]');
   if(overall){ const box=overall.closest('[data-overall-review]'); localStorage.setItem(reviewKey('overall-status',box.dataset.overallReview),overall.dataset.overallStatus); renderAll(); return; }
-  const overallSave=e.target.closest('[data-overall-save]');
-  if(overallSave){ const box=overallSave.closest('[data-overall-review]'); localStorage.setItem(reviewKey('overall-comment',box.dataset.overallReview),box.querySelector('textarea').value.trim()); renderAll(); return; }
+  const overallSave=e.target.closest('[data-overall-save]'); if(overallSave){ saveOverall(overallSave.closest('[data-overall-review]')); return; }
 });
 document.addEventListener('input',e=>{
-  const ta=e.target.closest('.comment-box textarea');
-  if(ta){ const card=ta.closest('.activity'); localStorage.setItem(reviewKey('comment',safeCardKey(card)),ta.value.trim()); renderDashboard(); renderFinal(); }
-  const overallTa=e.target.closest('[data-overall-review] textarea');
-  if(overallTa){ const box=overallTa.closest('[data-overall-review]'); localStorage.setItem(reviewKey('overall-comment',box.dataset.overallReview),overallTa.value.trim()); renderOverall(); }
+  const ta=e.target.closest('textarea'); if(!ta) return;
+  const box=ta.closest('.comment-box')||ta.closest('[data-day-wrap]')||ta.closest('[data-overall-review]');
+  const save=box?.querySelector('[data-save],[data-wrap-save],[data-overall-save]');
+  if(save && ta.dataset.original!==undefined) save.disabled=ta.value.trim()===ta.dataset.original.trim();
 });
-document.querySelectorAll('[data-edit]').forEach(b=>b.hidden=true);
-document.querySelectorAll('[data-clear]').forEach(b=>b.hidden=false);
 showPage(location.hash?location.hash.replace('#',''):'home');
 </script>
 </body>
