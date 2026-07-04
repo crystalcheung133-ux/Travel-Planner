@@ -221,6 +221,57 @@ body::before {
   }
 }
 
+
+/* Build 08.1: watermark + timeline emoji refinements */
+.activity-grid .activity:nth-child(even)::after {
+  display: block;
+}
+.activity.cardmark::after {
+  display: block;
+  width: clamp(48px, 7vw, 78px);
+  height: clamp(38px, 5.8vw, 62px);
+  opacity: .13;
+}
+.hero-card.home-clean.cardmark::after {
+  display: block;
+  width: clamp(72px, 11vw, 118px);
+  height: clamp(54px, 8vw, 88px);
+  opacity: .12;
+  right: 22px;
+  bottom: 18px;
+}
+.day-hero.cardmark::after {
+  display: none;
+}
+.timeline-row.cardmark::after,
+.glance-card.cardmark::after,
+.friend-note.cardmark::after {
+  display: none;
+}
+.tl-body h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tl-emoji {
+  display: inline-flex;
+  width: 1.35em;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+@media (max-width: 640px) {
+  .hero-card.home-clean.cardmark::after {
+    width: 70px;
+    height: 52px;
+    opacity: .105;
+  }
+  .activity.cardmark::after {
+    width: 52px;
+    height: 42px;
+    opacity: .11;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -263,11 +314,11 @@ body::before {
       </div>
       <div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>3–4 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>Airport transfer + ~4 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>In-flight / light arrival</span></div><div class="glance-card cardmark"><div class="gicon">🍜</div><b>Lunch</b><span>Phở SOL · $</span></div><div class="glance-card cardmark"><div class="gicon">🍣</div><b>Dinner</b><span>Omakase Tiger · $$$</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Nha Suga Premium</span></div></div></div>
       <div class="block today cardmark"><h3>Today’s Plan</h3><p>第一天以酒店作為中心點，先處理行李、換匯與第一餐，再完成酒店附近的三大經典地標。Post Office、紅教堂與書街後可以先 check-in 休息，也可以按體力直接去 Café Apartments。下午用 Nha Suga 放慢節奏，晚上用 5:30 日落早場收結，避免第一晚食得太夜。</p></div>
-      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:30 – 10:00</div><div class="dot"></div><div class="tl-body"><h4>Airport ATM</h4><p>Tien Phong Bank LiveBank 取 VND；若順利完成，Ha Tam 金店只作 backup。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 10:45</div><div class="dot"></div><div class="tl-body"><h4>Airport Transfer → Fusion Original</h4><p>Klook 接送直達酒店，先 drop luggage。</p></div></div><div class="timeline-row cardmark"><div class="time">10:45 – 11:15</div><div class="dot"></div><div class="tl-body"><h4>Ha Tam Jewelry（Backup）</h4><p>只在機場 ATM 未成功時使用。</p></div></div><div class="timeline-row cardmark"><div class="time">11:15 – 12:15</div><div class="dot"></div><div class="tl-body"><h4>Phở SOL</h4><p>酒店附近第一餐，石鍋河粉可 share。</p></div></div><div class="timeline-row cardmark"><div class="time">12:30 – 14:00</div><div class="dot"></div><div class="tl-body"><h4>Post Office → Notre-Dame Cathedral → Book Street</h4><p>三個經典點集中在酒店附近。完成後可先回酒店 check-in，或直接繼續。</p></div></div><div class="timeline-row cardmark"><div class="time">14:00 – 17:00</div><div class="dot"></div><div class="tl-body"><h4>Café Apartments + Nha Suga Spa</h4><p>Spa 位於 Café Apartments 內；可先逛 café / 小店，再入療程。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 19:30</div><div class="dot"></div><div class="tl-body"><h4>Omakase Tiger</h4><p>5:30 日落早場，晚餐後仍可早返市中心與酒店。</p></div></div><div class="timeline-row cardmark"><div class="time">19:45 – 20:15</div><div class="dot"></div><div class="tl-body"><h4>Nguyễn Huệ Night Walk</h4><p>Optional：The Café Apartments 霓虹夜景與阮惠步行街。</p></div></div><div class="timeline-row cardmark"><div class="time">20:15 onwards</div><div class="dot"></div><div class="tl-body"><h4>Return Hotel</h4><p>第一晚重點是 settle in，不拖到太夜。</p></div></div></div></div>
+      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:30 – 10:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Airport ATM</h4><p>Tien Phong Bank LiveBank 取 VND；若順利完成，Ha Tam 金店只作 backup。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 10:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Airport Transfer → Fusion Original</h4><p>Klook 接送直達酒店，先 drop luggage。</p></div></div><div class="timeline-row cardmark"><div class="time">10:45 – 11:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">💵</span>Ha Tam Jewelry（Backup）</h4><p>只在機場 ATM 未成功時使用。</p></div></div><div class="timeline-row cardmark"><div class="time">11:15 – 12:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Phở SOL</h4><p>酒店附近第一餐，石鍋河粉可 share。</p></div></div><div class="timeline-row cardmark"><div class="time">12:30 – 14:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>Post Office → Notre-Dame Cathedral → Book Street</h4><p>三個經典點集中在酒店附近。完成後可先回酒店 check-in，或直接繼續。</p></div></div><div class="timeline-row cardmark"><div class="time">14:00 – 17:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">☕</span>Café Apartments + Nha Suga Spa</h4><p>Spa 位於 Café Apartments 內；可先逛 café / 小店，再入療程。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 19:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>Omakase Tiger</h4><p>5:30 日落早場，晚餐後仍可早返市中心與酒店。</p></div></div><div class="timeline-row cardmark"><div class="time">19:45 – 20:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">📸</span>Nguyễn Huệ Night Walk</h4><p>Optional：The Café Apartments 霓虹夜景與阮惠步行街。</p></div></div><div class="timeline-row cardmark"><div class="time">20:15 onwards</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Return Hotel</h4><p>第一晚重點是 settle in，不拖到太夜。</p></div></div></div></div>
       <div class="block"><h3>Activities</h3><div class="activity-grid">
         <article class="activity cardmark" data-card="">
           <div class="activity-head">
-            <div><h4>三大經典地標</h4><div class="meta">Classic First Look · Free</div></div>
+            <div><h4><span class="tl-emoji">📍</span>三大經典地標</h4><div class="meta">Classic First Look · Free</div></div>
             <span>Why this plan</span>
           </div>
           <p>這三個點都在酒店附近，適合第一天用最少交通完成西貢第一輪打卡。去完可以先 check-in 休息，也可以直接去 Café Apartments，保留最大彈性。</p>
@@ -290,7 +341,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="nha-suga-premium">
           <div class="activity-head">
-            <div><h4>Nha Suga Premium</h4><div class="meta">Arrival Spa · VND 500k–800k pp</div></div>
+            <div><h4><span class="tl-emoji">🧖</span>Nha Suga Premium</h4><div class="meta">Arrival Spa · VND 500k–800k pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>抵達日不適合一直硬行。Nha Suga 放在 Café Apartments 同一段，是為了把逛、坐低、放鬆合併處理，讓大家在第一天慢慢進入旅程狀態。</p>
@@ -313,7 +364,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="omakase-tiger">
           <div class="activity-head">
-            <div><h4>Omakase Tiger</h4><div class="meta">Sunset Counter Dinner · AUD ~$60 pp</div></div>
+            <div><h4><span class="tl-emoji">🍷</span>Omakase Tiger</h4><div class="meta">Sunset Counter Dinner · AUD ~$60 pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>第一天以適應節奏為主。5:30 早場可以欣賞日落，又可提早完成晚餐，讓大家在長途飛行後慢慢調整狀態，不用第一晚已經食到太夜。</p>
@@ -361,11 +412,11 @@ body::before {
       </div>
       <div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>3–5 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>~4 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>Cơm Tấm Mộc · $</span></div><div class="glance-card cardmark"><div class="gicon">🍳</div><b>Lunch</b><span>Saigon Cooking Class · AUD ~$50</span></div><div class="glance-card cardmark"><div class="gicon">🍷</div><b>Dinner</b><span>LÚNE · $$$</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Mộc Kim Spa &amp; Beauty</span></div></div></div>
       <div class="block today cardmark"><h3>Today’s Plan</h3><p>Day 2 的核心是 shared memory。早餐先試越南豬扒碎飯，10 點到 1 點用 Cooking Class 完成一段最有參與感的共同體驗。完課後直接去 Spa 休息，再進入 D1 brands 購物線。LÚNE 放在晚上，是因為它順路、夠特別，也讓旅程有第一餐 Michelin selected 法餐記憶點。</p></div>
-      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">08:30 – 09:30</div><div class="dot"></div><div class="tl-body"><h4>Cơm Tấm Mộc</h4><p>越南豬扒碎飯早餐，份量可 share。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 13:00</div><div class="dot"></div><div class="tl-body"><h4>Saigon Cooking Class</h4><p>3 小時手作廚藝體驗，完成後即場享用作 lunch。Estimated cost：AUD ~$50 pp。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 13:15</div><div class="dot"></div><div class="tl-body"><h4>Grab → Mộc Kim Spa</h4><p>Cooking class 1 點完，直接去 Spa 休息。</p></div></div><div class="timeline-row cardmark"><div class="time">13:15 – 15:15</div><div class="dot"></div><div class="tl-body"><h4>Mộc Kim Spa &amp; Beauty</h4><p>草本洗頭 / head spa，做完剛好整理狀態。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 18:30</div><div class="dot"></div><div class="tl-body"><h4>D1 Brand Walk</h4><p>LIBÉ / Dauple by Ka’s / NOSBYN / The New Playground 等；核心店優先。</p></div></div><div class="timeline-row cardmark"><div class="time">18:45 – 19:00</div><div class="dot"></div><div class="tl-body"><h4>Grab → LÚNE</h4><p>從 D1 shopping / Vincom 轉場最簡單。</p></div></div><div class="timeline-row cardmark"><div class="time">19:00 – 21:00</div><div class="dot"></div><div class="tl-body"><h4>LÚNE</h4><p>Michelin selected contemporary French。預算約 800,000–1,500,000 VND pp。</p></div></div></div></div>
+      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">08:30 – 09:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Cơm Tấm Mộc</h4><p>越南豬扒碎飯早餐，份量可 share。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍳</span>Saigon Cooking Class</h4><p>3 小時手作廚藝體驗，完成後即場享用作 lunch。Estimated cost：AUD ~$50 pp。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 13:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Grab → Mộc Kim Spa</h4><p>Cooking class 1 點完，直接去 Spa 休息。</p></div></div><div class="timeline-row cardmark"><div class="time">13:15 – 15:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Mộc Kim Spa &amp; Beauty</h4><p>草本洗頭 / head spa，做完剛好整理狀態。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 18:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>D1 Brand Walk</h4><p>LIBÉ / Dauple by Ka’s / NOSBYN / The New Playground 等；核心店優先。</p></div></div><div class="timeline-row cardmark"><div class="time">18:45 – 19:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Grab → LÚNE</h4><p>從 D1 shopping / Vincom 轉場最簡單。</p></div></div><div class="timeline-row cardmark"><div class="time">19:00 – 21:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>LÚNE</h4><p>Michelin selected contemporary French。預算約 800,000–1,500,000 VND pp。</p></div></div></div></div>
       <div class="block"><h3>Activities</h3><div class="activity-grid">
         <article class="activity cardmark" data-card="c-m-t-m-m-c">
           <div class="activity-head">
-            <div><h4>Cơm Tấm Mộc</h4><div class="meta">Vietnamese Breakfast · VND 60k–100k pp</div></div>
+            <div><h4><span class="tl-emoji">🍜</span>Cơm Tấm Mộc</h4><div class="meta">Vietnamese Breakfast · VND 60k–100k pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>早餐不是為了食得豪，而是想在 Day 2 開始前試一次越南豬扒碎飯。份量可以 share，既有在地感，也不會令後面的 cooking class 太飽。</p>
@@ -388,7 +439,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="saigon-cooking-class">
           <div class="activity-head">
-            <div><h4>Saigon Cooking Class</h4><div class="meta">Shared Memory · AUD ~$50 pp</div></div>
+            <div><h4><span class="tl-emoji">🍳</span>Saigon Cooking Class</h4><div class="meta">Shared Memory · AUD ~$50 pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>這段不只是午餐，而是四個朋友一起完成的 shared memory。由學、煮到食，參與感比單純打卡更強，是 Day 2 最值得保留的核心活動。</p>
@@ -411,7 +462,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="m-c-kim-spa">
           <div class="activity-head">
-            <div><h4>Mộc Kim Spa</h4><div class="meta">Post-class Reset · Check package</div></div>
+            <div><h4><span class="tl-emoji">🧖</span>Mộc Kim Spa</h4><div class="meta">Post-class Reset · Check package</div></div>
             <span>Why this plan</span>
           </div>
           <p>Cooking class 到 1 點完，直接去 Spa 是為了讓下午先有一段真正休息。做完草本洗頭與 head spa，再去逛街會舒服得多。</p>
@@ -434,7 +485,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="l-ne">
           <div class="activity-head">
-            <div><h4>LÚNE</h4><div class="meta">Michelin Selected French · VND 800k–1.5m pp</div></div>
+            <div><h4><span class="tl-emoji">🍷</span>LÚNE</h4><div class="meta">Michelin Selected French · VND 800k–1.5m pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>LÚNE 放在 Day 2，是因為它接在 D1 shopping 後最順路，而且能滿足旅程中一餐較正式的法餐體驗。相比之後的 Quince，它更偏 contemporary French 與 Michelin selected 的精緻感。</p>
@@ -482,11 +533,11 @@ body::before {
       </div>
       <div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>4–6 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>~4 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>Quán Thuý 94 · $</span></div><div class="glance-card cardmark"><div class="gicon">🥐</div><b>Lunch / Tea</b><span>Bakes / Dreamers · $</span></div><div class="glance-card cardmark"><div class="gicon">🍷</div><b>Dinner</b><span>Little Bear · $$</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Mộc Hương Wellness</span></div></div></div>
       <div class="block today cardmark"><h3>Today’s Plan</h3><p>Day 3 是文青日，不追求逛盡每一間店，而是把 Thảo Điền 當成一個慢生活 neighbourhood。上午先完成蟹肉粉絲與粉紅教堂，再過橋到草田。下午茶、OHQUAO、Mộc Hương、Louh 和 Little Bear 連成一條較舒服的節奏，食唔食、食幾多都由大家自己 buffer。</p></div>
-      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:00 – 10:00</div><div class="dot"></div><div class="tl-body"><h4>Quán Thuý 94</h4><p>蟹肉粉絲早餐，之後步行約 5 分鐘到粉紅教堂。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 10:45</div><div class="dot"></div><div class="tl-body"><h4>Pink Church + Cộng Cà Phê</h4><p>快閃打卡；可在 Cộng Cà Phê 高層坐一坐。</p></div></div><div class="timeline-row cardmark"><div class="time">10:45 – 11:30</div><div class="dot"></div><div class="tl-body"><h4>Grab → Thảo Điền</h4><p>跨橋到草田區，開啟 slower neighbourhood day。</p></div></div><div class="timeline-row cardmark"><div class="time">11:45 – 13:00</div><div class="dot"></div><div class="tl-body"><h4>Lifestyle Walk</h4><p>Saigon Concept → In the Mood → Soo Kafe 外帶蛋撻 → YouOn Boutique。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 14:00</div><div class="dot"></div><div class="tl-body"><h4>Afternoon Tea</h4><p>Bakes 或 The Dreamers。食唔食、食幾多自己 buffer；重點是坐低休息。</p></div></div><div class="timeline-row cardmark"><div class="time">14:30 – 15:00</div><div class="dot"></div><div class="tl-body"><h4>OHQUAO Living</h4><p>藝術家明信片、香氛、手工藝品。放 Spa 前，趁仍有精神慢慢睇。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 17:30</div><div class="dot"></div><div class="tl-body"><h4>Mộc Hương Wellness</h4><p>白色法式別墅、蒸氣房、草本熱石水療；可寄存戰利品。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 18:00</div><div class="dot"></div><div class="tl-body"><h4>Louh × Alouane</h4><p>高級棉織品家居服，Spa 後慢慢逛，讓節奏降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">18:30 – 20:30</div><div class="dot"></div><div class="tl-body"><h4>Little Bear</h4><p>Creative Vietnamese，Michelin Guide 入選。Mộc Hương 到 Little Bear 約 3 分鐘 Grab。</p></div></div></div></div>
+      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:00 – 10:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Quán Thuý 94</h4><p>蟹肉粉絲早餐，之後步行約 5 分鐘到粉紅教堂。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 10:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>Pink Church + Cộng Cà Phê</h4><p>快閃打卡；可在 Cộng Cà Phê 高層坐一坐。</p></div></div><div class="timeline-row cardmark"><div class="time">10:45 – 11:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Grab → Thảo Điền</h4><p>跨橋到草田區，開啟 slower neighbourhood day。</p></div></div><div class="timeline-row cardmark"><div class="time">11:45 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Lifestyle Walk</h4><p>Saigon Concept → In the Mood → Soo Kafe 外帶蛋撻 → YouOn Boutique。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 14:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">☕</span>Afternoon Tea</h4><p>Bakes 或 The Dreamers。食唔食、食幾多自己 buffer；重點是坐低休息。</p></div></div><div class="timeline-row cardmark"><div class="time">14:30 – 15:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>OHQUAO Living</h4><p>藝術家明信片、香氛、手工藝品。放 Spa 前，趁仍有精神慢慢睇。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 17:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Mộc Hương Wellness</h4><p>白色法式別墅、蒸氣房、草本熱石水療；可寄存戰利品。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 18:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Louh × Alouane</h4><p>高級棉織品家居服，Spa 後慢慢逛，讓節奏降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">18:30 – 20:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>Little Bear</h4><p>Creative Vietnamese，Michelin Guide 入選。Mộc Hương 到 Little Bear 約 3 分鐘 Grab。</p></div></div></div></div>
       <div class="block"><h3>Activities</h3><div class="activity-grid">
         <article class="activity cardmark" data-card="lifestyle-walk">
           <div class="activity-head">
-            <div><h4>Lifestyle Walk</h4><div class="meta">Thảo Điền Neighbourhood · Flexible</div></div>
+            <div><h4><span class="tl-emoji">🛍️</span>Lifestyle Walk</h4><div class="meta">Thảo Điền Neighbourhood · Flexible</div></div>
             <span>Why this plan</span>
           </div>
           <p>上午的草田掃街集中在 Saigon Concept、In the Mood、Soo Kafe 與 YouOn 這一組，重點不是逛齊，而是先感受 neighbourhood 的文青節奏。</p>
@@ -509,7 +560,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="afternoon-tea">
           <div class="activity-head">
-            <div><h4>Afternoon Tea</h4><div class="meta">Soft Buffer · VND 80k–150k pp</div></div>
+            <div><h4><span class="tl-emoji">☕</span>Afternoon Tea</h4><div class="meta">Soft Buffer · VND 80k–150k pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>下午茶是一段 buffer，不是一餐硬性午餐。大家可以視乎肚餓程度決定食幾多，重點是坐低、吹冷氣，讓下半日節奏更舒服。</p>
@@ -532,7 +583,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="ohquao-living">
           <div class="activity-head">
-            <div><h4>OHQUAO Living</h4><div class="meta">Art &amp; Home Finds · Flexible</div></div>
+            <div><h4><span class="tl-emoji">🛍️</span>OHQUAO Living</h4><div class="meta">Art &amp; Home Finds · Flexible</div></div>
             <span>Why this plan</span>
           </div>
           <p>OHQUAO 放在 Spa 前，因為藝術選物需要較多精神慢慢欣賞。這段時間不長，但剛好補足草田區的文創感。</p>
@@ -555,7 +606,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="m-c-h-ng-wellness">
           <div class="activity-head">
-            <div><h4>Mộc Hương Wellness</h4><div class="meta">French Villa Spa · VND 700k–1.1m pp</div></div>
+            <div><h4><span class="tl-emoji">🧖</span>Mộc Hương Wellness</h4><div class="meta">French Villa Spa · VND 700k–1.1m pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>Mộc Hương 是 Day 3 的中段 reset。白色法式別墅、蒸氣房與熱石按摩適合放在逛街後，讓身體真正慢下來，再進入晚餐前的輕鬆節奏。</p>
@@ -578,7 +629,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="louh-alouane">
           <div class="activity-head">
-            <div><h4>Louh × Alouane</h4><div class="meta">Slow Shopping · Flexible</div></div>
+            <div><h4><span class="tl-emoji">🛍️</span>Louh × Alouane</h4><div class="meta">Slow Shopping · Flexible</div></div>
             <span>Why this plan</span>
           </div>
           <p>Spa 後不再安排需要集中精神的購物，而是留 Louh × Alouane 這類觸感舒服、節奏很慢的店，作為晚餐前的自然過渡。</p>
@@ -601,7 +652,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="little-bear">
           <div class="activity-head">
-            <div><h4>Little Bear</h4><div class="meta">Creative Vietnamese · VND 600k–1m pp</div></div>
+            <div><h4><span class="tl-emoji">🍷</span>Little Bear</h4><div class="meta">Creative Vietnamese · VND 600k–1m pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>Little Bear 放在 Day 3，不是因為順路，而是因為它最適合作為文青日的結尾。比正式 fine dining 更 chill，更適合逛完整天後慢慢聊天、分享菜式。</p>
@@ -649,11 +700,11 @@ body::before {
       </div>
       <div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>4–5 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>~5 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>The Running Bean · $</span></div><div class="glance-card cardmark"><div class="gicon">🍕</div><b>Lunch</b><span>Pizza 4P&#x27;s · $$</span></div><div class="glance-card cardmark"><div class="gicon">🍷</div><b>Dinner</b><span>Quince · $$$</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Temple Leaf Spa Land</span></div></div></div>
       <div class="block today cardmark"><h3>Today’s Plan</h3><p>Day 4 是整趟旅程較完整的城市日。上午放人文與博物館，午餐用當地不能錯過的 Pizza 4P’s 轉換氣氛，再進入 Phú Nhuận shopping。傍晚用 Temple Leaf 把體力收回來，晚餐 Quince 則以窯烤、open kitchen 與較 chill 的 contemporary European 作為旅程壓軸。</p></div>
-      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">08:30 – 09:30</div><div class="dot"></div><div class="tl-body"><h4>The Running Bean</h4><p>晨間咖啡，為博物館行程留精神。</p></div></div><div class="timeline-row cardmark"><div class="time">09:30 – 11:30</div><div class="dot"></div><div class="tl-body"><h4>War Remnants Museum</h4><p>上午參觀，避開午後疲倦。</p></div></div><div class="timeline-row cardmark"><div class="time">11:30 – 13:00</div><div class="dot"></div><div class="tl-body"><h4>Pizza 4P&#x27;s Hai Bà Trưng</h4><p>當地不能錯過的 Pizza 品牌；食完向 Phú Nhuận 方向走，動線順。</p></div></div><div class="timeline-row cardmark"><div class="time">13:30 – 16:30</div><div class="dot"></div><div class="tl-body"><h4>Phú Nhuận Shopping Route</h4><p>先 11 Garmentory，再按時間逛 ByVee、Pinguyen、thekat.shop、So Dópe Club、Dalla、RUBIES、Lane Cì。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 19:15</div><div class="dot"></div><div class="tl-body"><h4>Temple Leaf Spa Land</h4><p>足底 / 全身按摩，把 shopping day 的體力消耗降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">19:15 – 19:45</div><div class="dot"></div><div class="tl-body"><h4>Return Hotel / Change</h4><p>回酒店梳洗換裝，準備晚餐。</p></div></div><div class="timeline-row cardmark"><div class="time">20:15 – 22:15</div><div class="dot"></div><div class="tl-body"><h4>Quince Saigon</h4><p>Wood-fired contemporary European。Dinner category：$$$.</p></div></div><div class="timeline-row cardmark"><div class="time">22:15 onwards</div><div class="dot"></div><div class="tl-body"><h4>Social Club Rooftop（Optional）</h4><p>視體力決定，不作硬性安排。</p></div></div></div></div>
+      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">08:30 – 09:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">☕</span>The Running Bean</h4><p>晨間咖啡，為博物館行程留精神。</p></div></div><div class="timeline-row cardmark"><div class="time">09:30 – 11:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>War Remnants Museum</h4><p>上午參觀，避開午後疲倦。</p></div></div><div class="timeline-row cardmark"><div class="time">11:30 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Pizza 4P&#x27;s Hai Bà Trưng</h4><p>當地不能錯過的 Pizza 品牌；食完向 Phú Nhuận 方向走，動線順。</p></div></div><div class="timeline-row cardmark"><div class="time">13:30 – 16:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Phú Nhuận Shopping Route</h4><p>先 11 Garmentory，再按時間逛 ByVee、Pinguyen、thekat.shop、So Dópe Club、Dalla、RUBIES、Lane Cì。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 19:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Temple Leaf Spa Land</h4><p>足底 / 全身按摩，把 shopping day 的體力消耗降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">19:15 – 19:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Return Hotel / Change</h4><p>回酒店梳洗換裝，準備晚餐。</p></div></div><div class="timeline-row cardmark"><div class="time">20:15 – 22:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>Quince Saigon</h4><p>Wood-fired contemporary European。Dinner category：$$$.</p></div></div><div class="timeline-row cardmark"><div class="time">22:15 onwards</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">📍</span>Social Club Rooftop（Optional）</h4><p>視體力決定，不作硬性安排。</p></div></div></div></div>
       <div class="block"><h3>Activities</h3><div class="activity-grid">
         <article class="activity cardmark" data-card="pizza-4p-s">
           <div class="activity-head">
-            <div><h4>Pizza 4P&#x27;s</h4><div class="meta">Local Must-try Pizza · VND 200k–350k pp</div></div>
+            <div><h4><span class="tl-emoji">🍜</span>Pizza 4P&#x27;s</h4><div class="meta">Local Must-try Pizza · VND 200k–350k pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>Pizza 4P’s 放在 lunch，是因為它幾乎是胡志明不能錯過的本地 pizza 品牌。午餐試會比晚餐輕鬆，也能為 Quince 保留晚上的食慾。</p>
@@ -676,7 +727,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="temple-leaf-spa-land">
           <div class="activity-head">
-            <div><h4>Temple Leaf Spa Land</h4><div class="meta">Foot + Body Reset · VND 530k–630k pp</div></div>
+            <div><h4><span class="tl-emoji">🧖</span>Temple Leaf Spa Land</h4><div class="meta">Foot + Body Reset · VND 530k–630k pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>Temple Leaf 放在 Phú Nhuận shopping 後，是為了讓晚餐前有一段真正休息。足底、熱石與六樓花園放鬆區，剛好把白天的城市節奏降下來。</p>
@@ -699,7 +750,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="quince">
           <div class="activity-head">
-            <div><h4>Quince</h4><div class="meta">Wood-fired Contemporary European · $$$</div></div>
+            <div><h4><span class="tl-emoji">🍷</span>Quince</h4><div class="meta">Wood-fired Contemporary European · $$$</div></div>
             <span>Why this plan</span>
           </div>
           <p>Quince 是另一種法餐方向：比 LÚNE 更有窯烤、open kitchen 與 relaxed dining 氣氛。放在最後一晚，是想用一餐成熟但不拘謹的 dinner 作為旅程高點。</p>
@@ -747,11 +798,11 @@ body::before {
       </div>
       <div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>3–4 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>~5 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>Phở Việt Nam · $</span></div><div class="glance-card cardmark"><div class="gicon">🍜</div><b>Lunch</b><span>Bếp Mẹ Ỉn · $$</span></div><div class="glance-card cardmark"><div class="gicon">🍷</div><b>Dinner</b><span>Airport light bite · $</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Hạ Spa</span></div></div></div>
       <div class="block today cardmark"><h3>Today’s Plan</h3><p>最後一天保持簡單。上午留在酒店附近吃 Phở Việt Nam、去美術館拍照，再用 Bếp Mẹ Ỉn 作 farewell lunch。下午回酒店提行李後直接去機場附近 Hạ Spa，把最後半天變成放鬆與收尾，而不是拖住行李到處趕。</p></div>
-      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:30 – 10:30</div><div class="dot"></div><div class="tl-body"><h4>Phở Việt Nam Bến Thành</h4><p>最後一碗石鍋河粉，距酒店步行或 Grab 3–5 分鐘。</p></div></div><div class="timeline-row cardmark"><div class="time">10:30 – 11:45</div><div class="dot"></div><div class="tl-body"><h4>Museum of Fine Arts</h4><p>從河粉店步行約 4 分鐘，適合復古人文街拍。</p></div></div><div class="timeline-row cardmark"><div class="time">11:45 – 13:00</div><div class="dot"></div><div class="tl-body"><h4>Bếp Mẹ Ỉn</h4><p>Michelin Bib Gourmand，黃金煎餅、椰子炒飯與越式拼盤。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 14:15</div><div class="dot"></div><div class="tl-body"><h4>Takashimaya + Maison Marou</h4><p>最後手信時間：朱古力、咖啡、茶葉與乾果。</p></div></div><div class="timeline-row cardmark"><div class="time">14:15 – 14:45</div><div class="dot"></div><div class="tl-body"><h4>Return Hotel / Luggage</h4><p>回 Fusion Original 提取寄存行李。</p></div></div><div class="timeline-row cardmark"><div class="time">14:45 – 15:30</div><div class="dot"></div><div class="tl-body"><h4>Grab → Hạ Spa</h4><p>提早離開 D1，避開黃昏塞車。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 17:30</div><div class="dot"></div><div class="tl-body"><h4>Hạ Spa</h4><p>草本洗頭 + 全身熱石按摩，近機場。</p></div></div><div class="timeline-row cardmark"><div class="time">17:45 – 18:00</div><div class="dot"></div><div class="tl-body"><h4>Airport</h4><p>Hạ Spa 到新山一國際航廈約 2 分鐘。</p></div></div><div class="timeline-row cardmark"><div class="time">18:00 – 21:10</div><div class="dot"></div><div class="tl-body"><h4>Check-in / Duty Free / Boarding</h4><p>預留 3 小時處理 check-in、過關與登機。</p></div></div></div></div>
+      <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:30 – 10:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Phở Việt Nam Bến Thành</h4><p>最後一碗石鍋河粉，距酒店步行或 Grab 3–5 分鐘。</p></div></div><div class="timeline-row cardmark"><div class="time">10:30 – 11:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>Museum of Fine Arts</h4><p>從河粉店步行約 4 分鐘，適合復古人文街拍。</p></div></div><div class="timeline-row cardmark"><div class="time">11:45 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Bếp Mẹ Ỉn</h4><p>Michelin Bib Gourmand，黃金煎餅、椰子炒飯與越式拼盤。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 14:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">📍</span>Takashimaya + Maison Marou</h4><p>最後手信時間：朱古力、咖啡、茶葉與乾果。</p></div></div><div class="timeline-row cardmark"><div class="time">14:15 – 14:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Return Hotel / Luggage</h4><p>回 Fusion Original 提取寄存行李。</p></div></div><div class="timeline-row cardmark"><div class="time">14:45 – 15:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Grab → Hạ Spa</h4><p>提早離開 D1，避開黃昏塞車。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 17:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Hạ Spa</h4><p>草本洗頭 + 全身熱石按摩，近機場。</p></div></div><div class="timeline-row cardmark"><div class="time">17:45 – 18:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Airport</h4><p>Hạ Spa 到新山一國際航廈約 2 分鐘。</p></div></div><div class="timeline-row cardmark"><div class="time">18:00 – 21:10</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Check-in / Duty Free / Boarding</h4><p>預留 3 小時處理 check-in、過關與登機。</p></div></div></div></div>
       <div class="block"><h3>Activities</h3><div class="activity-grid">
         <article class="activity cardmark" data-card="ph-vi-t-nam">
           <div class="activity-head">
-            <div><h4>Phở Việt Nam + 美術館</h4><div class="meta">Farewell Morning · VND 100k–150k pp + entry</div></div>
+            <div><h4><span class="tl-emoji">🍜</span>Phở Việt Nam + 美術館</h4><div class="meta">Farewell Morning · VND 100k–150k pp + entry</div></div>
             <span>Why this plan</span>
           </div>
           <p>最後一日上午不再跨區，所有安排都在酒店附近。河粉與美術館步行可接，既保留最後一組照片，也降低趕機風險。</p>
@@ -774,7 +825,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="b-p-m-n">
           <div class="activity-head">
-            <div><h4>Bếp Mẹ Ỉn</h4><div class="meta">Farewell Lunch · VND 200k–350k pp</div></div>
+            <div><h4><span class="tl-emoji">🍜</span>Bếp Mẹ Ỉn</h4><div class="meta">Farewell Lunch · VND 200k–350k pp</div></div>
             <span>Why this plan</span>
           </div>
           <p>Bếp Mẹ Ỉn 放在最後一日，是因為它是傳統越菜、容易分享，又在酒店生活圈附近。比起再追新區域，這餐更適合作為西貢味道的收結。</p>
@@ -797,7 +848,7 @@ body::before {
         </article>
         <article class="activity cardmark" data-card="h-spa">
           <div class="activity-head">
-            <div><h4>Hạ Spa</h4><div class="meta">Pre-flight Reset · Check package</div></div>
+            <div><h4><span class="tl-emoji">🧖</span>Hạ Spa</h4><div class="meta">Pre-flight Reset · Check package</div></div>
             <span>Why this plan</span>
           </div>
           <p>Hạ Spa 最大價值是近機場。把最後一段時間移到機場旁邊，可以避開下班塞車，也讓大家在登機前真正放鬆，而不是拖住行李等時間。</p>
