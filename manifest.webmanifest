@@ -1,7 +1,6 @@
 {
   "name": "CCMV Journey Planner",
   "short_name": "CCMV Planner",
-  "description": "CCMV Journey Planner for reviewing and approving trip plans.",
   "start_url": "./index.html#home",
   "scope": "./",
   "display": "standalone",

@@ -575,6 +575,22 @@ textarea:focus{
   }
 }
 
+
+/* Build 11.0 Compact Review Mode */
+.build-badge{position:fixed;right:10px;bottom:10px;z-index:5;font-size:10px;color:rgba(47,41,35,.45);background:rgba(255,250,243,.7);border:1px solid rgba(184,150,94,.22);border-radius:999px;padding:4px 8px}
+.reviewer-bar{top:calc(72px + env(safe-area-inset-top, 0px)) !important;}
+.reviewer-inner{padding:7px 0 !important;display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:8px !important;}
+.reviewer-inner [data-reviewer-toggle]{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(142,111,63,.24);border-radius:999px;background:rgba(255,250,243,.88);padding:7px 12px;box-shadow:0 8px 20px rgba(77,55,30,.06);cursor:pointer;font-family:var(--sans);font-size:13px;color:var(--gold-deep)}
+.reviewer-label{display:none !important}.reviewer-inner [data-current-reviewer-label]{font-size:13px;color:var(--gold-deep)}.reviewer-inner [data-current-reviewer-label]::after{content:' ▼';font-size:10px;color:var(--gold-deep)}
+.reviewer-pills{display:none !important;position:absolute;right:20px;top:48px;background:rgba(255,250,243,.98);border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:0 20px 45px rgba(77,55,30,.16);min-width:170px;z-index:80;flex-direction:column;gap:6px !important}.reviewer-bar.open .reviewer-pills{display:flex !important}.reviewer-pill{width:100%;text-align:left;padding:9px 11px !important}
+.activity-grid{grid-template-columns:1fr !important;gap:10px !important}.activity{border-radius:20px !important;padding:13px 14px !important;box-shadow:0 8px 20px rgba(77,55,30,.045) !important}.activity-head{gap:8px !important;align-items:flex-start !important}.activity-head>div{min-width:0;flex:1}.activity-head h4{font-size:17px !important;line-height:1.15 !important;letter-spacing:-.01em}.activity-head>span{display:none !important}.meta{font-size:12px !important;margin-top:3px !important;color:rgba(142,111,63,.9) !important}.map-link{display:inline-flex !important;align-items:center;justify-content:center;margin-top:6px !important;border:1px solid rgba(184,150,94,.25);border-radius:999px;padding:4px 8px !important;background:rgba(255,250,243,.7);font-size:12px !important;font-weight:800;text-decoration:none;color:var(--gold-deep)}
+.why-toggle{margin:8px 0 0 !important;border-top:1px solid rgba(184,150,94,.16);padding-top:6px}.why-toggle summary{font-size:12px !important;color:var(--gold-deep);font-weight:850;cursor:pointer;list-style:none}.why-toggle summary::before{content:'💡 ';}.why-toggle summary::after{content:' +';}.why-toggle[open] summary::after{content:' −';}.why-body{padding-top:6px}.why-body p{font-size:13px !important;line-height:1.45 !important;margin:0 !important;color:var(--muted)}.chips{gap:5px !important;margin-top:7px !important}.chips span{font-size:11px !important;padding:5px 8px !important}
+.reaction{display:grid !important;grid-template-columns:repeat(3,1fr);gap:6px !important;margin:9px 0 0 !important}.reaction button{padding:8px 5px !important;font-size:12px !important;border-radius:999px !important;min-height:36px}.review-badge{margin-top:7px !important;font-size:11px !important;padding:5px 8px !important;border-radius:999px;background:rgba(184,150,94,.08);color:var(--gold-deep)}
+.activity .comment-box{display:none;margin-top:9px !important;padding-top:8px;border-top:1px solid rgba(184,150,94,.16)}.activity.review-open .comment-box{display:block}.comment-actions{margin-top:7px !important}.comment-actions button{padding:7px 10px !important;font-size:12px}.saved-review-view{padding:9px 10px !important;border-radius:14px !important;background:rgba(255,250,243,.72) !important}.saved-review-view p{font-size:13px !important;line-height:1.35 !important;margin:0 0 4px !important}.saved-review-view small,[data-status]{font-size:11px !important}.review-thread{display:none !important}textarea{min-height:66px !important;border-radius:14px !important;padding:10px 12px !important;font-size:16px !important}.bottom-nav{display:none !important}
+.day-hero{padding:22px !important;border-radius:26px !important}.day-hero h2{font-size:36px !important}.day-hero h3{font-size:18px !important}.block{margin-top:18px !important}.block>h3{font-size:24px !important;margin-bottom:10px !important}.timeline-row{padding:12px !important;border-radius:18px !important;grid-template-columns:92px 12px 1fr !important;gap:9px !important}.time{font-size:12px !important}.tl-body h4{font-size:15px !important}.tl-body p{font-size:12px !important;line-height:1.35}.glance-grid{grid-template-columns:repeat(2,1fr) !important;gap:8px !important}.glance-card{min-height:auto !important;padding:12px !important;border-radius:18px !important}.gicon{font-size:20px !important;margin-bottom:6px !important}.glance-card span{font-size:13px !important}.today,.around,.final-card{padding:18px !important;border-radius:22px !important}
+@media(min-width:760px){.activity-grid{grid-template-columns:repeat(2,1fr) !important}.activity{padding:15px 16px !important}.reviewer-pills{right:calc((100vw - min(1120px, calc(100vw - 40px)))/2)}}
+@media(max-width:720px){.container{width:min(100% - 28px,1120px) !important}.topnav{gap:4px !important}.topnav button{font-size:11px !important;padding:6px 8px !important}.reviewer-bar{top:calc(66px + env(safe-area-inset-top, 0px)) !important}.reviewer-pills{right:14px;left:auto}.activity{padding:12px !important}.activity-head h4{font-size:16px !important}.map-link{font-size:11px !important;padding:4px 7px !important}.reaction button{font-size:11px !important}.day-hero{grid-template-columns:1fr !important}.day-hero h2{font-size:30px !important}.timeline{display:none !important}.block.today p{font-size:14px !important;line-height:1.45}}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -596,7 +612,7 @@ textarea:focus{
 </div>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
-<div><span class="reviewer-label">Who’s reviewing today?</span> <b data-current-reviewer-label="">👓 Crystal</b></div>
+<div data-reviewer-toggle=""><span class="reviewer-label">Who’s reviewing today?</span> <b data-current-reviewer-label="">👓 Crystal</b></div>
 <div aria-label="Reviewer identity" class="reviewer-pills" role="group">
 <button class="reviewer-pill" data-reviewer="Christal">🧸 Christal</button>
 <button class="reviewer-pill" data-reviewer="Crystal">👓 Crystal</button>
@@ -1266,6 +1282,7 @@ with check (true);</pre>
 </div>
 </section>
 </main>
+<div class="build-badge">Build 11.0 Compact</div>
 <script src="trip-data.js"></script>
 <script>
 
@@ -1557,6 +1574,8 @@ function renderActivity(card){
   const box=card.querySelector('.comment-box');
   const saved=localStorage.getItem(reviewKey('comment',id));
   const editedAt=localStorage.getItem(reviewKey('comment-edited',id));
+  const hasReaction=!!localStorage.getItem(reviewKey('reaction',id));
+  card.classList.toggle('review-open', !!(saved || (box && box.dataset.editing==='true')));
   if(box) setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('activity',id))});
   let badge=card.querySelector('[data-approval-badge]');
   if(!badge){ badge=document.createElement('div'); badge.setAttribute('data-approval-badge',''); badge.className='review-badge'; const reactionBox=card.querySelector('.reaction'); if(reactionBox) reactionBox.insertAdjacentElement('afterend',badge); }
@@ -1789,14 +1808,15 @@ async function saveOverall(box){
 }
 document.addEventListener('click',async e=>{
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
-  const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); return; }
+  const toggleReviewer=e.target.closest('[data-reviewer-toggle]'); if(toggleReviewer){ document.querySelector('.reviewer-bar')?.classList.toggle('open'); return; }
+  const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); document.querySelector('.reviewer-bar')?.classList.remove('open'); return; }
   const filter=e.target.closest('[data-filter-reviewer]'); if(filter){ currentFilter=filter.dataset.filterReviewer; localStorage.setItem('ccmv:reviewFilter',currentFilter); renderAll(); return; }
   const edit=e.target.closest('[data-edit]');
   if(edit){ const box=edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]'); box.dataset.editing='true'; renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); return; }
   const cancel=e.target.closest('[data-cancel]');
   if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]'); delete box.dataset.editing; renderAll(); return; }
   const rb=e.target.closest('[data-reaction]');
-  if(rb){ const card=rb.closest('.activity'); const id=safeCardKey(card); localStorage.setItem(reviewKey('reaction',id),rb.dataset.reaction); upsertSupabaseReview('activity',id,{reaction:rb.dataset.reaction,comment:localStorage.getItem(reviewKey('comment',id))||''}); renderAll(); return; }
+  if(rb){ const card=rb.closest('.activity'); const id=safeCardKey(card); localStorage.setItem(reviewKey('reaction',id),rb.dataset.reaction); upsertSupabaseReview('activity',id,{reaction:rb.dataset.reaction,comment:localStorage.getItem(reviewKey('comment',id))||''}); const box=card.querySelector('.comment-box'); if(box && !localStorage.getItem(reviewKey('comment',id))){ box.dataset.editing='true'; } renderAll(); if(box && box.dataset.editing==='true') setTimeout(()=>box.querySelector('textarea')?.focus(),80); return; }
   const save=e.target.closest('[data-save]'); if(save){ await saveActivity(save.closest('.activity')); return; }
   const clear=e.target.closest('[data-clear]');
   if(clear){
