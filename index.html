@@ -392,6 +392,68 @@ header{background:rgba(247,240,230,.9)}
 .cardmark::after, body::before, .hero::after{pointer-events:none !important;}
 button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],[data-overall-save],[data-edit],[data-cancel],[data-clear],[data-filter-reviewer]{pointer-events:auto;}
 
+
+/* Build 10.1.5 visual cleanup: floating logo, brighter reviewer pills, readable sticky progress, cleaner Home dashboard */
+.logo, .seal, .home-logo-full, .day-hero .seal.small{
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+.logo{
+  width:56px !important;
+  height:56px !important;
+  flex:0 0 56px !important;
+}
+.reviewer-bar{
+  background:rgba(247,240,230,.96) !important;
+}
+.reviewer-pill{
+  background:#fffaf3 !important;
+  border:1px solid rgba(142,111,63,.30) !important;
+  color:#8e6f3f !important;
+  box-shadow:0 5px 16px rgba(77,55,30,.06) !important;
+}
+.reviewer-pill.selected{
+  background:#b8965e !important;
+  border-color:#b8965e !important;
+  color:#fffaf3 !important;
+  box-shadow:0 8px 22px rgba(142,111,63,.20) !important;
+}
+.sticky-progress{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#2f2923 !important;
+  background:#fffaf3 !important;
+  border:1px solid rgba(142,111,63,.28) !important;
+  max-width:420px;
+}
+.sticky-progress .mini-meter{
+  width:78px;
+  height:7px;
+  background:rgba(142,111,63,.16);
+  border-radius:999px;
+  overflow:hidden;
+  flex:0 0 78px;
+}
+.sticky-progress .mini-meter i{
+  display:block;
+  height:100%;
+  width:0;
+  background:#b8965e;
+  border-radius:999px;
+}
+.sticky-progress b{color:#8e6f3f}
+#home .review-filter{display:none !important;}
+@media(max-width:760px){
+  .logo{width:48px !important;height:48px !important;flex-basis:48px !important}
+  .sticky-progress{max-width:none;align-items:flex-start;flex-wrap:wrap}
+}
+
 </style>
 </head>
 <body>
@@ -484,7 +546,7 @@ with check (true);</pre>
 </div>
 <div class="summary-card data-engine-note"><strong>Trip Data Engine</strong><span>Content source: <code>trip-data.js</code></span><div class="mini">Build 10.1.3 separates trip itinerary / review items from the approved planner UI. Next trip = replace the data object, not the design.</div></div>
 <div class="dashboard-summary" data-dashboard-summary></div>
-<div class="review-filter" aria-label="Review filter" data-review-filter>
+<div class="review-filter home-hidden-filter" aria-label="Review filter" data-review-filter>
 <button data-filter-reviewer="All">All</button>
 <button data-filter-reviewer="Christal">🧸 Christal</button>
 <button data-filter-reviewer="Crystal">👓 Crystal</button>
@@ -1275,11 +1337,11 @@ function renderDashboard(){
   const pending=cards.filter(c=>reviewerNames.some(name=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)))).slice(0,4);
   const sticky=document.querySelector('[data-sticky-progress]');
   if(sticky){
-    const openPeople=reviewerNames.map(name=>{
-      const missingDays=[...new Set(cards.filter(c=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))).map(dayLabelFor))];
-      return missingDays.length?`${reviewers[name]}: ${missingDays.slice(0,2).join(', ')}${missingDays.length>2?'…':''}`:'';
-    }).filter(Boolean);
-    sticky.textContent=openPeople.length?`Progress ${pct}% · Pending ${openPeople[0]}${openPeople.length>1?' · +'+(openPeople.length-1)+' more':''}`:`Progress ${pct}% · All reactions done`;
+    const personDone=cards.filter(c=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),currentReviewer))).length;
+    const personTotal=cards.length;
+    const personPct=personTotal?Math.round(personDone/personTotal*100):0;
+    const missingDays=[...new Set(cards.filter(c=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),currentReviewer))).map(dayLabelFor))];
+    sticky.innerHTML=`<span class="mini-meter"><i style="width:${personPct}%"></i></span><span><b>${reviewers[currentReviewer]}</b> ${personDone}/${personTotal} items · Overall ${pct}%${missingDays.length?` · Pending ${missingDays.slice(0,3).join(', ')}`:' · All done'}</span>`;
   }
   if(summary){
     summary.innerHTML=`<div class="summary-card"><strong>${pct}%</strong><span>Overall ready score</span><div class="mini">${done}/${totalPossible} review steps completed · ${approved}/${cards.length} items fully approved</div><div class="progress-meter"><i style="width:${pct}%"></i></div></div><div class="summary-card"><strong>${allReactions.length}</strong><span>Total item reviews</span><div class="progress-breakdown"><span>🟢 ${keep} Keep</span><span>🟡 ${discuss} Discuss</span><span>🔴 ${replace} Replace</span></div>${pending.length?`<div class="mini">${pending.length} item groups still need responses.</div>`:`<div class="mini">All review items have at least one response.</div>`}</div>`;
