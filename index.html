@@ -524,7 +524,7 @@ textarea,input,select{
   .comment-actions{z-index:1 !important;}
 }
 
-/* Build 10.2.6: iPhone keyboard zoom + clearer per-comment sync labels */
+/* Build 10.2.7: iPhone keyboard zoom + focus visibility + clearer sync labels */
 html,body{
   -webkit-text-size-adjust:100% !important;
 }
@@ -553,6 +553,25 @@ input,textarea,select{
 @supports (-webkit-touch-callout:none){
   input,textarea,select{font-size:16px !important;}
   textarea:focus{font-size:16px !important;}
+}
+
+/* Build 10.2.7: keep focused comment visible above iPhone keyboard */
+body.keyboard-editing{
+  scroll-padding-bottom:48vh;
+}
+body.keyboard-editing .page{
+  padding-bottom:48vh;
+}
+textarea:focus{
+  outline:2px solid rgba(184,150,94,.35);
+  outline-offset:2px;
+}
+@supports (-webkit-touch-callout:none){
+  body.keyboard-editing .comment-box,
+  body.keyboard-editing [data-day-wrap],
+  body.keyboard-editing [data-overall-review]{
+    scroll-margin-bottom:48vh;
+  }
 }
 
 </style>
@@ -611,7 +630,7 @@ input,textarea,select{
   <div class="supabase-status">
     <div>
       <b>Sync Preparation</b>
-      <p class="muted" style="margin:4px 0 0">Build 10.2.6 已修正 iPhone keyboard Done 後 comment box scroll jump / sync label，並保留 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
+      <p class="muted" style="margin:4px 0 0">Build 10.2.7 已修正 iPhone keyboard 打字時 comment box 被遮住 / sync label，並保留 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
     </div>
     <span class="sync-pill" data-sync-status>Offline mode</span>
   </div>
@@ -1644,51 +1663,77 @@ function closeIOSKeyboard(){
   },80);
 }
 
-/* Build 10.2.6: iPhone keyboard Done/tick scroll-jump fix
-   When iOS hides the keyboard after tapping Done, Safari sometimes re-anchors
-   the page and pushes the active comment box upward before the user taps Save.
-   We remember the textarea's viewport position while editing and restore it
-   after keyboard blur / visualViewport resize. */
-let ccmvKeyboardFocusState=null;
+/* Build 10.2.7: iPhone comment focus visibility fix
+   Real issue: when the iOS keyboard opens, Safari can place the active
+   textarea underneath the keyboard/toolbar. We do NOT try to freeze the
+   page position anymore. Instead, while editing, keep the active comment
+   box inside the visible viewport above the keyboard. */
+let ccmvActiveInputBox=null;
+let ccmvActiveTextarea=null;
 let ccmvSuppressBlurRestore=false;
-function scheduleCommentScrollRestore(state=ccmvKeyboardFocusState){
-  if(!state || !state.el || !document.body.contains(state.el)) return;
-  const restore=()=>{
-    if(!state || !state.el || !document.body.contains(state.el)) return;
-    const rect=state.el.getBoundingClientRect();
-    const delta=rect.top - state.top;
-    if(Math.abs(delta)>12){
-      window.scrollBy({top:delta,left:0,behavior:'auto'});
-    }
-  };
-  requestAnimationFrame(restore);
-  setTimeout(restore,60);
-  setTimeout(restore,180);
-  setTimeout(restore,360);
+function getStickyBottom(){
+  const header=document.querySelector('header');
+  const reviewer=document.querySelector('.reviewer-bar');
+  let bottom=0;
+  [header,reviewer].forEach(el=>{
+    if(!el) return;
+    const r=el.getBoundingClientRect();
+    if(r.bottom>0) bottom=Math.max(bottom,r.bottom);
+  });
+  return bottom;
+}
+function keepActiveCommentVisible(extra=28){
+  const ta=ccmvActiveTextarea;
+  if(!ta || !document.body.contains(ta)) return;
+  const box=ccmvActiveInputBox && document.body.contains(ccmvActiveInputBox) ? ccmvActiveInputBox : ta;
+  const vv=window.visualViewport;
+  const visibleTop=(vv?vv.offsetTop:0) + getStickyBottom() + 10;
+  const visibleBottom=(vv?(vv.offsetTop+vv.height):window.innerHeight) - extra;
+  const rect=box.getBoundingClientRect();
+  let delta=0;
+  if(rect.bottom > visibleBottom){
+    delta = rect.bottom - visibleBottom;
+  }else if(rect.top < visibleTop){
+    delta = rect.top - visibleTop;
+  }
+  if(Math.abs(delta)>4){
+    window.scrollBy({top:delta,left:0,behavior:'auto'});
+  }
+}
+function scheduleActiveCommentVisible(){
+  requestAnimationFrame(()=>keepActiveCommentVisible(34));
+  setTimeout(()=>keepActiveCommentVisible(40),120);
+  setTimeout(()=>keepActiveCommentVisible(46),320);
+  setTimeout(()=>keepActiveCommentVisible(52),650);
 }
 document.addEventListener('focusin',e=>{
   const ta=e.target.closest?.('textarea');
   if(!ta) return;
-  const box=ta.closest('.comment-box,[data-day-wrap],[data-overall-review]') || ta;
-  const rect=box.getBoundingClientRect();
-  ccmvKeyboardFocusState={el:box, top:rect.top, scrollY:window.scrollY, at:Date.now()};
+  ccmvActiveTextarea=ta;
+  ccmvActiveInputBox=ta.closest('.comment-box,[data-day-wrap],[data-overall-review]') || ta;
+  document.body.classList.add('keyboard-editing');
+  scheduleActiveCommentVisible();
+});
+document.addEventListener('input',e=>{
+  if(e.target && e.target===ccmvActiveTextarea) scheduleActiveCommentVisible();
 });
 document.addEventListener('focusout',e=>{
   const ta=e.target.closest?.('textarea');
   if(!ta) return;
-  if(ccmvSuppressBlurRestore) return;
-  const state=ccmvKeyboardFocusState;
-  setTimeout(()=>scheduleCommentScrollRestore(state),40);
+  setTimeout(()=>{
+    if(document.activeElement!==ccmvActiveTextarea){
+      document.body.classList.remove('keyboard-editing');
+      ccmvActiveInputBox=null;
+      ccmvActiveTextarea=null;
+    }
+  },80);
 });
 if(window.visualViewport){
-  let lastVVH=window.visualViewport.height;
   window.visualViewport.addEventListener('resize',()=>{
-    const now=Date.now();
-    const diff=window.visualViewport.height-lastVVH;
-    lastVVH=window.visualViewport.height;
-    if(ccmvKeyboardFocusState && now-ccmvKeyboardFocusState.at<15000 && Math.abs(diff)>40){
-      scheduleCommentScrollRestore(ccmvKeyboardFocusState);
-    }
+    if(ccmvActiveTextarea) scheduleActiveCommentVisible();
+  });
+  window.visualViewport.addEventListener('scroll',()=>{
+    if(ccmvActiveTextarea) scheduleActiveCommentVisible();
   });
 }
 async function saveActivity(card){
