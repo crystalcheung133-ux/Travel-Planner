@@ -379,6 +379,19 @@ header{background:rgba(247,240,230,.9)}
   .reaction{display:grid;grid-template-columns:1fr 1fr 1fr}.reaction button{min-width:0;padding:10px 6px;font-size:13px}
 }
 
+
+/* Build 10.1.4 hotfix: header logo centering + safe click layer */
+.logo{
+  display:block;
+  flex:0 0 58px;
+  background-position:50% 50% !important;
+  background-size:86% auto !important;
+}
+.brand{position:relative;z-index:20;}
+.topnav, .sticky-reviewer, .review-actions, .comment-actions, .filter-row{position:relative;z-index:30;}
+.cardmark::after, body::before, .hero::after{pointer-events:none !important;}
+button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],[data-overall-save],[data-edit],[data-cancel],[data-clear],[data-filter-reviewer]{pointer-events:auto;}
+
 </style>
 </head>
 <body>
@@ -1066,7 +1079,10 @@ with check (true);</pre>
 </div>
 </section>
 </main>
+<script src="trip-data.js"></script>
 <script>
+
+const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
 
 const CCMV_SUPABASE={
   url:'',
