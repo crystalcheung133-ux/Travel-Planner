@@ -1,11 +1,11 @@
 // CCMV Journey Planner — Trip Data Engine
-// Build 10.1.3
+// Build 10.1.6
 // To create a new trip planner, duplicate this file and replace this object only.
 // The approved UI, review UX, localStorage keys and Supabase layer live in index.html.
 
 window.CCMV_TRIP_DATA = {
   "schemaVersion": "1.0",
-  "build": "10.1.3",
+  "build": "10.1.6",
   "planId": "ccmv-saigon-2026",
   "title": "CCMV Journey Planner",
   "subtitle": "Vietnam 2026",
@@ -131,7 +131,7 @@ window.CCMV_TRIP_DATA = {
       ],
       "reviewItems": [
         {
-          "id": "pho-sol-day1",
+          "id": "day1-pho-sol",
           "category": "restaurant",
           "emoji": "🍜",
           "title": "🍜 Phở SOL",
@@ -145,7 +145,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "activity-1-1",
+          "id": "day1-classic-landmarks",
           "category": "poi",
           "emoji": "📍",
           "title": "📍 三大經典地標",
@@ -159,7 +159,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "nha-suga-premium",
+          "id": "day1-nha-suga-premium",
           "category": "spa",
           "emoji": "🧖",
           "title": "🧖 Nha Suga Premium",
@@ -173,7 +173,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "omakase-tiger",
+          "id": "day1-omakase-tiger",
           "category": "restaurant",
           "emoji": "🍷",
           "title": "🍷 Omakase Tiger",
@@ -188,7 +188,7 @@ window.CCMV_TRIP_DATA = {
         }
       ],
       "wrapUp": {
-        "id": "day1",
+        "id": "day1-wrap",
         "title": "DAY 1 Review"
       }
     },
@@ -276,7 +276,7 @@ window.CCMV_TRIP_DATA = {
       ],
       "reviewItems": [
         {
-          "id": "c-m-t-m-m-c",
+          "id": "day2-com-tam-moc",
           "category": "activity",
           "emoji": "🍜",
           "title": "🍜 Cơm Tấm Mộc",
@@ -290,7 +290,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "saigon-cooking-class",
+          "id": "day2-saigon-cooking-class",
           "category": "activity",
           "emoji": "🍳",
           "title": "🍳 Saigon Cooking Class",
@@ -304,7 +304,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "m-c-kim-spa",
+          "id": "day2-moc-kim-spa",
           "category": "spa",
           "emoji": "🧖",
           "title": "🧖 Mộc Kim Spa",
@@ -318,7 +318,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "l-ne",
+          "id": "day2-lune",
           "category": "restaurant",
           "emoji": "🍷",
           "title": "🍷 LÚNE",
@@ -333,7 +333,7 @@ window.CCMV_TRIP_DATA = {
         }
       ],
       "wrapUp": {
-        "id": "day2",
+        "id": "day2-wrap",
         "title": "DAY 2 Review"
       }
     },
@@ -433,7 +433,7 @@ window.CCMV_TRIP_DATA = {
       ],
       "reviewItems": [
         {
-          "id": "quan-thuy-94-day3",
+          "id": "day3-quan-thuy-94",
           "category": "restaurant",
           "emoji": "🍜",
           "title": "🍜 Quán Thuý 94",
@@ -447,7 +447,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "pink-church-day3",
+          "id": "day3-pink-church",
           "category": "poi",
           "emoji": "🏛️",
           "title": "🏛️ Pink Church + Cộng Cà Phê",
@@ -461,7 +461,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "afternoon-tea",
+          "id": "day3-afternoon-tea",
           "category": "activity",
           "emoji": "☕",
           "title": "☕ Afternoon Tea",
@@ -475,7 +475,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "m-c-h-ng-wellness",
+          "id": "day3-moc-huong-wellness",
           "category": "activity",
           "emoji": "🧖",
           "title": "🧖 Mộc Hương Wellness",
@@ -490,7 +490,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "little-bear",
+          "id": "day3-little-bear",
           "category": "restaurant",
           "emoji": "🍷",
           "title": "🍷 Little Bear",
@@ -505,7 +505,7 @@ window.CCMV_TRIP_DATA = {
         }
       ],
       "wrapUp": {
-        "id": "day3",
+        "id": "day3-wrap",
         "title": "DAY 3 Review"
       }
     },
@@ -599,7 +599,7 @@ window.CCMV_TRIP_DATA = {
       ],
       "reviewItems": [
         {
-          "id": "the-running-bean",
+          "id": "day4-the-running-bean",
           "category": "restaurant",
           "emoji": "☕",
           "title": "☕ The Running Bean",
@@ -613,7 +613,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "pizza-4p-s",
+          "id": "day4-pizza-4ps",
           "category": "restaurant",
           "emoji": "🍜",
           "title": "🍜 Pizza 4P's",
@@ -627,7 +627,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "temple-leaf-spa-land",
+          "id": "day4-temple-leaf-spa-land",
           "category": "spa",
           "emoji": "🧖",
           "title": "🧖 Temple Leaf Spa Land",
@@ -641,7 +641,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "quince",
+          "id": "day4-quince",
           "category": "restaurant",
           "emoji": "🍷",
           "title": "🍷 Quince",
@@ -656,7 +656,7 @@ window.CCMV_TRIP_DATA = {
         }
       ],
       "wrapUp": {
-        "id": "day4",
+        "id": "day4-wrap",
         "title": "DAY 4 Review"
       }
     },
@@ -756,7 +756,7 @@ window.CCMV_TRIP_DATA = {
       ],
       "reviewItems": [
         {
-          "id": "ph-vi-t-nam",
+          "id": "day5-pho-viet-nam",
           "category": "restaurant",
           "emoji": "🍜",
           "title": "🍜 Phở Việt Nam + 美術館",
@@ -770,7 +770,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "b-p-m-n",
+          "id": "day5-bep-me-in",
           "category": "restaurant",
           "emoji": "🍜",
           "title": "🍜 Bếp Mẹ Ỉn",
@@ -784,7 +784,7 @@ window.CCMV_TRIP_DATA = {
           ]
         },
         {
-          "id": "h-spa",
+          "id": "day5-h-spa",
           "category": "spa",
           "emoji": "🧖",
           "title": "🧖 Hạ Spa",
@@ -799,7 +799,7 @@ window.CCMV_TRIP_DATA = {
         }
       ],
       "wrapUp": {
-        "id": "day5",
+        "id": "day5-wrap",
         "title": "DAY 5 Review"
       }
     }
