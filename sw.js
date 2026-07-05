@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ccmv-planner-v10-2-1-supabase-sync';
+const CACHE_NAME = 'ccmv-planner-v10-2-2-readonly-realtime';
 const APP_SHELL = [
   './',
   './index.html',

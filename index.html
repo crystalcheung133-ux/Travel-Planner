@@ -15,7 +15,14 @@ body::before{content:"";position:fixed;inset:0;background-image:var(--logo);back
 .topnav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.topnav button,.bottom-nav button{border:1px solid var(--line);background:rgba(255,250,243,.72);border-radius:999px;padding:9px 13px;font-weight:700;cursor:pointer}.topnav button.active{background:var(--gold-deep);color:white}
 .page{display:none;padding:44px 0 84px}.page.active{display:block}.hero{padding:36px 0}.hero-card{position:relative;overflow:hidden;padding:54px;border-radius:40px;background:rgba(255,250,243,.84);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-columns:1.25fr .75fr;gap:34px}.cardmark{position:relative;overflow:hidden}.cardmark::after{content:"";position:absolute;right:18px;bottom:16px;width:92px;height:92px;background-image:var(--logo);background-size:cover;background-position:center;opacity:.22;pointer-events:none}.eyebrow{text-transform:uppercase;letter-spacing:.18em;color:var(--gold-deep);font-weight:800;font-size:12px;margin:0 0 14px}h1,h2,h3{font-family:var(--font);font-weight:500;margin:0}h1{font-size:clamp(48px,7vw,88px);line-height:.95;letter-spacing:-.04em}.hero-card p{font-size:18px;color:var(--muted);max-width:780px}.seal{background-image:var(--logo);background-size:cover;background-position:center;border-radius:34px;min-height:260px;box-shadow:inset 0 0 0 1px rgba(142,111,63,.2)}.seal.small{width:120px;height:120px;min-height:0;border-radius:28px;justify-self:end;align-self:center}
 .dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}.day-card{text-align:left;padding:22px;border-radius:26px;background:rgba(255,250,243,.88);border:1px solid var(--line);box-shadow:0 8px 26px rgba(77,55,30,.06);cursor:pointer;min-height:150px}.day-card b{display:block;font-family:var(--font);font-size:30px}.day-card span{display:block;color:var(--muted);font-size:14px;margin-top:8px}.day-card em{display:inline-block;margin-top:18px;color:var(--gold-deep);font-style:normal;font-weight:800}
-.day-hero{padding:34px;border-radius:34px;background:rgba(255,250,243,.86);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr auto;align-items:center;gap:22px}.day-hero h2{font-size:48px;letter-spacing:-.03em}.day-hero h3{font-family:var(--sans);font-size:22px;font-weight:650;color:var(--gold-deep);margin-top:4px}.block{margin-top:24px}.block>h3{font-size:30px;margin-bottom:14px}.glance-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.glance-card{min-height:118px;background:rgba(255,250,243,.88);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 10px 28px rgba(77,55,30,.06)}.gicon{font-size:28px;margin-bottom:10px}.glance-card b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}.glance-card span{display:block;font-size:16px;margin-top:4px;font-weight:700}.today,.around,.final-card{background:rgba(255,250,243,.88);border:1px solid var(--line);border-radius:30px;padding:26px;box-shadow:0 12px 32px rgba(77,55,30,.06)}.today p{font-size:18px;color:#4c4036;margin:0}.timeline{display:grid;gap:10px}.timeline-row{background:rgba(255,250,243,.9);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;grid-template-columns:150px 18px 1fr;gap:14px;align-items:start}.time{font-family:var(--font);color:var(--gold-deep);font-weight:800}.dot{width:10px;height:10px;border-radius:50%;background:var(--gold);margin-top:9px;box-shadow:0 0 0 5px rgba(184,150,94,.13)}.tl-body h4,.activity h4{margin:0;font-size:18px}.tl-body p,.activity p{margin:6px 0 0;color:var(--muted)}.activity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.activity{background:rgba(255,250,243,.9);border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:0 12px 32px rgba(77,55,30,.07)}.activity-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.activity-head span{font-size:12px;color:var(--gold-deep);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.meta{font-size:13px;color:var(--gold-deep);font-weight:800;margin-top:4px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.chips span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.48);font-size:12px;font-weight:800;color:var(--muted)}.reaction{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 12px}.reaction button,.comment-actions button,.mini-actions button{border:1px solid var(--line);background:#fffaf3;border-radius:999px;padding:9px 12px;font-weight:750;cursor:pointer}.reaction button.selected{background:var(--gold-deep);color:white}textarea{width:100%;min-height:82px;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.58);font-family:var(--sans);resize:vertical;color:var(--ink)}textarea[readonly]{background:rgba(255,250,243,.75)}.comment-actions{display:flex;align-items:center;gap:8px;margin-top:10px}.comment-actions span{color:var(--gold-deep);font-size:13px;font-weight:800}.muted{color:var(--muted);margin-top:-8px}.prompt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.prompt-grid div{border:1px solid var(--line);border-radius:20px;padding:14px;background:rgba(255,255,255,.45)}.prompt-grid b{display:block;color:var(--gold-deep)}.prompt-grid span{font-size:13px;color:var(--muted)}.friend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}.friend-note{background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:22px;padding:16px}.friend-note strong{display:block;margin-bottom:10px}.mini-actions{display:flex;gap:6px;margin-bottom:10px}.mini-actions button{font-size:12px;padding:7px 9px}.bottom-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.summary-grid div{border:1px solid var(--line);border-radius:22px;padding:18px;background:rgba(255,255,255,.48)}
+.day-hero{padding:34px;border-radius:34px;background:rgba(255,250,243,.86);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr auto;align-items:center;gap:22px}.day-hero h2{font-size:48px;letter-spacing:-.03em}.day-hero h3{font-family:var(--sans);font-size:22px;font-weight:650;color:var(--gold-deep);margin-top:4px}.block{margin-top:24px}.block>h3{font-size:30px;margin-bottom:14px}.glance-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.glance-card{min-height:118px;background:rgba(255,250,243,.88);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 10px 28px rgba(77,55,30,.06)}.gicon{font-size:28px;margin-bottom:10px}.glance-card b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}.glance-card span{display:block;font-size:16px;margin-top:4px;font-weight:700}.today,.around,.final-card{background:rgba(255,250,243,.88);border:1px solid var(--line);border-radius:30px;padding:26px;box-shadow:0 12px 32px rgba(77,55,30,.06)}.today p{font-size:18px;color:#4c4036;margin:0}.timeline{display:grid;gap:10px}.timeline-row{background:rgba(255,250,243,.9);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;grid-template-columns:150px 18px 1fr;gap:14px;align-items:start}.time{font-family:var(--font);color:var(--gold-deep);font-weight:800}.dot{width:10px;height:10px;border-radius:50%;background:var(--gold);margin-top:9px;box-shadow:0 0 0 5px rgba(184,150,94,.13)}.tl-body h4,.activity h4{margin:0;font-size:18px}.tl-body p,.activity p{margin:6px 0 0;color:var(--muted)}.activity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.activity{background:rgba(255,250,243,.9);border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:0 12px 32px rgba(77,55,30,.07)}.activity-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.activity-head span{font-size:12px;color:var(--gold-deep);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.meta{font-size:13px;color:var(--gold-deep);font-weight:800;margin-top:4px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.chips span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.48);font-size:12px;font-weight:800;color:var(--muted)}.reaction{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 12px}.reaction button,.comment-actions button,.mini-actions button{border:1px solid var(--line);background:#fffaf3;border-radius:999px;padding:9px 12px;font-weight:750;cursor:pointer}.reaction button.selected{background:var(--gold-deep);color:white}textarea{width:100%;min-height:82px;border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.58);font-family:var(--sans);resize:vertical;color:var(--ink)}textarea[readonly]{background:rgba(255,250,243,.75)}.comment-actions{display:flex;align-items:center;gap:8px;margin-top:10px}.comment-actions span{color:var(--gold-deep);font-size:13px;font-weight:800}
+/* Build 10.2.2: saved comment becomes read-only review block */
+.comment-box.is-saved textarea, [data-day-wrap].is-saved > textarea, [data-overall-review].is-saved > textarea{display:none}
+.saved-review-view{border:1px solid rgba(142,111,63,.22);border-radius:20px;background:rgba(255,250,243,.78);padding:14px 16px;margin-top:10px;box-shadow:0 8px 22px rgba(77,55,30,.05)}
+.saved-review-view p{margin:0;color:var(--ink);white-space:pre-wrap;line-height:1.5}
+.saved-review-view small{display:block;margin-top:8px;color:var(--gold-deep);font-weight:800}
+.sync-pill.online{background:rgba(184,150,94,.16);color:var(--gold-deep)}
+.muted{color:var(--muted);margin-top:-8px}.prompt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.prompt-grid div{border:1px solid var(--line);border-radius:20px;padding:14px;background:rgba(255,255,255,.45)}.prompt-grid b{display:block;color:var(--gold-deep)}.prompt-grid span{font-size:13px;color:var(--muted)}.friend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}.friend-note{background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:22px;padding:16px}.friend-note strong{display:block;margin-bottom:10px}.mini-actions{display:flex;gap:6px;margin-bottom:10px}.mini-actions button{font-size:12px;padding:7px 9px}.bottom-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.summary-grid div{border:1px solid var(--line);border-radius:22px;padding:18px;background:rgba(255,255,255,.48)}
 @media(max-width:980px){.hero-card{grid-template-columns:1fr;padding:34px}.seal{min-height:220px}.dashboard-grid{grid-template-columns:repeat(2,1fr)}.glance-grid{grid-template-columns:repeat(2,1fr)}.activity-grid{grid-template-columns:1fr}.friend-grid{grid-template-columns:repeat(2,1fr)}.prompt-grid{grid-template-columns:1fr}.timeline-row{grid-template-columns:1fr;gap:6px}.dot{display:none}}
 @media(max-width:640px){.header-inner{align-items:flex-start;flex-direction:column}.topnav{overflow-x:auto;flex-wrap:nowrap;width:100%;justify-content:flex-start;padding-bottom:4px}.topnav button{white-space:nowrap}.page{padding-top:26px}.day-hero{grid-template-columns:1fr}.seal.small{justify-self:start}.dashboard-grid,.glance-grid,.friend-grid,.summary-grid{grid-template-columns:1fr}.bottom-nav{flex-direction:column}.bottom-nav button{width:100%}}
 
@@ -510,7 +517,7 @@ button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],
   <div class="supabase-status">
     <div>
       <b>Sync Preparation</b>
-      <p class="muted" style="margin:4px 0 0">Build 10.2.1 已接 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
+      <p class="muted" style="margin:4px 0 0">Build 10.2.2 已接 Supabase comment sync + read-only comments + realtime foundation。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
     </div>
     <span class="sync-pill" data-sync-status>Offline mode</span>
   </div>
@@ -1156,6 +1163,7 @@ const CCMV_SUPABASE={
 };
 let supabaseClient=null;
 let supabaseReady=false;
+let supabaseChannel=null;
 function isSupabaseConfigured(){return Boolean(CCMV_SUPABASE.url && CCMV_SUPABASE.anonKey && CCMV_SUPABASE.url.startsWith('https://'));}
 function setSyncStatus(text,mode='offline'){
   const el=document.querySelector('[data-sync-status]');
@@ -1203,7 +1211,7 @@ async function loadSupabaseReviews(){
   (data||[]).forEach(applyRemoteReview);
 }
 async function upsertSupabaseReview(kind,id,{reaction=null,comment=null}={}){
-  if(!supabaseReady || !supabaseClient) return;
+  if(!supabaseReady || !supabaseClient) return false;
   const item_id=remoteItemId(kind,id);
   try{
     setSyncStatus('Syncing…','warn');
@@ -1219,11 +1227,36 @@ async function upsertSupabaseReview(kind,id,{reaction=null,comment=null}={}){
       .from(CCMV_SUPABASE.table)
       .upsert(payload,{onConflict:'trip_id,item_id,reviewer'});
     if(error) throw error;
-    setSyncStatus('Supabase synced','online');
+    setSyncStatus('✓ Supabase synced','online');
+    return true;
   }catch(err){
     console.warn('CCMV Supabase sync failed:',err);
     setSyncStatus('Saved offline · sync failed','warn');
+    return false;
   }
+}
+
+function subscribeSupabaseRealtime(){
+  if(!supabaseReady || !supabaseClient || supabaseChannel) return;
+  try{
+    supabaseChannel=supabaseClient
+      .channel('ccmv-planner-reviews')
+      .on('postgres_changes',{event:'*',schema:'public',table:CCMV_SUPABASE.table,filter:`trip_id=eq.${CCMV_SUPABASE.planId}`},payload=>{
+        if(payload.new) applyRemoteReview(payload.new);
+        renderAll();
+        setSyncStatus('✓ Realtime updated','online');
+      })
+      .subscribe(status=>{
+        if(status==='SUBSCRIBED') setSyncStatus('Supabase connected · realtime on','online');
+      });
+  }catch(err){
+    console.warn('CCMV realtime setup failed:',err);
+  }
+}
+function syncNoteKey(kind,id,person=currentReviewer){return `ccmv10:sync-note:${kind}:${id}:${person}`;}
+function setSyncNote(kind,id,text,person=currentReviewer){
+  const key=syncNoteKey(kind,id,person);
+  if(text) localStorage.setItem(key,text); else localStorage.removeItem(key);
 }
 async function initSupabaseReadiness(){
   if(!isSupabaseConfigured()){setSyncStatus('Offline mode · localStorage active'); return;}
@@ -1236,7 +1269,8 @@ async function initSupabaseReadiness(){
     supabaseReady=true;
     await loadSupabaseReviews();
     renderAll();
-    setSyncStatus('Supabase connected · comments sync on','online');
+    subscribeSupabaseRealtime();
+    setSyncStatus('Supabase connected · realtime on','online');
   }catch(err){
     console.warn('CCMV Supabase readiness failed:',err);
     setSyncStatus('Offline fallback · Supabase unavailable','warn');
@@ -1296,7 +1330,7 @@ function ensureCommentControls(box,kind='activity'){
   if(kind!=='activity' && !actions.querySelector('[data-clear]')){ const b=document.createElement('button'); b.textContent='Clear'; b.setAttribute('data-clear',''); actions.insertBefore(b, actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||null); }
   if(!actions.querySelector('[data-status]') && !actions.querySelector('[data-wrap-note]') && !actions.querySelector('[data-overall-note]')){ const s=document.createElement('span'); s.setAttribute('data-status',''); actions.appendChild(s); }
 }
-function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeholderSaved}){
+function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeholderSaved,syncNote}){
   ensureCommentControls(box, box.closest('[data-day-wrap]')?'wrap':box.closest('[data-overall-review]')?'overall':'activity');
   const ta=box.querySelector('textarea');
   const save=box.querySelector(saveSelector);
@@ -1305,17 +1339,28 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
   const clear=box.querySelector('[data-clear]');
   const status=box.querySelector(statusSelector)||box.querySelector('[data-status]');
   const isEditing=box.dataset.editing==='true';
+  let view=box.querySelector('.saved-review-view');
+  if(!view){
+    view=document.createElement('div');
+    view.className='saved-review-view';
+    ta.insertAdjacentElement('afterend',view);
+  }
   if(document.activeElement!==ta) ta.value=saved||'';
   ta.dataset.original=saved||'';
   if(saved && !isEditing){
+    box.classList.add('is-saved');
     ta.readOnly=true;
     ta.placeholder=placeholderSaved||'Saved comment';
+    view.hidden=false;
+    view.innerHTML=`<p>${esc(saved)}</p><small>${syncNote|| (editedAt?`Last edited ${editedAt}`:`Saved for ${reviewers[currentReviewer]}`)}</small>`;
     save.hidden=true;
     edit.hidden=false;
     cancel.hidden=true;
     if(clear) clear.hidden=false;
-    if(status) status.textContent=editedAt?`Last edited ${editedAt}`:`Saved for ${reviewers[currentReviewer]}`;
+    if(status) status.textContent='';
   }else{
+    box.classList.remove('is-saved');
+    view.hidden=true;
     ta.readOnly=false;
     save.hidden=false;
     save.textContent=saved?'Update':'Save';
@@ -1387,7 +1432,7 @@ function renderActivity(card){
   const box=card.querySelector('.comment-box');
   const saved=localStorage.getItem(reviewKey('comment',id));
   const editedAt=localStorage.getItem(reviewKey('comment-edited',id));
-  if(box) setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改'});
+  if(box) setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('activity',id))});
   let badge=card.querySelector('[data-approval-badge]');
   if(!badge){ badge=document.createElement('div'); badge.setAttribute('data-approval-badge',''); badge.className='review-badge'; const reactionBox=card.querySelector('.reaction'); if(reactionBox) reactionBox.insertAdjacentElement('afterend',badge); }
   const keepCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))==='keep').length;
@@ -1414,7 +1459,7 @@ function renderWrap(box){
   box.querySelectorAll('[data-wrap-status]').forEach(b=>b.classList.toggle('selected',b.dataset.wrapStatus===statusValue));
   const saved=localStorage.getItem(reviewKey('wrap-comment',day));
   const editedAt=localStorage.getItem(reviewKey('wrap-comment-edited',day));
-  setupCommentBox(box,{saved,editedAt,saveSelector:'[data-wrap-save]',statusSelector:'[data-wrap-note]',placeholderSaved:'Saved day wrap-up / 已儲存，可按 Edit 修改'});
+  setupCommentBox(box,{saved,editedAt,saveSelector:'[data-wrap-save]',statusSelector:'[data-wrap-note]',placeholderSaved:'Saved day wrap-up / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('wrap',day))});
 }
 function renderDashboard(){
   renderFilter();
@@ -1471,7 +1516,7 @@ function renderOverall(){
   box.querySelectorAll('[data-overall-status]').forEach(b=>b.classList.toggle('selected',b.dataset.overallStatus===statusValue));
   const saved=localStorage.getItem(reviewKey('overall-comment',id));
   const editedAt=localStorage.getItem(reviewKey('overall-comment-edited',id));
-  setupCommentBox(box,{saved,editedAt,saveSelector:'[data-overall-save]',statusSelector:'[data-overall-note]',placeholderSaved:'Saved overall comment / 已儲存，可按 Edit 修改'});
+  setupCommentBox(box,{saved,editedAt,saveSelector:'[data-overall-save]',statusSelector:'[data-overall-note]',placeholderSaved:'Saved overall comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('overall',id))});
   const thread=box.querySelector('[data-overall-thread]');
   if(thread){
     const items=reviewerNames.map(name=>{
@@ -1486,34 +1531,43 @@ function renderOverall(){
   }
 }
 function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
-function saveActivity(card){
+async function saveActivity(card){
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(reviewKey('reaction',id));
   localStorage.setItem(reviewKey('comment',id),comment);
   localStorage.setItem(reviewKey('comment-edited',id),stamp());
-  upsertSupabaseReview('activity',id,{reaction,comment});
+  setSyncNote('activity',id,'✓ Saved locally · syncing…');
   delete box.dataset.editing; renderAll();
+  const ok=await upsertSupabaseReview('activity',id,{reaction,comment});
+  setSyncNote('activity',id,ok?'✓ Synced to Supabase':'✓ Saved offline');
+  renderAll();
 }
-function saveWrap(box){
+async function saveWrap(box){
   const id=box.dataset.dayWrap, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(reviewKey('wrap-status',id));
   localStorage.setItem(reviewKey('wrap-comment',id),comment);
   localStorage.setItem(reviewKey('wrap-comment-edited',id),stamp());
-  upsertSupabaseReview('wrap',id,{reaction,comment});
+  setSyncNote('wrap',id,'✓ Saved locally · syncing…');
   delete box.dataset.editing; renderAll();
+  const ok=await upsertSupabaseReview('wrap',id,{reaction,comment});
+  setSyncNote('wrap',id,ok?'✓ Synced to Supabase':'✓ Saved offline');
+  renderAll();
 }
-function saveOverall(box){
+async function saveOverall(box){
   const id=box.dataset.overallReview, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(reviewKey('overall-status',id));
   localStorage.setItem(reviewKey('overall-comment',id),comment);
   localStorage.setItem(reviewKey('overall-comment-edited',id),stamp());
-  upsertSupabaseReview('overall',id,{reaction,comment});
+  setSyncNote('overall',id,'✓ Saved locally · syncing…');
   delete box.dataset.editing; renderAll();
+  const ok=await upsertSupabaseReview('overall',id,{reaction,comment});
+  setSyncNote('overall',id,ok?'✓ Synced to Supabase':'✓ Saved offline');
+  renderAll();
 }
-document.addEventListener('click',e=>{
+document.addEventListener('click',async e=>{
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
   const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); return; }
   const filter=e.target.closest('[data-filter-reviewer]'); if(filter){ currentFilter=filter.dataset.filterReviewer; localStorage.setItem('ccmv:reviewFilter',currentFilter); renderAll(); return; }
@@ -1523,7 +1577,7 @@ document.addEventListener('click',e=>{
   if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]'); delete box.dataset.editing; renderAll(); return; }
   const rb=e.target.closest('[data-reaction]');
   if(rb){ const card=rb.closest('.activity'); const id=safeCardKey(card); localStorage.setItem(reviewKey('reaction',id),rb.dataset.reaction); upsertSupabaseReview('activity',id,{reaction:rb.dataset.reaction,comment:localStorage.getItem(reviewKey('comment',id))||''}); renderAll(); return; }
-  const save=e.target.closest('[data-save]'); if(save){ saveActivity(save.closest('.activity')); return; }
+  const save=e.target.closest('[data-save]'); if(save){ await saveActivity(save.closest('.activity')); return; }
   const clear=e.target.closest('[data-clear]');
   if(clear){
     const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
@@ -1534,10 +1588,10 @@ document.addEventListener('click',e=>{
   }
   const wrap=e.target.closest('[data-wrap-status]');
   if(wrap){ const box=wrap.closest('[data-day-wrap]'); const id=box.dataset.dayWrap; localStorage.setItem(reviewKey('wrap-status',id),wrap.dataset.wrapStatus); upsertSupabaseReview('wrap',id,{reaction:wrap.dataset.wrapStatus,comment:localStorage.getItem(reviewKey('wrap-comment',id))||''}); renderAll(); return; }
-  const wrapSave=e.target.closest('[data-wrap-save]'); if(wrapSave){ saveWrap(wrapSave.closest('[data-day-wrap]')); return; }
+  const wrapSave=e.target.closest('[data-wrap-save]'); if(wrapSave){ await saveWrap(wrapSave.closest('[data-day-wrap]')); return; }
   const overall=e.target.closest('[data-overall-status]');
   if(overall){ const box=overall.closest('[data-overall-review]'); const id=box.dataset.overallReview; localStorage.setItem(reviewKey('overall-status',id),overall.dataset.overallStatus); upsertSupabaseReview('overall',id,{reaction:overall.dataset.overallStatus,comment:localStorage.getItem(reviewKey('overall-comment',id))||''}); renderAll(); return; }
-  const overallSave=e.target.closest('[data-overall-save]'); if(overallSave){ saveOverall(overallSave.closest('[data-overall-review]')); return; }
+  const overallSave=e.target.closest('[data-overall-save]'); if(overallSave){ await saveOverall(overallSave.closest('[data-overall-review]')); return; }
 });
 document.addEventListener('input',e=>{
   const ta=e.target.closest('textarea'); if(!ta) return;
