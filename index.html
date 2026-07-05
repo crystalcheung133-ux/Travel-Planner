@@ -298,7 +298,7 @@ body::before {
 /* Build 09.4 · UX Polish */
 .dashboard-summary{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin:14px 0}.summary-card{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.62);padding:14px;font-family:var(--sans)}.summary-card strong{display:block;font-family:var(--font);font-size:30px;line-height:1}.summary-card span{font-size:12px;color:var(--muted)}.summary-card .mini{margin-top:7px;font-size:13px;color:var(--ink)}
 .review-filter{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}.review-filter button{border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;padding:7px 11px;font-family:var(--sans);font-size:13px;color:var(--ink);cursor:pointer}.review-filter button.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.progress-breakdown{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}.progress-breakdown span{border-radius:999px;background:rgba(142,111,63,.10);padding:5px 7px;text-align:center;color:var(--ink);font-size:11px}.review-badge{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(255,250,243,.70);font-family:var(--sans);font-size:12px;color:var(--muted)}.review-badge.approved{background:rgba(142,111,63,.13);color:var(--ink);border-color:rgba(142,111,63,.28);font-weight:700}.thread-item.filtered-out{display:none}.pending-list{margin-top:10px;display:grid;gap:6px}.pending-pill{font-family:var(--sans);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.55);color:var(--muted)}
+.progress-breakdown{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}.progress-breakdown span{border-radius:999px;background:rgba(142,111,63,.10);padding:5px 7px;text-align:center;color:var(--ink);font-size:11px}.review-badge{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:rgba(255,250,243,.70);font-family:var(--sans);font-size:12px;color:var(--muted)}.review-badge.approved{background:rgba(142,111,63,.13);color:var(--ink);border-color:rgba(142,111,63,.28);font-weight:700}.thread-item.filtered-out{display:none}.pending-list{margin-top:10px;display:grid;gap:6px}.pending-pill{font-family:var(--sans);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.55);color:var(--muted)}.data-engine-note code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:rgba(142,111,63,.12);border-radius:8px;padding:2px 6px}
 
 .supabase-panel{margin:14px 0 16px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.58);padding:14px;font-family:var(--sans)}
 .supabase-status{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -343,6 +343,42 @@ body::before {
   .home-hero-slim h1{font-size:38px}
 }
 
+
+
+/* Build 10.1.2 — Companion alignment + lighter review UX */
+body{background:var(--cream);color:var(--ink);font-family:var(--sans)}
+h1,h2,h3,.brand b{font-family:var(--font)}
+.logo{background-size:contain;background-repeat:no-repeat;background-position:center;background-color:rgba(255,250,243,.42);border:1px solid var(--line);box-shadow:0 8px 26px rgba(77,55,30,.08)}
+header{background:rgba(247,240,230,.9)}
+.reviewer-bar{position:sticky;top:91px;z-index:19;background:rgba(247,240,230,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.reviewer-inner{gap:10px}
+.reviewer-pill{background:rgba(142,111,63,.10);border-color:rgba(142,111,63,.26);color:var(--gold-deep);font-weight:800}
+.reviewer-pill.selected{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--paper)}
+.sticky-progress{font-size:12px;font-weight:800;color:var(--gold-deep);background:rgba(255,250,243,.82);border:1px solid var(--line);border-radius:999px;padding:8px 12px;white-space:nowrap;box-shadow:0 6px 18px rgba(77,55,30,.05)}
+.activity{padding:20px}
+.activity-head span{background:rgba(142,111,63,.10);border:1px solid rgba(142,111,63,.18);padding:6px 9px;border-radius:999px;color:var(--gold-deep)}
+.activity .reaction{margin-top:14px;margin-bottom:8px}
+.reaction button{min-width:102px;background:rgba(255,250,243,.94)}
+.reaction button.selected{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--paper);box-shadow:0 8px 18px rgba(142,111,63,.18)}
+.comment-box{margin-top:10px}
+.comment-actions button[data-save],.comment-actions button[data-wrap-save],.comment-actions button[data-overall-save]{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--paper)}
+.comment-actions button:disabled{opacity:.48;cursor:not-allowed}
+.why-toggle{margin:10px 0 0;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.38);padding:0;overflow:hidden}
+.why-toggle summary{cursor:pointer;list-style:none;padding:10px 12px;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
+.why-toggle summary::-webkit-details-marker{display:none}
+.why-toggle summary::after{content:' +';float:right;font-size:14px}
+.why-toggle[open] summary::after{content:' –'}
+.why-toggle .why-body{padding:0 12px 12px;color:var(--muted)}
+.why-toggle .why-body p{margin:0 0 10px;font-size:14px;line-height:1.55}
+.why-toggle .chips{margin-top:8px}
+.progress-panel{scroll-margin-top:160px}
+.dashboard-summary .pending-list{display:none}
+@media(max-width:760px){
+  .header-inner{padding:10px 0;gap:10px}.brand b{font-size:18px}.brand span{font-size:10px}.logo{width:46px;height:46px;border-radius:16px}
+  .reviewer-bar{top:78px}.reviewer-inner{display:grid;grid-template-columns:1fr;gap:8px}.sticky-progress{white-space:normal;line-height:1.35}
+  .reaction{display:grid;grid-template-columns:1fr 1fr 1fr}.reaction button{min-width:0;padding:10px 6px;font-size:13px}
+}
+
 </style>
 </head>
 <body>
@@ -364,6 +400,7 @@ body::before {
 <button class="reviewer-pill" data-reviewer="Mero">✝️ Mero</button>
 <button class="reviewer-pill" data-reviewer="Vivian">👟 Vivian</button>
 </div>
+<div class="sticky-progress" data-sticky-progress>Progress loading…</div>
 </div>
 </div>
 </header>
@@ -386,7 +423,7 @@ body::before {
 <div class="progress-panel cardmark" id="progressDashboard">
 <p class="eyebrow">Build 09.4 · Review Progress</p>
 <h3>Progress Dashboard</h3>
-<p class="muted">每位媽媽按活動選 Keep / Discuss / Replace，再在每日 Day Wrap-up 完成總結。Dashboard 會即時用此裝置嘅 review data 更新。</p>
+<p class="muted">每位媽媽按活動直接揀 Keep / Discuss / Replace 會即時儲存；comment 先需要按 Save。Dashboard 會即時顯示整體進度。</p>
 
 <div class="supabase-panel" data-supabase-panel>
   <div class="supabase-status">
@@ -432,6 +469,7 @@ using (true)
 with check (true);</pre>
   </details>
 </div>
+<div class="summary-card data-engine-note"><strong>Trip Data Engine</strong><span>Content source: <code>trip-data.js</code></span><div class="mini">Build 10.1.3 separates trip itinerary / review items from the approved planner UI. Next trip = replace the data object, not the design.</div></div>
 <div class="dashboard-summary" data-dashboard-summary></div>
 <div class="review-filter" aria-label="Review filter" data-review-filter>
 <button data-filter-reviewer="All">All</button>
@@ -1033,7 +1071,7 @@ with check (true);</pre>
 const CCMV_SUPABASE={
   url:'',
   anonKey:'',
-  planId:'ccmv-saigon-2026'
+  planId:tripData.planId||'ccmv-saigon-2026'
 };
 let supabaseClient=null;
 function isSupabaseConfigured(){return Boolean(CCMV_SUPABASE.url && CCMV_SUPABASE.anonKey && CCMV_SUPABASE.url.startsWith('https://'));}
@@ -1058,7 +1096,7 @@ async function initSupabaseReadiness(){
     setSyncStatus('Offline fallback · Supabase unavailable','warn');
   }
 }
-const reviewers={Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'};
+const reviewers=(tripData.reviewers||[]).reduce((acc,r)=>{acc[r.id]=`${r.emoji} ${r.name}`;return acc;}, {Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'});
 const reviewerNames=Object.keys(reviewers);
 let currentReviewer=localStorage.getItem('ccmv:reviewer')||'Crystal';
 let currentFilter=localStorage.getItem('ccmv:reviewFilter')||'All';
@@ -1113,13 +1151,20 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
     if(status) status.textContent=saved?'Editing saved comment':'Not saved yet';
   }
 }
+function forcePageTop(){
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
+  window.scrollTo({top:0,left:0,behavior:'auto'});
+}
 function showPage(id){
   pages.forEach(p=>p.classList.toggle('active',p.id===id));
   document.querySelectorAll('.topnav button').forEach(b=>b.classList.toggle('active',b.dataset.open===id));
   renderAll();
-  window.scrollTo(0,0);
-  requestAnimationFrame(()=>window.scrollTo(0,0));
   if(location.hash.replace('#','')!==id) history.replaceState(null,'','#'+id);
+  forcePageTop();
+  requestAnimationFrame(forcePageTop);
+  setTimeout(forcePageTop,60);
+  setTimeout(forcePageTop,180);
 }
 function setReviewer(name){
   currentReviewer=reviewers[name]?name:'Crystal';
@@ -1136,6 +1181,31 @@ function reactionIcon(r){return ({keep:'🟢',discuss:'🟡',replace:'🔴'}[r]|
 function cardTitle(card){return (card.querySelector('h4')?.textContent||'Review item').trim();}
 function filterAllows(name){return currentFilter==='All'||currentFilter===name;}
 function renderFilter(){document.querySelectorAll('[data-filter-reviewer]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.filterReviewer===currentFilter));}
+function setupCollapsibleWhy(){
+  document.querySelectorAll('.activity').forEach(card=>{
+    if(card.querySelector('.why-toggle')) return;
+    const p=[...card.children].find(el=>el.tagName==='P');
+    const chips=[...card.children].find(el=>el.classList?.contains('chips'));
+    const reaction=card.querySelector('.reaction');
+    if(!p || !reaction) return;
+    const details=document.createElement('details');
+    details.className='why-toggle';
+    const summary=document.createElement('summary');
+    summary.textContent='Why this plan';
+    const body=document.createElement('div');
+    body.className='why-body';
+    body.appendChild(p);
+    if(chips) body.appendChild(chips);
+    details.appendChild(summary);
+    details.appendChild(body);
+    reaction.parentNode.insertBefore(details,reaction);
+  });
+}
+function dayLabelFor(el){
+  const page=el.closest('.page');
+  return page?.id?.replace('day','Day ') || 'Plan';
+}
+
 function renderActivity(card){
   const id=safeCardKey(card);
   card.querySelectorAll('[data-reaction]').forEach(b=>b.classList.toggle('selected',localStorage.getItem(reviewKey('reaction',id))===b.dataset.reaction));
@@ -1187,8 +1257,16 @@ function renderDashboard(){
   const keep=allReactions.filter(r=>r==='keep').length, discuss=allReactions.filter(r=>r==='discuss').length, replace=allReactions.filter(r=>r==='replace').length;
   const approved=cards.filter(c=>reviewerNames.every(name=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='keep')).length;
   const pending=cards.filter(c=>reviewerNames.some(name=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)))).slice(0,4);
+  const sticky=document.querySelector('[data-sticky-progress]');
+  if(sticky){
+    const openPeople=reviewerNames.map(name=>{
+      const missingDays=[...new Set(cards.filter(c=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))).map(dayLabelFor))];
+      return missingDays.length?`${reviewers[name]}: ${missingDays.slice(0,2).join(', ')}${missingDays.length>2?'…':''}`:'';
+    }).filter(Boolean);
+    sticky.textContent=openPeople.length?`Progress ${pct}% · Pending ${openPeople[0]}${openPeople.length>1?' · +'+(openPeople.length-1)+' more':''}`:`Progress ${pct}% · All reactions done`;
+  }
   if(summary){
-    summary.innerHTML=`<div class="summary-card"><strong>${pct}%</strong><span>Overall ready score</span><div class="mini">${done}/${totalPossible} review steps completed · ${approved}/${cards.length} items fully approved</div><div class="progress-meter"><i style="width:${pct}%"></i></div></div><div class="summary-card"><strong>${allReactions.length}</strong><span>Total item reviews</span><div class="progress-breakdown"><span>🟢 ${keep} Keep</span><span>🟡 ${discuss} Discuss</span><span>🔴 ${replace} Replace</span></div>${pending.length?`<div class="pending-list">${pending.map(c=>`<div class="pending-pill">Pending · ${esc(cardTitle(c))}</div>`).join('')}</div>`:`<div class="mini">All review items have at least one response.</div>`}</div>`;
+    summary.innerHTML=`<div class="summary-card"><strong>${pct}%</strong><span>Overall ready score</span><div class="mini">${done}/${totalPossible} review steps completed · ${approved}/${cards.length} items fully approved</div><div class="progress-meter"><i style="width:${pct}%"></i></div></div><div class="summary-card"><strong>${allReactions.length}</strong><span>Total item reviews</span><div class="progress-breakdown"><span>🟢 ${keep} Keep</span><span>🟡 ${discuss} Discuss</span><span>🔴 ${replace} Replace</span></div>${pending.length?`<div class="mini">${pending.length} item groups still need responses.</div>`:`<div class="mini">All review items have at least one response.</div>`}</div>`;
   }
   if(!grid) return;
   grid.innerHTML=reviewerNames.map(name=>{
@@ -1206,14 +1284,16 @@ function renderFinal(){
   const list=document.querySelector('[data-final-review-list]');
   if(!list) return;
   const days=[...document.querySelectorAll('[data-day-wrap]')].map(w=>w.dataset.dayWrap);
-  list.innerHTML=days.map(day=>{
+  const items=days.map(day=>{
     const rows=reviewerNames.map(name=>{
       const st=localStorage.getItem(reviewKey('wrap-status',day,name));
       const cm=localStorage.getItem(reviewKey('wrap-comment',day,name));
-      return `<div><small>${reviewers[name]}</small> ${st?`<b>${st}</b>`:'<span class="muted">not reviewed</span>'}${cm?` — ${esc(cm)}`:''}</div>`;
-    }).join('');
-    return `<div class="final-review-item"><b>${day.toUpperCase()}</b>${rows}</div>`;
-  }).join('');
+      if(!st && !cm) return '';
+      return `<div><small>${reviewers[name]}</small> ${st?`<b>${st}</b>`:'<b>Comment</b>'}${cm?` — ${esc(cm)}`:''}</div>`;
+    }).filter(Boolean).join('');
+    return rows?`<div class="final-review-item"><b>${day.toUpperCase()}</b>${rows}</div>`:'';
+  }).filter(Boolean).join('');
+  list.innerHTML=items||`<div class="final-review-item"><b>Day Wrap-up Summary</b><div class="muted">Submitted day summaries will appear here.</div></div>`;
 }
 function renderOverall(){
   const box=document.querySelector('[data-overall-review]');
@@ -1238,7 +1318,7 @@ function renderOverall(){
     thread.innerHTML=items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>';
   }
 }
-function renderAll(){renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
+function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
 function saveActivity(card){
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
   localStorage.setItem(reviewKey('comment',id),ta.value.trim());
@@ -1289,7 +1369,15 @@ document.addEventListener('input',e=>{
   const save=box?.querySelector('[data-save],[data-wrap-save],[data-overall-save]');
   if(save && ta.dataset.original!==undefined) save.disabled=ta.value.trim()===ta.dataset.original.trim();
 });
+function initTripDataBindings(){
+  if(!tripData.title) return;
+  document.querySelector('.brand b').textContent=tripData.title;
+  document.querySelector('.brand span').textContent=tripData.subtitle||tripData.destination||'';
+}
+initTripDataBindings();
 showPage(location.hash?location.hash.replace('#',''):'home');
+window.addEventListener('load',forcePageTop);
+window.addEventListener('hashchange',()=>showPage(location.hash?location.hash.replace('#',''):'home'));
 initSupabaseReadiness();
 </script>
 </body>
