@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ccmv-planner-v10-1-9-pwa-brand-icon';
+const CACHE_NAME = 'ccmv-planner-v10-2-1-supabase-sync';
 const APP_SHELL = [
   './',
   './index.html',

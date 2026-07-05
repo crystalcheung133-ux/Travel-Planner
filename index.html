@@ -462,7 +462,6 @@ button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],
 <meta name="apple-mobile-web-app-title" content="CCMV Planner">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="./icon-180.png">
-<link rel="apple-touch-icon-precomposed" href="./apple-touch-icon.png">
 </head>
 <body>
 <header>
@@ -511,7 +510,7 @@ button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],
   <div class="supabase-status">
     <div>
       <b>Sync Preparation</b>
-      <p class="muted" style="margin:4px 0 0">Build 10.1 已加入 Supabase readiness layer。未填 Supabase URL / anon key 時會繼續用 offline localStorage，不會影響 GitHub / Vercel deploy。</p>
+      <p class="muted" style="margin:4px 0 0">Build 10.2.1 已接 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
     </div>
     <span class="sync-pill" data-sync-status>Offline mode</span>
   </div>
@@ -520,33 +519,29 @@ button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],
     <pre class="schema-box">-- CCMV Journey Planner Build 10 schema
 -- Run this once in Supabase SQL Editor before enabling sync.
 
-create table if not exists ccmv_reviews (
-  id text primary key,
-  plan_id text not null default 'ccmv-saigon-2026',
-  review_type text not null check (review_type in ('activity','day_wrap','overall')),
+create table if not exists planner_reviews (
+  id uuid primary key default gen_random_uuid(),
+  trip_id text not null,
   item_id text not null,
-  reviewer text not null check (reviewer in ('Christal','Crystal','Mero','Vivian')),
+  reviewer text not null,
   reaction text check (reaction in ('keep','discuss','replace')),
-  status text,
-  comment text,
-  updated_at timestamptz not null default now()
+  comment text default '',
+  updated_at timestamptz default now(),
+  constraint planner_reviews_unique unique (trip_id, item_id, reviewer)
 );
 
-create index if not exists ccmv_reviews_plan_idx on ccmv_reviews(plan_id);
-create index if not exists ccmv_reviews_item_idx on ccmv_reviews(plan_id, review_type, item_id);
+alter table planner_reviews enable row level security;
 
-alter table ccmv_reviews enable row level security;
-
-create policy "ccmv_reviews_read_all"
-on ccmv_reviews for select
+create policy "Allow public read reviews"
+on planner_reviews for select
 using (true);
 
-create policy "ccmv_reviews_insert_all"
-on ccmv_reviews for insert
+create policy "Allow public insert reviews"
+on planner_reviews for insert
 with check (true);
 
-create policy "ccmv_reviews_update_all"
-on ccmv_reviews for update
+create policy "Allow public update reviews"
+on planner_reviews for update
 using (true)
 with check (true);</pre>
   </details>
@@ -1154,11 +1149,13 @@ with check (true);</pre>
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
 
 const CCMV_SUPABASE={
-  url:'',
-  anonKey:'',
-  planId:tripData.planId||'ccmv-saigon-2026'
+  url:'https://dafgbqygccvctifrevpa.supabase.co',
+  anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhZmdicXlnY2N2Y3RpZnJldnBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTQyOTksImV4cCI6MjA5ODgzMDI5OX0.9dB6WV8BldV6rGze3QuisIaj3qnUV7zSzdo_eGPBbrA',
+  planId:tripData.planId||'ccmv-saigon-2026',
+  table:'planner_reviews'
 };
 let supabaseClient=null;
+let supabaseReady=false;
 function isSupabaseConfigured(){return Boolean(CCMV_SUPABASE.url && CCMV_SUPABASE.anonKey && CCMV_SUPABASE.url.startsWith('https://'));}
 function setSyncStatus(text,mode='offline'){
   const el=document.querySelector('[data-sync-status]');
@@ -1167,15 +1164,79 @@ function setSyncStatus(text,mode='offline'){
   el.className='sync-pill '+(mode==='online'?'online':mode==='warn'?'warn':'');
 }
 function loadScript(src){return new Promise((resolve,reject)=>{const existing=[...document.scripts].find(s=>s.src===src); if(existing) return resolve(); const script=document.createElement('script'); script.src=src; script.onload=resolve; script.onerror=reject; document.head.appendChild(script);});}
+function remoteItemId(kind,id){return kind==='activity'?id:`${kind}:${id}`;}
+function formatRemoteTime(value){
+  if(!value) return stamp();
+  try{return new Date(value).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});}
+  catch(e){return stamp();}
+}
+function applyRemoteReview(row){
+  if(!row || !row.item_id || !row.reviewer) return;
+  const item=String(row.item_id);
+  const person=row.reviewer;
+  const time=formatRemoteTime(row.updated_at);
+  if(item.startsWith('wrap:')){
+    const id=item.replace(/^wrap:/,'');
+    if(row.reaction) localStorage.setItem(reviewKey('wrap-status',id,person),row.reaction);
+    localStorage.setItem(reviewKey('wrap-comment',id,person),row.comment||'');
+    localStorage.setItem(reviewKey('wrap-comment-edited',id,person),time);
+    return;
+  }
+  if(item.startsWith('overall:')){
+    const id=item.replace(/^overall:/,'');
+    if(row.reaction) localStorage.setItem(reviewKey('overall-status',id,person),row.reaction);
+    localStorage.setItem(reviewKey('overall-comment',id,person),row.comment||'');
+    localStorage.setItem(reviewKey('overall-comment-edited',id,person),time);
+    return;
+  }
+  if(row.reaction) localStorage.setItem(reviewKey('reaction',item,person),row.reaction);
+  localStorage.setItem(reviewKey('comment',item,person),row.comment||'');
+  localStorage.setItem(reviewKey('comment-edited',item,person),time);
+}
+async function loadSupabaseReviews(){
+  if(!supabaseClient) return;
+  const {data,error}=await supabaseClient
+    .from(CCMV_SUPABASE.table)
+    .select('trip_id,item_id,reviewer,reaction,comment,updated_at')
+    .eq('trip_id',CCMV_SUPABASE.planId);
+  if(error) throw error;
+  (data||[]).forEach(applyRemoteReview);
+}
+async function upsertSupabaseReview(kind,id,{reaction=null,comment=null}={}){
+  if(!supabaseReady || !supabaseClient) return;
+  const item_id=remoteItemId(kind,id);
+  try{
+    setSyncStatus('Syncing…','warn');
+    const payload={
+      trip_id:CCMV_SUPABASE.planId,
+      item_id,
+      reviewer:currentReviewer,
+      reaction:reaction||null,
+      comment:comment==null?'':comment,
+      updated_at:new Date().toISOString()
+    };
+    const {error}=await supabaseClient
+      .from(CCMV_SUPABASE.table)
+      .upsert(payload,{onConflict:'trip_id,item_id,reviewer'});
+    if(error) throw error;
+    setSyncStatus('Supabase synced','online');
+  }catch(err){
+    console.warn('CCMV Supabase sync failed:',err);
+    setSyncStatus('Saved offline · sync failed','warn');
+  }
+}
 async function initSupabaseReadiness(){
   if(!isSupabaseConfigured()){setSyncStatus('Offline mode · localStorage active'); return;}
   try{
-    setSyncStatus('Checking Supabase…','warn');
+    setSyncStatus('Connecting Supabase…','warn');
     await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
     supabaseClient=window.supabase.createClient(CCMV_SUPABASE.url,CCMV_SUPABASE.anonKey);
-    const {error}=await supabaseClient.from('ccmv_reviews').select('id').eq('plan_id',CCMV_SUPABASE.planId).limit(1);
-    if(error){setSyncStatus('Supabase connected · schema needed','warn'); console.warn('CCMV Supabase schema check:',error.message); return;}
-    setSyncStatus('Supabase ready · offline fallback active','online');
+    const {error}=await supabaseClient.from(CCMV_SUPABASE.table).select('id').eq('trip_id',CCMV_SUPABASE.planId).limit(1);
+    if(error){setSyncStatus('Supabase connected · table/policy issue','warn'); console.warn('CCMV Supabase schema check:',error.message); return;}
+    supabaseReady=true;
+    await loadSupabaseReviews();
+    renderAll();
+    setSyncStatus('Supabase connected · comments sync on','online');
   }catch(err){
     console.warn('CCMV Supabase readiness failed:',err);
     setSyncStatus('Offline fallback · Supabase unavailable','warn');
@@ -1427,20 +1488,29 @@ function renderOverall(){
 function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
 function saveActivity(card){
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
-  localStorage.setItem(reviewKey('comment',id),ta.value.trim());
+  const comment=ta.value.trim();
+  const reaction=localStorage.getItem(reviewKey('reaction',id));
+  localStorage.setItem(reviewKey('comment',id),comment);
   localStorage.setItem(reviewKey('comment-edited',id),stamp());
+  upsertSupabaseReview('activity',id,{reaction,comment});
   delete box.dataset.editing; renderAll();
 }
 function saveWrap(box){
   const id=box.dataset.dayWrap, ta=box.querySelector('textarea');
-  localStorage.setItem(reviewKey('wrap-comment',id),ta.value.trim());
+  const comment=ta.value.trim();
+  const reaction=localStorage.getItem(reviewKey('wrap-status',id));
+  localStorage.setItem(reviewKey('wrap-comment',id),comment);
   localStorage.setItem(reviewKey('wrap-comment-edited',id),stamp());
+  upsertSupabaseReview('wrap',id,{reaction,comment});
   delete box.dataset.editing; renderAll();
 }
 function saveOverall(box){
   const id=box.dataset.overallReview, ta=box.querySelector('textarea');
-  localStorage.setItem(reviewKey('overall-comment',id),ta.value.trim());
+  const comment=ta.value.trim();
+  const reaction=localStorage.getItem(reviewKey('overall-status',id));
+  localStorage.setItem(reviewKey('overall-comment',id),comment);
   localStorage.setItem(reviewKey('overall-comment-edited',id),stamp());
+  upsertSupabaseReview('overall',id,{reaction,comment});
   delete box.dataset.editing; renderAll();
 }
 document.addEventListener('click',e=>{
@@ -1452,21 +1522,21 @@ document.addEventListener('click',e=>{
   const cancel=e.target.closest('[data-cancel]');
   if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]'); delete box.dataset.editing; renderAll(); return; }
   const rb=e.target.closest('[data-reaction]');
-  if(rb){ const card=rb.closest('.activity'); localStorage.setItem(reviewKey('reaction',safeCardKey(card)),rb.dataset.reaction); renderAll(); return; }
+  if(rb){ const card=rb.closest('.activity'); const id=safeCardKey(card); localStorage.setItem(reviewKey('reaction',id),rb.dataset.reaction); upsertSupabaseReview('activity',id,{reaction:rb.dataset.reaction,comment:localStorage.getItem(reviewKey('comment',id))||''}); renderAll(); return; }
   const save=e.target.closest('[data-save]'); if(save){ saveActivity(save.closest('.activity')); return; }
   const clear=e.target.closest('[data-clear]');
   if(clear){
     const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
-    if(activity){ const id=safeCardKey(activity); localStorage.removeItem(reviewKey('comment',id)); localStorage.removeItem(reviewKey('comment-edited',id)); delete activity.querySelector('.comment-box').dataset.editing; }
-    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; localStorage.removeItem(reviewKey('wrap-comment',id)); localStorage.removeItem(reviewKey('wrap-comment-edited',id)); delete wrapBox.dataset.editing; }
-    else if(overallBox){ const id=overallBox.dataset.overallReview; localStorage.removeItem(reviewKey('overall-comment',id)); localStorage.removeItem(reviewKey('overall-comment-edited',id)); delete overallBox.dataset.editing; }
+    if(activity){ const id=safeCardKey(activity); localStorage.removeItem(reviewKey('comment',id)); localStorage.removeItem(reviewKey('comment-edited',id)); upsertSupabaseReview('activity',id,{reaction:localStorage.getItem(reviewKey('reaction',id)),comment:''}); delete activity.querySelector('.comment-box').dataset.editing; }
+    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; localStorage.removeItem(reviewKey('wrap-comment',id)); localStorage.removeItem(reviewKey('wrap-comment-edited',id)); upsertSupabaseReview('wrap',id,{reaction:localStorage.getItem(reviewKey('wrap-status',id)),comment:''}); delete wrapBox.dataset.editing; }
+    else if(overallBox){ const id=overallBox.dataset.overallReview; localStorage.removeItem(reviewKey('overall-comment',id)); localStorage.removeItem(reviewKey('overall-comment-edited',id)); upsertSupabaseReview('overall',id,{reaction:localStorage.getItem(reviewKey('overall-status',id)),comment:''}); delete overallBox.dataset.editing; }
     renderAll(); return;
   }
   const wrap=e.target.closest('[data-wrap-status]');
-  if(wrap){ const box=wrap.closest('[data-day-wrap]'); localStorage.setItem(reviewKey('wrap-status',box.dataset.dayWrap),wrap.dataset.wrapStatus); renderAll(); return; }
+  if(wrap){ const box=wrap.closest('[data-day-wrap]'); const id=box.dataset.dayWrap; localStorage.setItem(reviewKey('wrap-status',id),wrap.dataset.wrapStatus); upsertSupabaseReview('wrap',id,{reaction:wrap.dataset.wrapStatus,comment:localStorage.getItem(reviewKey('wrap-comment',id))||''}); renderAll(); return; }
   const wrapSave=e.target.closest('[data-wrap-save]'); if(wrapSave){ saveWrap(wrapSave.closest('[data-day-wrap]')); return; }
   const overall=e.target.closest('[data-overall-status]');
-  if(overall){ const box=overall.closest('[data-overall-review]'); localStorage.setItem(reviewKey('overall-status',box.dataset.overallReview),overall.dataset.overallStatus); renderAll(); return; }
+  if(overall){ const box=overall.closest('[data-overall-review]'); const id=box.dataset.overallReview; localStorage.setItem(reviewKey('overall-status',id),overall.dataset.overallStatus); upsertSupabaseReview('overall',id,{reaction:overall.dataset.overallStatus,comment:localStorage.getItem(reviewKey('overall-comment',id))||''}); renderAll(); return; }
   const overallSave=e.target.closest('[data-overall-save]'); if(overallSave){ saveOverall(overallSave.closest('[data-overall-review]')); return; }
 });
 document.addEventListener('input',e=>{
