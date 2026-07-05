@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ccmv-planner-v10-2-2-readonly-realtime';
+const CACHE_NAME = 'ccmv-planner-10-2-4';
 const APP_SHELL = [
   './',
   './index.html',
