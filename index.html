@@ -3,7 +3,7 @@
 <html lang="zh-HK">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport"/>
 <title>CCMV Journey Planner</title>
 <style>
 :root{
@@ -524,6 +524,37 @@ textarea,input,select{
   .comment-actions{z-index:1 !important;}
 }
 
+/* Build 10.2.5: iPhone keyboard zoom + clearer per-comment sync labels */
+html,body{
+  -webkit-text-size-adjust:100% !important;
+}
+input,textarea,select{
+  font-size:16px !important;
+  line-height:1.45 !important;
+  -webkit-text-size-adjust:100% !important;
+}
+.comment-actions span:not(:empty){
+  display:inline-flex;
+  align-items:center;
+  min-height:38px;
+  border:1px solid rgba(142,111,63,.22);
+  border-radius:999px;
+  padding:8px 12px;
+  background:rgba(255,250,243,.72);
+  color:var(--gold-deep);
+  font-weight:800;
+}
+.saved-review-view small{
+  display:inline-flex;
+  flex-wrap:wrap;
+  gap:6px;
+  align-items:center;
+}
+@supports (-webkit-touch-callout:none){
+  input,textarea,select{font-size:16px !important;}
+  textarea:focus{font-size:16px !important;}
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -580,7 +611,7 @@ textarea,input,select{
   <div class="supabase-status">
     <div>
       <b>Sync Preparation</b>
-      <p class="muted" style="margin:4px 0 0">Build 10.2.4 已修正 iPhone sticky layer / scroll UX，並保留 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
+      <p class="muted" style="margin:4px 0 0">Build 10.2.5 已修正 iPhone comment zoom / sync label，並保留 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
     </div>
     <span class="sync-pill" data-sync-status>Offline mode</span>
   </div>
@@ -1251,7 +1282,7 @@ function applyRemoteReview(row){
     if(row.reaction) localStorage.setItem(reviewKey('wrap-status',id,person),row.reaction);
     localStorage.setItem(reviewKey('wrap-comment',id,person),row.comment||'');
     localStorage.setItem(reviewKey('wrap-comment-edited',id,person),time);
-    setSyncNote('wrap',id,'✓ Synced to Supabase',person);
+    setSyncNote('wrap',id,'Synced to Supabase',person);
     return;
   }
   if(item.startsWith('overall:')){
@@ -1259,13 +1290,13 @@ function applyRemoteReview(row){
     if(row.reaction) localStorage.setItem(reviewKey('overall-status',id,person),row.reaction);
     localStorage.setItem(reviewKey('overall-comment',id,person),row.comment||'');
     localStorage.setItem(reviewKey('overall-comment-edited',id,person),time);
-    setSyncNote('overall',id,'✓ Synced to Supabase',person);
+    setSyncNote('overall',id,'Synced to Supabase',person);
     return;
   }
   if(row.reaction) localStorage.setItem(reviewKey('reaction',item,person),row.reaction);
   localStorage.setItem(reviewKey('comment',item,person),row.comment||'');
   localStorage.setItem(reviewKey('comment-edited',item,person),time);
-  setSyncNote('activity',item,'✓ Synced to Supabase',person);
+  setSyncNote('activity',item,'Synced to Supabase',person);
 }
 async function loadSupabaseReviews(){
   if(!supabaseClient) return;
@@ -1405,16 +1436,17 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
   const clear=box.querySelector('[data-clear]');
   const status=box.querySelector(statusSelector)||box.querySelector('[data-status]');
   const isEditing=box.dataset.editing==='true';
+  const hasSavedRecord=Boolean((saved||'').trim() || editedAt);
   let view=box.querySelector('.saved-review-view');
   if(!view){
     view=document.createElement('div');
     view.className='saved-review-view';
     ta.insertAdjacentElement('afterend',view);
   }
-  const shouldShowTextareaValue = isEditing || !saved;
+  const shouldShowTextareaValue = isEditing || !hasSavedRecord;
   if(document.activeElement!==ta) ta.value=shouldShowTextareaValue ? (saved||'') : '';
   ta.dataset.original=saved||'';
-  if(saved && !isEditing){
+  if(hasSavedRecord && !isEditing){
     box.classList.add('is-saved');
     ta.readOnly=true;
     ta.placeholder=placeholderSaved||'Saved comment';
@@ -1422,23 +1454,24 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
     const meta=[];
     if(editedAt) meta.push(`Last edited ${editedAt}`);
     if(syncNote) meta.push(syncNote);
-    view.innerHTML=`<p>${esc(saved)}</p><small>${meta.join(' · ')||`Saved for ${reviewers[currentReviewer]}`}</small>`;
+    const commentHtml=(saved||'').trim()?esc(saved):'<span class="muted">No written comment</span>';
+    view.innerHTML=`<p>${commentHtml}</p><small>${meta.join(' · ')||`Saved for ${reviewers[currentReviewer]}`}</small>`;
     save.hidden=true;
     edit.hidden=false;
     cancel.hidden=true;
     if(clear) clear.hidden=false;
-    if(status) status.textContent='';
+    if(status) status.textContent=syncNote||'';
   }else{
     box.classList.remove('is-saved');
     view.hidden=true;
     ta.readOnly=false;
     save.hidden=false;
-    save.textContent=saved?'Update':'Save';
-    save.disabled=!!saved && ta.value.trim()===(saved||'');
+    save.textContent=hasSavedRecord?'Update':'Save';
+    save.disabled=hasSavedRecord && ta.value.trim()===(saved||'');
     edit.hidden=true;
-    cancel.hidden=!saved;
-    if(clear) clear.hidden=!saved;
-    if(status) status.textContent=saved?'Editing saved comment':'Not saved yet';
+    cancel.hidden=!hasSavedRecord;
+    if(clear) clear.hidden=!hasSavedRecord;
+    if(status) status.textContent=syncNote || (hasSavedRecord?'Editing saved comment':'Not saved yet');
   }
 }
 function forcePageTop(){
@@ -1601,40 +1634,55 @@ function renderOverall(){
   }
 }
 function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
+function closeIOSKeyboard(){
+  const active=document.activeElement;
+  if(active && /^(TEXTAREA|INPUT|SELECT)$/.test(active.tagName)) active.blur();
+  setTimeout(()=>{
+    if(window.visualViewport && window.visualViewport.scale && window.visualViewport.scale!==1){
+      window.scrollTo({top:window.scrollY,left:0,behavior:'auto'});
+    }
+  },80);
+}
 async function saveActivity(card){
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(reviewKey('reaction',id));
+  closeIOSKeyboard();
   localStorage.setItem(reviewKey('comment',id),comment);
   localStorage.setItem(reviewKey('comment-edited',id),stamp());
-  setSyncNote('activity',id,'✓ Saved locally · syncing…');
+  setSyncNote('activity',id,'Saving…');
   delete box.dataset.editing; renderAll();
   const ok=await upsertSupabaseReview('activity',id,{reaction,comment});
-  setSyncNote('activity',id,ok?'✓ Synced to Supabase':'✓ Saved offline');
+  setSyncNote('activity',id,ok?'Synced to Supabase':'Saved offline');
+  closeIOSKeyboard();
   renderAll();
 }
 async function saveWrap(box){
   const id=box.dataset.dayWrap, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(reviewKey('wrap-status',id));
+  closeIOSKeyboard();
   localStorage.setItem(reviewKey('wrap-comment',id),comment);
   localStorage.setItem(reviewKey('wrap-comment-edited',id),stamp());
-  setSyncNote('wrap',id,'✓ Saved locally · syncing…');
+  setSyncNote('wrap',id,'Saving…');
   delete box.dataset.editing; renderAll();
   const ok=await upsertSupabaseReview('wrap',id,{reaction,comment});
-  setSyncNote('wrap',id,ok?'✓ Synced to Supabase':'✓ Saved offline');
+  setSyncNote('wrap',id,ok?'Synced to Supabase':'Saved offline');
+  closeIOSKeyboard();
   renderAll();
 }
 async function saveOverall(box){
   const id=box.dataset.overallReview, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(reviewKey('overall-status',id));
+  closeIOSKeyboard();
   localStorage.setItem(reviewKey('overall-comment',id),comment);
   localStorage.setItem(reviewKey('overall-comment-edited',id),stamp());
-  setSyncNote('overall',id,'✓ Saved locally · syncing…');
+  setSyncNote('overall',id,'Saving…');
   delete box.dataset.editing; renderAll();
   const ok=await upsertSupabaseReview('overall',id,{reaction,comment});
-  setSyncNote('overall',id,ok?'✓ Synced to Supabase':'✓ Saved offline');
+  setSyncNote('overall',id,ok?'Synced to Supabase':'Saved offline');
+  closeIOSKeyboard();
   renderAll();
 }
 document.addEventListener('click',async e=>{
@@ -1651,9 +1699,9 @@ document.addEventListener('click',async e=>{
   const clear=e.target.closest('[data-clear]');
   if(clear){
     const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
-    if(activity){ const id=safeCardKey(activity); localStorage.removeItem(reviewKey('comment',id)); localStorage.removeItem(reviewKey('comment-edited',id)); upsertSupabaseReview('activity',id,{reaction:localStorage.getItem(reviewKey('reaction',id)),comment:''}); delete activity.querySelector('.comment-box').dataset.editing; }
-    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; localStorage.removeItem(reviewKey('wrap-comment',id)); localStorage.removeItem(reviewKey('wrap-comment-edited',id)); upsertSupabaseReview('wrap',id,{reaction:localStorage.getItem(reviewKey('wrap-status',id)),comment:''}); delete wrapBox.dataset.editing; }
-    else if(overallBox){ const id=overallBox.dataset.overallReview; localStorage.removeItem(reviewKey('overall-comment',id)); localStorage.removeItem(reviewKey('overall-comment-edited',id)); upsertSupabaseReview('overall',id,{reaction:localStorage.getItem(reviewKey('overall-status',id)),comment:''}); delete overallBox.dataset.editing; }
+    if(activity){ const id=safeCardKey(activity); localStorage.removeItem(reviewKey('comment',id)); localStorage.removeItem(reviewKey('comment-edited',id)); setSyncNote('activity',id,''); upsertSupabaseReview('activity',id,{reaction:localStorage.getItem(reviewKey('reaction',id)),comment:''}); delete activity.querySelector('.comment-box').dataset.editing; }
+    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; localStorage.removeItem(reviewKey('wrap-comment',id)); localStorage.removeItem(reviewKey('wrap-comment-edited',id)); setSyncNote('wrap',id,''); upsertSupabaseReview('wrap',id,{reaction:localStorage.getItem(reviewKey('wrap-status',id)),comment:''}); delete wrapBox.dataset.editing; }
+    else if(overallBox){ const id=overallBox.dataset.overallReview; localStorage.removeItem(reviewKey('overall-comment',id)); localStorage.removeItem(reviewKey('overall-comment-edited',id)); setSyncNote('overall',id,''); upsertSupabaseReview('overall',id,{reaction:localStorage.getItem(reviewKey('overall-status',id)),comment:''}); delete overallBox.dataset.editing; }
     renderAll(); return;
   }
   const wrap=e.target.closest('[data-wrap-status]');
