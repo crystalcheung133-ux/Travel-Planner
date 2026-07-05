@@ -455,6 +455,13 @@ button,[data-open],[data-reviewer],[data-reaction],[data-save],[data-wrap-save],
 }
 
 </style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#8e6f3f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CCMV Planner">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="./icon-192.png">
 </head>
 <body>
 <header>
@@ -1500,6 +1507,14 @@ showPage(location.hash?location.hash.replace('#',''):'home');
 window.addEventListener('load',forcePageTop);
 window.addEventListener('hashchange',()=>showPage(location.hash?location.hash.replace('#',''):'home'));
 initSupabaseReadiness();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch((err) => console.warn('CCMV PWA service worker not registered', err));
+  });
+}
 </script>
 </body>
 </html>
