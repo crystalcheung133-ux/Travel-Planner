@@ -886,6 +886,23 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 .day-summary .planner-notes h4{margin:0 0 6px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);}
 .overall-thread-top{display:block !important;margin:12px 0 16px;}
 .review-badge{background:rgba(255,255,255,.5) !important;color:var(--muted) !important;}
+/* Build 11.9: clearer editable comment states + cleaner day summary */
+textarea{background:#fff !important;}
+.comment-box.is-saved .saved-review-view,
+[data-day-wrap].is-saved .saved-review-view,
+[data-overall-review].is-saved .saved-review-view,
+[data-planner-notes].is-saved .saved-review-view{
+  background:rgba(249,226,222,.72) !important;
+  border:1px solid rgba(170,111,103,.22) !important;
+  border-radius:14px !important;
+}
+.day-summary-details>summary{justify-content:space-between !important;text-align:left !important;}
+.day-summary-details>summary::before{content:none !important;}
+.day-summary-details>summary::after{content:'+';font-family:var(--sans);font-size:20px;font-weight:900;color:var(--gold-deep);line-height:1;}
+.day-summary-details[open]>summary::after{content:'−';}
+.day-summary-details>summary span{min-width:0;flex:1;}
+.home-actions button[data-open="day1"]{font-size:14px;letter-spacing:.08em;text-transform:uppercase;}
+
 </style>
 <div id="ccmv-splash" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f0e6;transition:opacity .4s ease;">
   <img src="./icon-512.png" alt="CCMV" style="width:clamp(180px,22vw,340px);height:clamp(180px,22vw,340px);border-radius:22%;box-shadow:0 12px 32px rgba(142,111,63,.3);"/>
@@ -941,8 +958,7 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 <h1>Journey Planner</h1>
 <p>出發前簡單睇一次行程，按自己感覺表態：Keep、Discuss、Replace。有需要先寫 comment。</p>
 <div class="home-actions">
-<button data-open="day1">Start Day 1 →</button>
-<button data-open="overall">Overall Review</button>
+<button data-open="day1">Let’s go Day 1 ✨</button>
 
 </div>
 </div>
@@ -1532,10 +1548,10 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 <section class="page" data-page="" id="overall">
 <div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
 <p class="eyebrow">Overall Review</p>
-<h2>整體感覺 / Final thoughts</h2>
-<p class="overall-helper">寫低你睇完整個行程後嘅整體感覺：例如會唔會太趕、最期待邊一日、邊度想留白多啲、或者有冇最後想 Crystal 留意嘅位。</p>
+<h2>Final Thoughts</h2>
+<p class="overall-helper">睇完整個行程後，寫低最後想法：例如會唔會太趕、最期待邊一日、邊度想留白多啲，或者有咩想 Crystal 留意。</p>
 <div class="review-thread overall-thread-top" data-overall-thread=""></div>
-<textarea placeholder="整體感覺 / final thoughts…"></textarea>
+<textarea placeholder="Final thoughts…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
 </div>
@@ -1767,17 +1783,19 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
   const clear=box.querySelector('[data-clear]');
   const status=box.querySelector(statusSelector)||box.querySelector('[data-status]');
   const isEditing=box.dataset.editing==='true';
-  const hasSavedRecord=Boolean((saved||'').trim() || editedAt || box.dataset.savedForce==='true');
+  const hasWrittenComment=Boolean((saved||'').trim());
+  const hasSavedRecord=Boolean(hasWrittenComment || editedAt || box.dataset.savedForce==='true');
   let view=box.querySelector('.saved-review-view');
   if(!view){
     view=document.createElement('div');
     view.className='saved-review-view';
     ta.insertAdjacentElement('afterend',view);
   }
-  const shouldShowTextareaValue = isEditing || !hasSavedRecord;
+  const savedButEmpty = hasSavedRecord && !hasWrittenComment && !isEditing;
+  const shouldShowTextareaValue = isEditing || !hasSavedRecord || savedButEmpty;
   if(document.activeElement!==ta) ta.value=shouldShowTextareaValue ? (saved||'') : '';
   ta.dataset.original=saved||'';
-  if(hasSavedRecord && !isEditing){
+  if(hasSavedRecord && hasWrittenComment && !isEditing){
     box.classList.add('is-saved');
     ta.readOnly=true;
     ta.placeholder=placeholderSaved||'Saved comment';
@@ -1785,8 +1803,7 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
     const meta=[];
     if(editedAt) meta.push(`Last edited ${editedAt}`);
     if(syncNote) meta.push(syncNote);
-    const commentHtml=(saved||'').trim()?esc(saved):'<span class="muted">No written comment</span>';
-    view.innerHTML=`<p>${commentHtml}</p><small>${meta.join(' · ')||`Saved for ${reviewers[currentReviewer]}`}</small>`;
+    view.innerHTML=`<p>${esc(saved)}</p><small>${meta.join(' · ')||`Saved for ${reviewers[currentReviewer]}`}</small>`;
     save.hidden=false;
     save.textContent='Save';
     save.disabled=true;
@@ -1799,12 +1816,12 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
     view.hidden=true;
     ta.readOnly=false;
     save.hidden=false;
-    save.textContent=hasSavedRecord?'Update':'Save';
+    save.textContent=hasSavedRecord?'Save Comment':'Save';
     save.disabled=false;
     edit.hidden=true;
     cancel.hidden=!hasSavedRecord;
     if(clear) clear.hidden=false;
-    if(status) status.textContent=syncNote || (hasSavedRecord?'Editing saved review':'Not saved yet');
+    if(status) status.textContent=syncNote || (hasSavedRecord?'Saved — no comment yet':'Not saved yet');
   }
 }
 function forcePageTop(){
@@ -2009,7 +2026,7 @@ ${commentCount?`<details class="day-summary-comments"><summary>${commentCount} c
   const wrapStatus=computeWrapStatus(wrapId);
   const dayName=(dayId||'day').replace('day','Day ');
   container.innerHTML=`<details class="day-summary-details">
-<summary><span><b>${dayName} Summary</b><small>Planner Notes + review results</small></span><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></summary>
+<summary><span><b>${dayName} Summary</b><small>Planner Notes + review results</small></span></summary>
 <div class="planner-notes" data-planner-notes="${plannerId}">
   <p class="eyebrow">Planner Notes — Crystal to use</p>
   <h3>What to change / look into</h3>
@@ -2017,7 +2034,7 @@ ${commentCount?`<details class="day-summary-comments"><summary>${commentCount} c
   <div class="comment-actions"><button data-planner-save>Save Planner Notes</button><button data-edit hidden>Edit</button><button data-clear hidden>Clear</button><span data-planner-note></span></div>
 </div>
 <div class="day-summary-divider"></div>
-<div class="day-summary-overview"><span>🟢 ${overallCounts.keep||0} Keep</span><span>🟡 ${overallCounts.discuss||0} Discuss</span><span>🔴 ${overallCounts.replace||0} Replace</span><span>⚪ ${overallCounts.none||0} Not reviewed</span></div>
+<div class="day-summary-overview"><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span><span>🟢 ${overallCounts.keep||0} Keep</span><span>🟡 ${overallCounts.discuss||0} Discuss</span><span>🔴 ${overallCounts.replace||0} Replace</span><span>⚪ ${overallCounts.none||0} Not reviewed</span></div>
 <div class="day-summary-table">${activityRows}</div>
 <div class="day-summary-row"><div class="day-summary-row-head"><b>Day Wrap-up results</b><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></div>${wrapRows||'<div class="summary-empty">No Day Wrap-up submitted yet.</div>'}</div>
 </details>`;
