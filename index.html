@@ -303,6 +303,31 @@ body::before {
 .review-thread{margin-top:10px;display:grid;gap:8px}.thread-item{border:1px solid var(--line);border-radius:16px;padding:10px 12px;background:rgba(255,255,255,.58);font-family:var(--sans);font-size:13px}.thread-item b{font-family:var(--font);font-size:15px}.thread-item p{margin:4px 0 0;color:var(--muted)}
 .day-wrap{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:24px;background:rgba(255,250,243,.78)}.day-wrap h3{margin-top:0}.wrap-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.wrap-actions button{border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;padding:8px 12px;font-family:var(--sans);cursor:pointer}.wrap-actions button.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}.wrap-status{font-family:var(--sans);font-size:12px;color:var(--muted);margin-left:8px}
 .final-review-list{display:grid;gap:10px;margin-top:16px}.final-review-item{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.55);font-family:var(--sans)}.final-review-item b{font-family:var(--font);font-size:17px}.final-review-item small{color:var(--muted)}
+.final-review-item-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.day-summary{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:24px;background:rgba(255,250,243,.72)}
+.day-summary h3{margin:0 0 4px;font-size:21px}
+.day-summary-table{display:grid;gap:9px;margin-top:12px}
+.day-summary-row{border:1px solid var(--line);border-radius:16px;padding:11px 13px;background:rgba(255,255,255,.6)}
+.day-summary-row-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.day-summary-row-head b{font-family:var(--font);font-size:15.5px}
+.day-summary-pills{display:flex;gap:5px}
+.day-summary-pill{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:1px solid var(--line);background:rgba(255,255,255,.7)}
+.day-summary-status{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;font-family:var(--sans)}
+.status-all-good{background:#e4f3e6;color:#2e7d3b}
+.status-discuss{background:#fff3d6;color:#9a7511}
+.status-replace{background:#fbe1df;color:#a43d34}
+.status-none{background:rgba(0,0,0,.05);color:var(--muted)}
+.day-summary-comments{margin-top:8px}
+.day-summary-comments summary{cursor:pointer;list-style:none;font-size:12px;font-weight:800;color:var(--gold-deep)}
+.day-summary-comments summary::before{content:'💬 '}
+.day-summary-comments summary::-webkit-details-marker{display:none}
+.day-summary-comment-item{font-size:12.5px;margin-top:7px;padding:8px 10px;border-radius:12px;background:rgba(142,111,63,.07)}
+.day-summary-comment-item b{display:block;font-size:11px;color:var(--gold-deep);margin-bottom:2px;font-family:var(--sans)}
+.decision-status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.decision-status-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:rgba(255,255,255,.62);font-family:var(--sans);text-align:center}
+.decision-status-card b{display:block;font-family:var(--font);font-size:27px;line-height:1}
+.decision-status-card span{font-size:12px;color:var(--muted);display:block;margin-top:4px}
+@media(max-width:720px){.decision-status-grid{grid-template-columns:repeat(2,1fr)}}
 /* Build 09.4 · UX Polish */
 .dashboard-summary{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;margin:14px 0}.summary-card{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.62);padding:14px;font-family:var(--sans)}.summary-card strong{display:block;font-family:var(--font);font-size:30px;line-height:1}.summary-card span{font-size:12px;color:var(--muted)}.summary-card .mini{margin-top:7px;font-size:13px;color:var(--ink)}
 .review-filter{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}.review-filter button{border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:999px;padding:7px 11px;font-family:var(--sans);font-size:13px;color:var(--ink);cursor:pointer}.review-filter button.selected{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -593,7 +618,7 @@ textarea:focus{
 
 
 /* Build 11.1: reviewer dropdown + mobile timeline reference fix */
-.build-badge::after{content:' · 11.1'}
+.build-badge::after{content:' · 11.2'}
 .reviewer-bar{
   overflow:visible !important;
   contain:none !important;
@@ -688,6 +713,7 @@ textarea:focus{
 <button data-open="final">Overall Review</button>
 </div>
 </div>
+</header>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
 <div data-reviewer-toggle=""><span class="reviewer-label">Who’s reviewing today?</span> <b data-current-reviewer-label="">👓 Crystal</b></div>
@@ -699,7 +725,6 @@ textarea:focus{
 </div>
 </div>
 </div>
-</header>
 <main class="container">
 <section class="page active" data-page="" id="home">
 <div class="hero intro-only">
@@ -878,6 +903,7 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
+<div class="day-summary cardmark" data-day-summary="day1"></div>
 <div class="day-wrap cardmark" data-day-wrap="day1-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 1 Review</h3>
@@ -997,6 +1023,7 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
+<div class="day-summary cardmark" data-day-summary="day2"></div>
 <div class="day-wrap cardmark" data-day-wrap="day2-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 2 Review</h3>
@@ -1108,6 +1135,7 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
+<div class="day-summary cardmark" data-day-summary="day3"></div>
 <div class="day-wrap cardmark" data-day-wrap="day3-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 3 Review</h3>
@@ -1131,9 +1159,9 @@ with check (true);</pre>
 </div>
 <div class="seal small"></div>
 </div>
-<div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>4–5 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>~5 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>The Running Bean · $</span></div><div class="glance-card cardmark"><div class="gicon">🍕</div><b>Lunch</b><span>Pizza 4P's · $$</span></div><div class="glance-card cardmark"><div class="gicon">🍷</div><b>Dinner</b><span>Quince · $$$</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Temple Leaf Spa Land</span></div></div></div>
-<div class="block today cardmark"><h3>Today’s Plan</h3><p>Day 4 是整趟旅程較完整的城市日。上午放人文與博物館，午餐用當地不能錯過的 Pizza 4P’s 轉換氣氛，再進入 Phú Nhuận shopping。傍晚用 Temple Leaf 把體力收回來，晚餐 Quince 則以窯烤、open kitchen 與較 chill 的 contemporary European 作為旅程壓軸。</p></div>
-<div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">08:30 – 09:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">☕</span>The Running Bean</h4><p>晨間咖啡，為博物館行程留精神。</p></div></div><div class="timeline-row cardmark"><div class="time">09:30 – 11:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>War Remnants Museum</h4><p>上午參觀，避開午後疲倦。</p></div></div><div class="timeline-row cardmark"><div class="time">11:30 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Pizza 4P's Hai Bà Trưng</h4><p>當地不能錯過的 Pizza 品牌；食完向 Phú Nhuận 方向走，動線順。</p></div></div><div class="timeline-row cardmark"><div class="time">13:30 – 16:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Phú Nhuận Shopping Route</h4><p>先 11 Garmentory，再按時間逛 ByVee、Pinguyen、thekat.shop、So Dópe Club、Dalla、RUBIES、Lane Cì。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 19:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Temple Leaf Spa Land</h4><p>足底 / 全身按摩，把 shopping day 的體力消耗降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">19:15 – 19:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Return Hotel / Change</h4><p>回酒店梳洗換裝，準備晚餐。</p></div></div><div class="timeline-row cardmark"><div class="time">20:15 – 22:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>Quince Saigon</h4><p>Wood-fired contemporary European。Dinner category：$$$.</p></div></div><div class="timeline-row cardmark"><div class="time">22:15 onwards</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">📍</span>Social Club Rooftop（Optional）</h4><p>視體力決定，不作硬性安排。</p></div></div></div></div>
+<div class="block"><h3>Plan at a Glance</h3><div class="glance-grid"><div class="glance-card cardmark"><div class="gicon">🚶</div><b>Walk</b><span>4–5 km</span></div><div class="glance-card cardmark"><div class="gicon">🚕</div><b>Transport</b><span>~5 Grab rides</span></div><div class="glance-card cardmark"><div class="gicon">☕</div><b>Breakfast</b><span>The Running Bean · $</span></div><div class="glance-card cardmark"><div class="gicon">🍕</div><b>Lunch</b><span>Pizza 4P's · $$</span></div><div class="glance-card cardmark"><div class="gicon">🍷</div><b>Dinner</b><span>Quince · $$$</span></div><div class="glance-card cardmark"><div class="gicon">🧖</div><b>Spa</b><span>Tỉnh Thức Spa</span></div></div></div>
+<div class="block today cardmark"><h3>Today’s Plan</h3><p>Day 4 是整趟旅程較完整的城市日。上午放人文與博物館，午餐用當地不能錯過的 Pizza 4P’s 轉換氣氛，再進入 Phú Nhuận shopping 第一輪。中段用 Tỉnh Thức Spa 把體力收回來，再逛第二輪 shopping，然後直接轉場去晚餐；Quince 則以窯烤、open kitchen 與較 chill 的 contemporary European 作為旅程壓軸。</p></div>
+<div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">08:30 – 09:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">☕</span>The Running Bean</h4><p>晨間咖啡，為博物館行程留精神。</p></div></div><div class="timeline-row cardmark"><div class="time">09:30 – 11:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>War Remnants Museum</h4><p>上午參觀，避開午後疲倦。</p></div></div><div class="timeline-row cardmark"><div class="time">11:30 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Pizza 4P's Hai Bà Trưng</h4><p>當地不能錯過的 Pizza 品牌；食完向 Phú Nhuận 方向走，動線順。</p></div></div><div class="timeline-row cardmark"><div class="time">13:30 – 15:15</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Phú Nhuận Shopping · 第一輪（5 站）</h4><p>11 Garmentory（必行）→ ByVee → Pinguyen Store → thekat.shop → So Dópe Club。</p></div></div><div class="timeline-row cardmark"><div class="time">15:15 – 17:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Tỉnh Thức Spa</h4><p>90 分鐘身體按摩 + 面部護理，建議預約 15:30–17:00，把 shopping 第一輪的體力消耗降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">17:00 – 19:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Phú Nhuận Shopping · 第二輪 + 咖啡歇腳（3 站）</h4><p>按摩後先歇腳飲杯冷飲，再逛 Dalla Saigon → RUBIES → Lane Cì。</p></div></div><div class="timeline-row cardmark"><div class="time">19:00 – 19:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Grab to District 1</h4><p>下班尖峰時間，預留 30 分鐘車程去 Quince，唔返酒店換裝。</p></div></div><div class="timeline-row cardmark"><div class="time">19:30 – 21:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>Quince Saigon</h4><p>Wood-fired contemporary European。Dinner category：$$$.</p></div></div><div class="timeline-row cardmark"><div class="time">22:15 onwards</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">📍</span>Social Club Rooftop（Optional）</h4><p>視體力決定，不作硬性安排。</p></div></div></div></div>
 <div class="block"><h3>Review Points</h3><div class="activity-grid">
 <article class="activity cardmark" data-card="day4-the-running-bean">
 <div class="activity-head">
@@ -1183,11 +1211,11 @@ with check (true);</pre>
 </article>
 <article class="activity cardmark" data-card="day4-temple-leaf-spa-land">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🧖</span>Temple Leaf Spa Land</h4><div class="meta">Foot + Body Reset · VND 530k–630k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Temple%20Leaf%20Spa%20Land%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
+<div><h4><span class="tl-emoji">🧖</span>Tỉnh Thức Spa</h4><div class="meta">Body Massage + Facial · 90 min · 地址 118/54 Trần Quang Diệu</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=T%E1%BB%89nh%20Th%E1%BB%A9c%20Spa%20118%2F54%20Tr%E1%BA%A7n%20Quang%20Di%E1%BB%87u%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
 <span>Why this plan</span>
 </div>
-<p>Temple Leaf 放在 Phú Nhuận shopping 後，是為了讓晚餐前有一段真正休息。足底、熱石與六樓花園放鬆區，剛好把白天的城市節奏降下來。</p>
-<div class="chips"><span>Foot massage</span><span>Hot stone</span><span>Garden rest area</span></div>
+<p>Tỉnh Thức Spa 夾喺 Phú Nhuận shopping 兩輪之間，建議預約 15:30–17:00，讓第一輪 shopping 後有一段真正休息，先精神飽滿咁繼續逛第二輪同去晚飯。呢間評價 4.9 星，主打身體按摩與面部護理，隱密性同環境都適合中途充電。</p>
+<div class="chips"><span>Body massage</span><span>Facial</span><span>4.9★ local favourite</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
 <button data-reaction="discuss">🤔 Discuss</button>
@@ -1227,6 +1255,7 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
+<div class="day-summary cardmark" data-day-summary="day4"></div>
 <div class="day-wrap cardmark" data-day-wrap="day4-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 4 Review</h3>
@@ -1323,6 +1352,7 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
+<div class="day-summary cardmark" data-day-summary="day5"></div>
 <div class="day-wrap cardmark" data-day-wrap="day5-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 5 Review</h3>
@@ -1342,6 +1372,8 @@ with check (true);</pre>
 <p class="eyebrow">Final Review</p>
 <h2>Overall Plan Review</h2>
 <p class="muted">每日 Day Wrap-up 用來評每一日；這一頁集中看整個 Journey Plan 是否 ready，或者有沒有跨日節奏需要再調整。</p>
+<p class="eyebrow" style="margin-top:20px">Final Decision Status</p>
+<div class="decision-status-grid" data-decision-status></div>
 <div class="summary-grid">
 <div><b>Keep</b><p>哪些安排大家都想保留？</p></div>
 <div><b>Discuss</b><p>哪些日子節奏或預算需要再傾？</p></div>
@@ -1355,7 +1387,10 @@ with check (true);</pre>
 <textarea placeholder="Overall journey comment / 對成個 plan 嘅整體想法…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save Overall Review</button><span class="wrap-status" data-overall-note=""></span></div>
 <div class="review-thread" data-overall-thread=""></div>
-</div><div class="final-review-list" data-final-review-list=""></div>
+</div>
+<p class="eyebrow" style="margin-top:24px">Day Wrap-up + Overall Review Summary</p>
+<h3 style="margin:0 0 4px">四人結論一覽</h3>
+<div class="final-review-list" data-final-review-list=""></div>
 <div class="bottom-nav"><button data-open="day5">← Previous Day</button><button data-open="home">Journey</button><button data-open="home">Done</button></div>
 </div>
 </section>
@@ -1714,6 +1749,65 @@ function renderDashboard(){
     return `<div class="progress-card"><b>${reviewers[name]}</b><span>${done}/${totalSteps} review steps · ${personPct}%</span><div class="progress-meter"><i style="width:${personPct}%"></i></div><div class="progress-breakdown"><span>🟢 ${personKeep}</span><span>🟡 ${personDiscuss}</span><span>🔴 ${personReplace}</span></div></div>`;
   }).join('');
 }
+/* Decision status bucketing shared by activity cards and day-wraps.
+   Buckets: 'all-good' | 'discuss' | 'replace' | 'none'
+   Rule: any 'replace' wins → Replacement Requested.
+         else any 'discuss', or partially-reviewed-but-not-all-keep → Needs Discussion.
+         else fully reviewed & all keep → All Good.
+         else nobody has reviewed yet → Not Reviewed. */
+function computeCardStatus(card){
+  const id=safeCardKey(card);
+  const states=reviewerNames.map(name=>localStorage.getItem(reviewKey('reaction',id,name)));
+  const reviewedCount=states.filter(Boolean).length;
+  if(reviewedCount===0) return 'none';
+  if(states.includes('replace')) return 'replace';
+  if(states.includes('discuss')) return 'discuss';
+  if(reviewedCount===reviewerNames.length && states.every(s=>s==='keep')) return 'all-good';
+  return 'discuss';
+}
+function computeWrapStatus(day){
+  const states=reviewerNames.map(name=>localStorage.getItem(reviewKey('wrap-status',day,name)));
+  const reviewedCount=states.filter(Boolean).length;
+  if(reviewedCount===0) return 'none';
+  if(states.includes('replace')) return 'replace';
+  if(states.includes('discuss')) return 'discuss';
+  if(reviewedCount===reviewerNames.length && states.every(s=>s==='keep')) return 'all-good';
+  return 'discuss';
+}
+const statusLabel={'all-good':'✅ All Good',discuss:'🤔 Needs Discussion',replace:'🔁 Replacement Requested',none:'⚪ Not Reviewed'};
+function renderDaySummary(container){
+  const section=container.closest('section[data-page]');
+  if(!section) return;
+  const cards=[...section.querySelectorAll('.activity')];
+  if(!cards.length){ container.innerHTML=''; return; }
+  const rows=cards.map(card=>{
+    const title=card.querySelector('h4')?.textContent.trim()||'Activity';
+    const pills=reviewerNames.map(name=>{
+      const r=localStorage.getItem(reviewKey('reaction',safeCardKey(card),name));
+      return `<span class="day-summary-pill" title="${reviewers[name]} · ${reactionLabel(r)}">${reactionIcon(r)}</span>`;
+    }).join('');
+    const status=computeCardStatus(card);
+    const comments=reviewerNames.map(name=>{
+      const cm=localStorage.getItem(reviewKey('comment',safeCardKey(card),name));
+      if(!cm || !filterAllows(name)) return '';
+      return `<div class="day-summary-comment-item"><b>${reviewers[name]}</b>${esc(cm)}</div>`;
+    }).filter(Boolean).join('');
+    const commentCount=(comments.match(/day-summary-comment-item/g)||[]).length;
+    return `<div class="day-summary-row">
+<div class="day-summary-row-head"><b>${esc(title)}</b><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="day-summary-pills">${pills}</div><span class="day-summary-status status-${status}">${statusLabel[status]}</span></div></div>
+${commentCount?`<details class="day-summary-comments"><summary>${commentCount} comment${commentCount>1?'s':''}</summary>${comments}</details>`:''}
+</div>`;
+  }).join('');
+  container.innerHTML=`<p class="eyebrow">Clear Summary</p><h3>邊個話咗乜嘢</h3><p class="muted" style="margin-top:2px">四人對呢一日每個活動嘅即時 reaction；有 comment 嘅可以撳開睇。</p><div class="day-summary-table">${rows}</div>`;
+}
+function renderDecisionStatus(){
+  const el=document.querySelector('[data-decision-status]');
+  if(!el) return;
+  const cards=[...document.querySelectorAll('.activity')];
+  const buckets={'all-good':0,discuss:0,replace:0,none:0};
+  cards.forEach(c=>{ buckets[computeCardStatus(c)]++; });
+  el.innerHTML=`<div class="decision-status-card status-all-good"><b>${buckets['all-good']}</b><span>✅ All Good</span></div><div class="decision-status-card status-discuss"><b>${buckets.discuss}</b><span>🤔 Needs Discussion</span></div><div class="decision-status-card status-replace"><b>${buckets.replace}</b><span>🔁 Replacement Requested</span></div><div class="decision-status-card status-none"><b>${buckets.none}</b><span>⚪ Not Reviewed</span></div>`;
+}
 function renderFinal(){
   const list=document.querySelector('[data-final-review-list]');
   if(!list) return;
@@ -1723,9 +1817,12 @@ function renderFinal(){
       const st=localStorage.getItem(reviewKey('wrap-status',day,name));
       const cm=localStorage.getItem(reviewKey('wrap-comment',day,name));
       if(!st && !cm) return '';
-      return `<div><small>${reviewers[name]}</small> ${st?`<b>${st}</b>`:'<b>Comment</b>'}${cm?` — ${esc(cm)}`:''}</div>`;
+      if(!filterAllows(name)) return '';
+      return `<div><small>${reviewers[name]}</small> ${st?`<b>${reactionIcon(st)} ${reactionLabel(st)}</b>`:'<b>Comment</b>'}${cm?` — ${esc(cm)}`:''}</div>`;
     }).filter(Boolean).join('');
-    return rows?`<div class="final-review-item"><b>${day.toUpperCase()}</b>${rows}</div>`:'';
+    const status=computeWrapStatus(day);
+    const dayName=day.replace('-wrap','').toUpperCase();
+    return rows?`<div class="final-review-item"><div class="final-review-item-head"><b>${dayName}</b><span class="day-summary-status status-${status}">${statusLabel[status]}</span></div>${rows}</div>`:'';
   }).filter(Boolean).join('');
   list.innerHTML=items||`<div class="final-review-item"><b>Day Wrap-up Summary</b><div class="muted">Submitted day summaries will appear here.</div></div>`;
 }
@@ -1752,7 +1849,7 @@ function renderOverall(){
     thread.innerHTML=items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>';
   }
 }
-function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);renderDashboard();renderFinal();renderOverall();}
+function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderFinal();renderOverall();}
 function closeIOSKeyboard(){
   const active=document.activeElement;
   if(active && /^(TEXTAREA|INPUT|SELECT)$/.test(active.tagName)) active.blur();
@@ -1951,19 +2048,13 @@ window.addEventListener('load',forcePageTop);
 window.addEventListener('hashchange',()=>showPage(location.hash?location.hash.replace('#',''):'home'));
 initSupabaseReadiness();
 
-/* Build 11.1: robust reviewer dropdown tap handling */
-function bindReviewerDropdownFix(){
+/* Build 11.2: single source of truth for reviewer dropdown open/close,
+   click-outside-to-close, no competing touchend/click handlers. */
+document.addEventListener('click',(ev)=>{
   const bar=document.querySelector('.reviewer-bar');
-  const toggle=document.querySelector('[data-reviewer-toggle]');
-  if(!bar||!toggle||toggle.dataset.boundDropdownFix==='1') return;
-  toggle.dataset.boundDropdownFix='1';
-  const onToggle=(ev)=>{ ev.preventDefault(); ev.stopPropagation(); bar.classList.toggle('open'); };
-  toggle.addEventListener('click', onToggle, {passive:false});
-  toggle.addEventListener('touchend', onToggle, {passive:false});
-  document.addEventListener('click', (ev)=>{ if(!bar.contains(ev.target)) bar.classList.remove('open'); }, true);
-}
-bindReviewerDropdownFix();
-setTimeout(bindReviewerDropdownFix,300);
+  if(!bar) return;
+  if(!bar.contains(ev.target)) bar.classList.remove('open');
+});
 
 </script>
 
