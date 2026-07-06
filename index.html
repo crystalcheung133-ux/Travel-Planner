@@ -655,21 +655,27 @@ textarea:focus{
 }
 </style>
 <div id="ccmv-splash" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f0e6;transition:opacity .4s ease;">
-  <img src="./icon-512.png" alt="CCMV" style="width:96px;height:96px;border-radius:22%;box-shadow:0 8px 24px rgba(142,111,63,.25);"/>
-  <div class="ccmv-splash-title" style="margin-top:16px;font-family:ui-serif,Georgia,'Times New Roman','Noto Serif TC',serif;color:#8e6f3f;font-size:15px;letter-spacing:.05em;">CCMV Journey Planner</div>
+  <img src="./icon-512.png" alt="CCMV" style="width:180px;height:180px;border-radius:22%;box-shadow:0 12px 32px rgba(142,111,63,.3);"/>
+  <div class="ccmv-splash-title" style="margin-top:24px;font-family:ui-serif,Georgia,'Times New Roman','Noto Serif TC',serif;color:#8e6f3f;font-size:22px;letter-spacing:.08em;">CCMV Journey Planner</div>
 </div>
 <script>
 (function(){
+  var MIN_SHOW_MS = 1200; // 最少顯示咁耐，確保睇得清楚
+  var startTime = Date.now();
   function hideSplash(){
     var s = document.getElementById('ccmv-splash');
     if(!s) return;
-    s.style.opacity = '0';
-    setTimeout(function(){ s.remove(); }, 400);
+    var elapsed = Date.now() - startTime;
+    var wait = Math.max(0, MIN_SHOW_MS - elapsed);
+    setTimeout(function(){
+      s.style.opacity = '0';
+      setTimeout(function(){ s.remove(); }, 400);
+    }, wait);
   }
   var fallback = setTimeout(hideSplash, 3500);
   window.addEventListener('load', function(){
     clearTimeout(fallback);
-    setTimeout(hideSplash, 150);
+    hideSplash();
   });
 })();
 </script>
