@@ -1119,7 +1119,7 @@ textarea{background:#fff !important;}
 <button data-open="overall">Overall Review</button>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
-<button type="button" class="reviewer-toggle-btn" data-reviewer-toggle="" aria-haspopup="true" aria-expanded="false"><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></button>
+<button type="button" class="reviewer-toggle-btn" data-reviewer-toggle="" onclick="window.CCMV_openReviewerDialog && window.CCMV_openReviewerDialog(event)" aria-haspopup="true" aria-expanded="false"><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></button>
 <div aria-label="Reviewer identity" class="reviewer-pills" role="group">
 <button class="reviewer-pill" data-reviewer="Christal">🧸 Christal</button>
 <button class="reviewer-pill" data-reviewer="Crystal">👓 Crystal</button>
@@ -2696,35 +2696,51 @@ if ('serviceWorker' in navigator) {
   </div>
 </dialog>
 <style>
-#ccmv-reviewer-dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;margin:0;overflow:hidden}
+/* Build 11.25: desktop trigger fix for native reviewer dialog. */
+#ccmv-reviewer-dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100dvh;margin:0;overflow:hidden;position:fixed;inset:0;z-index:2147483000}
 #ccmv-reviewer-dialog::backdrop{background:rgba(45,35,25,.28);backdrop-filter:blur(3px)}
-.ccmv-reviewer-dialog-card{position:absolute;top:calc(88px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:min(360px,calc(100vw - 28px));padding:14px;background:#fffaf3;border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 60px rgba(77,55,30,.22);font-family:var(--sans)}
+.ccmv-reviewer-dialog-card{position:fixed;top:calc(88px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:min(360px,calc(100vw - 28px));padding:14px;background:#fffaf3;border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 60px rgba(77,55,30,.22);font-family:var(--sans);z-index:2147483001}
 .ccmv-reviewer-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.ccmv-reviewer-dialog-head h2{margin:0;font-family:var(--font);font-size:22px}.ccmv-reviewer-dialog-head button{border:0;background:transparent;font-size:26px;line-height:1;cursor:pointer;padding:4px 8px}.ccmv-reviewer-dialog-options{display:grid;gap:7px}.ccmv-reviewer-dialog-options button{min-height:46px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;font-weight:800;color:var(--ink);cursor:pointer}
-/* Disable the legacy dropdown surface; the top-bar button now opens the dialog. */
 .reviewer-pills{display:none !important}
+.reviewer-toggle-btn{cursor:pointer !important;pointer-events:auto !important;position:relative !important;z-index:2147482999 !important}
 </style>
 <script>
 (function(){
   const dialog=document.getElementById('ccmv-reviewer-dialog');
   if(!dialog) return;
+
+  function openReviewerDialog(ev){
+    if(ev){ ev.preventDefault(); ev.stopPropagation(); if(ev.stopImmediatePropagation) ev.stopImmediatePropagation(); }
+    document.querySelector('.reviewer-bar')?.classList.remove('open');
+    try{ if(!dialog.open) dialog.showModal(); }
+    catch(err){ dialog.setAttribute('open',''); }
+    return false;
+  }
+
+  window.CCMV_openReviewerDialog=openReviewerDialog;
+
+  // Use multiple desktop/mobile-safe events because this button sits inside a sticky, horizontally scrolling nav.
+  ['pointerdown','mousedown','touchstart','click'].forEach(function(type){
+    document.addEventListener(type,function(ev){
+      const toggle=ev.target.closest && ev.target.closest('[data-reviewer-toggle]');
+      if(toggle) openReviewerDialog(ev);
+    },true);
+  });
+
   document.addEventListener('click',function(ev){
-    const toggle=ev.target.closest('[data-reviewer-toggle]');
-    if(toggle){
-      ev.preventDefault(); ev.stopImmediatePropagation();
-      document.querySelector('.reviewer-bar')?.classList.remove('open');
-      if(!dialog.open) dialog.showModal();
-      return;
-    }
-    const choice=ev.target.closest('[data-reviewer-dialog-choice]');
+    const choice=ev.target.closest && ev.target.closest('[data-reviewer-dialog-choice]');
     if(choice){
-      ev.preventDefault(); ev.stopImmediatePropagation();
+      ev.preventDefault(); ev.stopPropagation(); if(ev.stopImmediatePropagation) ev.stopImmediatePropagation();
       setReviewer(choice.dataset.reviewerDialogChoice);
-      dialog.close();
+      if(dialog.open) dialog.close(); else dialog.removeAttribute('open');
       return;
     }
-    if(ev.target.closest('[data-reviewer-dialog-close]')){ ev.preventDefault(); dialog.close(); }
+    if(ev.target.closest && ev.target.closest('[data-reviewer-dialog-close]')){
+      ev.preventDefault();
+      if(dialog.open) dialog.close(); else dialog.removeAttribute('open');
+    }
   },true);
-  dialog.addEventListener('click',function(ev){ if(ev.target===dialog) dialog.close(); });
+  dialog.addEventListener('click',function(ev){ if(ev.target===dialog){ if(dialog.open) dialog.close(); else dialog.removeAttribute('open'); } });
 })();
 </script>
 
