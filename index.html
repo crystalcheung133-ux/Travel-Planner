@@ -785,6 +785,15 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 #overall [data-overall-thread] .thread-item{display:block !important;}
 .saved-review-view{background:rgba(70,55,42,.08) !important;border:1px solid rgba(70,55,42,.12) !important;}
 body.keyboard-editing{overflow-x:hidden;}
+
+/* Build 11.12: reviewer dropdown visibility + companion copy cleanup */
+@media(max-width:720px){
+  .topnav{overflow-x:auto !important; overflow-y:visible !important;}
+  .topnav .reviewer-bar{position:relative !important; z-index:250 !important;}
+  .topnav .reviewer-pills{position:fixed !important; right:14px !important; top:calc(74px + env(safe-area-inset-top, 0px)) !important; left:auto !important; min-width:174px !important; z-index:9999 !important;}
+}
+#overall .overall-helper{font-family:var(--serif);font-size:15px;line-height:1.6;color:rgba(47,41,35,.72);}
+#home .hero-card p:not(.eyebrow){font-family:var(--serif);font-size:16px;line-height:1.65;color:rgba(47,41,35,.76);}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -982,9 +991,9 @@ textarea{background:#fff !important;}
 <div>
 <p class="eyebrow">Before the trip · Four friends</p>
 <h1>Journey Planner</h1>
-<p>出發前簡單睇一次行程，按自己感覺表態：Keep、Discuss、Replace。有需要先寫 comment。</p>
+<p>計劃，也是旅程的一部分。一起參與，一起決定，讓這趟旅程慢慢成為屬於我們的版本。</p>
 <div class="home-actions">
-<button data-open="day1">Let’s go Day 1 ✨</button>
+<button data-open="day1">Let’s go ✨</button>
 
 </div>
 </div>
@@ -1575,7 +1584,7 @@ textarea{background:#fff !important;}
 <div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
 <p class="eyebrow">Overall Review</p>
 <h2>Final Thoughts</h2>
-<p class="overall-helper">睇完整個行程後，寫低最後想法：例如會唔會太趕、最期待邊一日、邊度想留白多啲，或者有咩想 Crystal 留意。</p>
+<p class="overall-helper">看完整趟行程後，可以留下最後想法：最期待的部分、想放慢的地方，或任何希望 Crystal 留意的細節。</p>
 <div class="review-thread overall-thread-top" data-overall-thread=""></div>
 <textarea placeholder="Final thoughts…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
@@ -1584,7 +1593,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.11 Clear Test</div>
+<div class="build-badge">Build 11.12 Copy Cleanup</div>
 <script src="trip-data.js"></script>
 <script>
 
