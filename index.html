@@ -734,6 +734,21 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 .planner-notes .saved-review-view{margin-top:10px}
 .overall-actions{display:none !important}
 #overall .review-thread{display:none !important}
+
+/* Build 11.6: compact expandable day summary */
+.day-summary{padding:0 !important;background:transparent !important;border:0 !important;box-shadow:none !important;}
+.day-summary-details{margin-top:16px;border:1px solid rgba(142,111,63,.16);border-radius:22px;background:rgba(255,255,255,.58);padding:0;overflow:hidden;}
+.day-summary-details>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;font-family:var(--sans);}
+.day-summary-details>summary::-webkit-details-marker{display:none;}
+.day-summary-details>summary b{display:block;font-size:14px;color:var(--ink);}
+.day-summary-details>summary small{display:block;margin-top:3px;color:var(--muted);font-size:11px;font-weight:600;}
+.day-summary-details>summary::before{content:'▸';font-size:13px;color:var(--gold-deep);transition:transform .18s ease;}
+.day-summary-details[open]>summary::before{transform:rotate(90deg);}
+.day-summary-overview{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 12px;}
+.day-summary-overview span{font-size:11px;font-weight:800;border:1px solid rgba(142,111,63,.14);border-radius:999px;padding:5px 8px;background:rgba(255,255,255,.55);}
+.day-summary-details .day-summary-table{padding:0 12px 12px;}
+.day-summary-details>.day-summary-row{margin:0 12px 12px;}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -1691,6 +1706,27 @@ async function upsertSupabaseReview(kind,id,{reaction=null,comment=null}={}){
   }
 }
 
+async function deleteSupabaseReview(kind,id){
+  if(!supabaseReady || !supabaseClient) return false;
+  const item_id=remoteItemId(kind,id);
+  try{
+    setSyncStatus('Clearing…','warn');
+    const {error}=await supabaseClient
+      .from(CCMV_SUPABASE.table)
+      .delete()
+      .eq('trip_id',CCMV_SUPABASE.planId)
+      .eq('item_id',item_id)
+      .eq('reviewer',currentReviewer);
+    if(error) throw error;
+    setSyncStatus('✓ Cleared from Supabase','online');
+    return true;
+  }catch(err){
+    console.warn('CCMV Supabase clear failed:',err);
+    setSyncStatus('Cleared locally · sync failed','warn');
+    return false;
+  }
+}
+
 function subscribeSupabaseRealtime(){
   if(!supabaseReady || !supabaseClient || supabaseChannel) return;
   try{
@@ -1828,11 +1864,11 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
     ta.readOnly=false;
     save.hidden=false;
     save.textContent=hasSavedRecord?'Update':'Save';
-    save.disabled=hasSavedRecord && ta.value.trim()===(saved||'');
+    save.disabled=false;
     edit.hidden=true;
     cancel.hidden=!hasSavedRecord;
-    if(clear) clear.hidden=!hasSavedRecord;
-    if(status) status.textContent=syncNote || (hasSavedRecord?'Editing saved comment':'Not saved yet');
+    if(clear) clear.hidden=false;
+    if(status) status.textContent=syncNote || (hasSavedRecord?'Editing saved review':'Not saved yet');
   }
 }
 function forcePageTop(){
@@ -1900,7 +1936,7 @@ function renderActivity(card){
   const saved=localStorage.getItem(reviewKey('comment',id));
   const editedAt=localStorage.getItem(reviewKey('comment-edited',id));
   const hasReaction=!!localStorage.getItem(reviewKey('reaction',id));
-  card.classList.toggle('review-open', !!(saved || (box && box.dataset.editing==='true')));
+  card.classList.toggle('review-open', !!(hasSavedActivity(id) || (box && box.dataset.editing==='true')));
   if(box){ box.dataset.savedForce=hasSavedActivity(id)?'true':'false'; setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('activity',id))}); }
   let badge=card.querySelector('[data-approval-badge]');
   if(!badge){ badge=document.createElement('div'); badge.setAttribute('data-approval-badge',''); badge.className='review-badge'; const reactionBox=card.querySelector('.reaction'); if(reactionBox) reactionBox.insertAdjacentElement('afterend',badge); }
@@ -1994,26 +2030,54 @@ function renderDaySummary(container){
   const section=container.closest('section[data-page]');
   if(!section) return;
   const cards=[...section.querySelectorAll('.activity')];
+  const dayId=container.dataset.daySummary || section.id;
+  const wrapId=`${dayId}-wrap`;
+  const plannerId=`${dayId}-planner-notes`;
   if(!cards.length){ container.innerHTML=''; return; }
-  const rows=cards.map(card=>{
+  const overallCounts={keep:0,discuss:0,replace:0,none:0};
+  cards.forEach(card=>{
+    reviewerNames.forEach(name=>{
+      const r=localStorage.getItem(reviewKey('reaction',safeCardKey(card),name))||'none';
+      overallCounts[r]=(overallCounts[r]||0)+1;
+    });
+  });
+  const activityRows=cards.map(card=>{
+    const id=safeCardKey(card);
     const title=card.querySelector('h4')?.textContent.trim()||'Activity';
     const pills=reviewerNames.map(name=>{
-      const r=localStorage.getItem(reviewKey('reaction',safeCardKey(card),name));
+      const r=localStorage.getItem(reviewKey('reaction',id,name));
       return `<span class="day-summary-pill" title="${reviewers[name]} · ${reactionLabel(r)}">${reactionIcon(r)}</span>`;
     }).join('');
     const status=computeCardStatus(card);
     const comments=reviewerNames.map(name=>{
-      const cm=localStorage.getItem(reviewKey('comment',safeCardKey(card),name));
+      const cm=localStorage.getItem(reviewKey('comment',id,name));
       if(!cm || !filterAllows(name)) return '';
-      return `<div class="day-summary-comment-item"><b>${reviewers[name]}</b>${esc(cm)}</div>`;
+      const r=localStorage.getItem(reviewKey('reaction',id,name));
+      return `<div class="day-summary-comment-item"><b>${reviewers[name]} · ${reactionIcon(r)} ${reactionLabel(r)}</b>${esc(cm)}</div>`;
     }).filter(Boolean).join('');
     const commentCount=(comments.match(/day-summary-comment-item/g)||[]).length;
     return `<div class="day-summary-row">
 <div class="day-summary-row-head"><b>${esc(title)}</b><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><div class="day-summary-pills">${pills}</div><span class="day-summary-status status-${status}">${statusLabel[status]}</span></div></div>
-${commentCount?`<details class="day-summary-comments"><summary>${commentCount} comment${commentCount>1?'s':''}</summary>${comments}</details>`:''}
+${commentCount?`<details class="day-summary-comments"><summary>${commentCount} comment${commentCount>1?'s':''}</summary>${comments}</details>`:`<div class="summary-empty">No comments yet.</div>`}
 </div>`;
   }).join('');
-  container.innerHTML=`<p class="eyebrow">Clear Summary</p><h3>邊個話咗乜嘢</h3><p class="muted" style="margin-top:2px">四人對呢一日每個活動嘅即時 reaction；有 comment 嘅可以撳開睇。</p><div class="day-summary-table">${rows}</div>`;
+  const wrapRows=reviewerNames.map(name=>{
+    const st=localStorage.getItem(reviewKey('wrap-status',wrapId,name));
+    const cm=localStorage.getItem(reviewKey('wrap-comment',wrapId,name));
+    if(!st && !cm) return '';
+    return `<div class="day-summary-comment-item"><b>${reviewers[name]} ${st?`· ${reactionIcon(st)} ${reactionLabel(st)}`:'· Comment'}</b>${cm?esc(cm):'<span class="muted">No written comment</span>'}</div>`;
+  }).filter(Boolean).join('');
+  const plannerNote=localStorage.getItem(reviewKey('planner-note',plannerId,'Planner'))||'';
+  const plannerTime=localStorage.getItem(reviewKey('planner-note-edited',plannerId,'Planner'))||'';
+  const wrapStatus=computeWrapStatus(wrapId);
+  const dayName=(dayId||'day').replace('day','Day ');
+  container.innerHTML=`<details class="day-summary-details">
+<summary><span><b>${dayName} Summary</b><small>Review status, reactions, comments, Day Wrap-up, Planner Notes</small></span><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></summary>
+<div class="day-summary-overview"><span>🟢 ${overallCounts.keep||0} Keep</span><span>🟡 ${overallCounts.discuss||0} Discuss</span><span>🔴 ${overallCounts.replace||0} Replace</span><span>⚪ ${overallCounts.none||0} Not reviewed</span></div>
+<div class="day-summary-table">${activityRows}</div>
+<div class="day-summary-row"><div class="day-summary-row-head"><b>Day Wrap-up results</b><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></div>${wrapRows||'<div class="summary-empty">No Day Wrap-up submitted yet.</div>'}</div>
+<div class="day-summary-row"><div class="day-summary-row-head"><b>Planner Notes</b></div>${plannerNote?`<p>${esc(plannerNote)}</p>${plannerTime?`<small>Last edited ${plannerTime}</small>`:''}`:'<div class="summary-empty">No Planner Notes yet.</div>'}</div>
+</details>`;
 }
 function renderDecisionStatus(){
   const el=document.querySelector('[data-decision-status]');
@@ -2089,10 +2153,9 @@ function renderOverallSummary(){
   if(!list) return;
   const id='trip-overall-review';
   const rows=reviewerNames.map(name=>{
-    const st=localStorage.getItem(reviewKey('overall-status',id,name));
     const cm=localStorage.getItem(reviewKey('overall-comment',id,name));
-    if(!st && !cm) return '';
-    return `<div class="summary-row"><div class="summary-row-head"><b>${reviewers[name]}</b><span class="summary-chip">${st?reactionIcon(st)+' '+reactionLabel(st):'Comment'}</span></div>${cm?`<div class="summary-comments"><div class="summary-comment">${esc(cm)}</div></div>`:`<div class="summary-empty">No comment text.</div>`}</div>`;
+    if(!cm) return '';
+    return `<div class="summary-row"><div class="summary-row-head"><b>${reviewers[name]}</b><span class="summary-chip">Overall Review</span></div><div class="summary-comments"><div class="summary-comment">${esc(cm)}</div></div></div>`;
   }).filter(Boolean).join('');
   list.innerHTML=rows||'<div class="summary-row"><b>No Overall Review notes yet.</b><div class="summary-empty">Go to Overall Review to submit final whole-trip comments.</div></div>';
 }
@@ -2108,12 +2171,11 @@ function renderOverall(){
   const thread=box.querySelector('[data-overall-thread]');
   if(thread){
     const items=reviewerNames.map(name=>{
-      const st=localStorage.getItem(reviewKey('overall-status',id,name));
       const cm=localStorage.getItem(reviewKey('overall-comment',id,name));
       const time=localStorage.getItem(reviewKey('overall-comment-edited',id,name));
-      if(!st && !cm) return '';
+      if(!cm) return '';
       if(!filterAllows(name)) return '';
-      return `<div class="thread-item"><b>${reviewers[name]} · ${st||'Comment'}</b>${cm?`<p>${esc(cm)}</p>`:''}${time?`<p><small>Last edited ${time}</small></p>`:''}</div>`;
+      return `<div class="thread-item"><b>${reviewers[name]} · Overall Review</b><p>${esc(cm)}</p>${time?`<p><small>Last edited ${time}</small></p>`:''}</div>`;
     }).join('');
     thread.innerHTML=items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>';
   }
@@ -2241,7 +2303,7 @@ async function saveWrap(box){
 async function saveOverall(box){
   const id=box.dataset.overallReview, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
-  const reaction=localStorage.getItem(reviewKey('overall-status',id));
+  const reaction=null;
   ccmvSuppressBlurRestore=true;
   closeIOSKeyboard();
   setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
@@ -2291,7 +2353,7 @@ document.addEventListener('click',async e=>{
   const clear=e.target.closest('[data-clear]');
   if(clear){
     const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]'); const plannerBox=clear.closest('[data-planner-notes]');
-    if(activity){ const id=safeCardKey(activity); ['reaction','comment','comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('reaction',id)); setSyncNote('activity',id,''); await deleteSupabaseReview('activity',id); delete activity.querySelector('.comment-box').dataset.editing; }
+    if(activity){ const id=safeCardKey(activity); ['reaction','comment','comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('reaction',id)); setSyncNote('activity',id,''); await deleteSupabaseReview('activity',id); const b=activity.querySelector('.comment-box'); if(b) delete b.dataset.editing; }
     else if(wrapBox){ const id=wrapBox.dataset.dayWrap; ['wrap-status','wrap-comment','wrap-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('wrap-status',id)); setSyncNote('wrap',id,''); await deleteSupabaseReview('wrap',id); delete wrapBox.dataset.editing; }
     else if(overallBox){ const id=overallBox.dataset.overallReview; ['overall-status','overall-comment','overall-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); setSyncNote('overall',id,''); await deleteSupabaseReview('overall',id); delete overallBox.dataset.editing; }
     else if(plannerBox){ const id=plannerBox.dataset.plannerNotes; localStorage.removeItem(reviewKey('planner-note',id,'Planner')); localStorage.removeItem(reviewKey('planner-note-edited',id,'Planner')); await deleteSupabaseReview('planner',id); delete plannerBox.dataset.editing; }
@@ -2309,7 +2371,7 @@ document.addEventListener('input',e=>{
   const ta=e.target.closest('textarea'); if(!ta) return;
   const box=ta.closest('.comment-box')||ta.closest('[data-day-wrap]')||ta.closest('[data-overall-review]')||ta.closest('[data-planner-notes]');
   const save=box?.querySelector('[data-save],[data-wrap-save],[data-overall-save],[data-planner-save]');
-  if(save && ta.dataset.original!==undefined) save.disabled=ta.value.trim()===ta.dataset.original.trim();
+  if(save) save.disabled=false;
 });
 function migrateStableReviewIds(){
   if(localStorage.getItem('ccmv10:stable-id-migration')==='done') return;
