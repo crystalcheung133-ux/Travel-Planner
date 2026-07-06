@@ -843,6 +843,17 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 <meta name="apple-mobile-web-app-title" content="CCMV Planner">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="./icon-180.png">
+
+<style>
+/* Build 11.23: clean reviewer selector. One existing click controller only. */
+.reviewer-bar{overflow:visible !important;z-index:10000 !important;}
+.reviewer-inner{overflow:visible !important;}
+.reviewer-toggle-btn{position:relative !important;z-index:10002 !important;pointer-events:auto !important;touch-action:manipulation;}
+.reviewer-pills{display:none !important;position:fixed !important;top:calc(118px + env(safe-area-inset-top,0px)) !important;left:12px !important;right:12px !important;width:auto !important;min-width:0 !important;max-width:420px !important;margin:0 auto !important;z-index:10001 !important;flex-direction:column !important;gap:6px !important;padding:10px !important;background:rgba(255,250,243,.99) !important;border:1px solid var(--line) !important;border-radius:18px !important;box-shadow:0 24px 60px rgba(77,55,30,.22) !important;pointer-events:auto !important;}
+.reviewer-bar.open .reviewer-pills{display:flex !important;}
+.reviewer-pills button{width:100% !important;min-height:44px !important;pointer-events:auto !important;}
+@media(min-width:721px){.reviewer-pills{left:auto !important;right:24px !important;width:220px !important;margin:0 !important;}}
+</style>
 </head>
 <body class="splash-active">
 <style>
@@ -2671,43 +2682,6 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
-<script>
-/* Build 11.21: one reviewer-menu controller only. */
-<style>
-.reviewer-pills.reviewer-overlay-open{
-  display:flex !important; position:fixed !important;
-  top:var(--reviewer-menu-top) !important; left:var(--reviewer-menu-left) !important; right:auto !important;
-  width:var(--reviewer-menu-width) !important; z-index:2147483646 !important;
-  pointer-events:auto !important;
-}
-.reviewer-toggle-btn{touch-action:manipulation;pointer-events:auto !important;}
-</style>
-<script>
-(function(){
-  var bar=document.querySelector('.reviewer-bar');
-  var toggle=document.querySelector('[data-reviewer-toggle]');
-  var menu=document.querySelector('.reviewer-pills');
-  if(!bar||!toggle||!menu) return;
-  function position(){
-    if(!bar.classList.contains('open')) return;
-    menu.classList.add('reviewer-overlay-open');
-    var r=toggle.getBoundingClientRect();
-    var w=Math.max(178,Math.min(224,menu.scrollWidth||178));
-    var left=Math.min(Math.max(12,r.left),window.innerWidth-w-12);
-    var top=Math.min(r.bottom+8,window.innerHeight-20);
-    document.documentElement.style.setProperty('--reviewer-menu-top',top+'px');
-    document.documentElement.style.setProperty('--reviewer-menu-left',left+'px');
-    document.documentElement.style.setProperty('--reviewer-menu-width',w+'px');
-  }
-  function open(){bar.classList.add('open');toggle.setAttribute('aria-expanded','true');position();}
-  function close(){bar.classList.remove('open');menu.classList.remove('reviewer-overlay-open');toggle.setAttribute('aria-expanded','false');}
-  toggle.addEventListener('pointerup',function(e){e.preventDefault();e.stopPropagation();bar.classList.contains('open')?close():open();});
-  menu.addEventListener('pointerup',function(e){var item=e.target.closest('[data-reviewer]');if(!item)return;e.preventDefault();e.stopPropagation();setReviewer(item.dataset.reviewer);close();});
-  document.addEventListener('pointerup',function(e){if(!bar.contains(e.target)&&!menu.contains(e.target))close();});
-  window.addEventListener('resize',position,{passive:true});
-  window.addEventListener('scroll',position,{passive:true});
-})();
-</script>
 
 </body>
 </html>
