@@ -2683,5 +2683,50 @@ if ('serviceWorker' in navigator) {
 </script>
 
 
+<!-- Build 11.24: reviewer selector uses a native modal dialog, outside all sticky/scroll containers. -->
+<dialog id="ccmv-reviewer-dialog" aria-labelledby="ccmv-reviewer-dialog-title">
+  <div class="ccmv-reviewer-dialog-card">
+    <div class="ccmv-reviewer-dialog-head"><h2 id="ccmv-reviewer-dialog-title">Who’s reviewing?</h2><button type="button" data-reviewer-dialog-close aria-label="Close">×</button></div>
+    <div class="ccmv-reviewer-dialog-options">
+      <button type="button" data-reviewer-dialog-choice="Christal">🧸 Christal</button>
+      <button type="button" data-reviewer-dialog-choice="Crystal">👓 Crystal</button>
+      <button type="button" data-reviewer-dialog-choice="Mero">✝️ Mero</button>
+      <button type="button" data-reviewer-dialog-choice="Vivian">👟 Vivian</button>
+    </div>
+  </div>
+</dialog>
+<style>
+#ccmv-reviewer-dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;margin:0;overflow:hidden}
+#ccmv-reviewer-dialog::backdrop{background:rgba(45,35,25,.28);backdrop-filter:blur(3px)}
+.ccmv-reviewer-dialog-card{position:absolute;top:calc(88px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:min(360px,calc(100vw - 28px));padding:14px;background:#fffaf3;border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 60px rgba(77,55,30,.22);font-family:var(--sans)}
+.ccmv-reviewer-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.ccmv-reviewer-dialog-head h2{margin:0;font-family:var(--font);font-size:22px}.ccmv-reviewer-dialog-head button{border:0;background:transparent;font-size:26px;line-height:1;cursor:pointer;padding:4px 8px}.ccmv-reviewer-dialog-options{display:grid;gap:7px}.ccmv-reviewer-dialog-options button{min-height:46px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;font-weight:800;color:var(--ink);cursor:pointer}
+/* Disable the legacy dropdown surface; the top-bar button now opens the dialog. */
+.reviewer-pills{display:none !important}
+</style>
+<script>
+(function(){
+  const dialog=document.getElementById('ccmv-reviewer-dialog');
+  if(!dialog) return;
+  document.addEventListener('click',function(ev){
+    const toggle=ev.target.closest('[data-reviewer-toggle]');
+    if(toggle){
+      ev.preventDefault(); ev.stopImmediatePropagation();
+      document.querySelector('.reviewer-bar')?.classList.remove('open');
+      if(!dialog.open) dialog.showModal();
+      return;
+    }
+    const choice=ev.target.closest('[data-reviewer-dialog-choice]');
+    if(choice){
+      ev.preventDefault(); ev.stopImmediatePropagation();
+      setReviewer(choice.dataset.reviewerDialogChoice);
+      dialog.close();
+      return;
+    }
+    if(ev.target.closest('[data-reviewer-dialog-close]')){ ev.preventDefault(); dialog.close(); }
+  },true);
+  dialog.addEventListener('click',function(ev){ if(ev.target===dialog) dialog.close(); });
+})();
+</script>
+
 </body>
 </html>
