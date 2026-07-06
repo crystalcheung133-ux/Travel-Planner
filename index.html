@@ -854,6 +854,21 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 .reviewer-pills button{width:100% !important;min-height:44px !important;pointer-events:auto !important;}
 @media(min-width:721px){.reviewer-pills{left:auto !important;right:24px !important;width:220px !important;margin:0 !important;}}
 </style>
+
+<style id="build-11-26-mobile-saved-final-summary">
+@media(max-width:720px){
+  .comment-box.is-saved .saved-review-view,
+  [data-day-wrap].is-saved .saved-review-view,
+  [data-overall-review].is-saved .saved-review-view,
+  [data-planner-notes].is-saved .saved-review-view{
+    background:rgba(235,229,218,.88) !important;
+    border:1px solid rgba(142,111,63,.28) !important;
+  }
+}
+.final-thoughts-summary{margin-top:18px;}
+.final-thoughts-summary-body{padding-top:12px;}
+.final-thoughts-summary .planner-notes{margin-top:14px;}
+</style>
 </head>
 <body class="splash-active">
 <style>
@@ -1732,8 +1747,19 @@ textarea{background:#fff !important;}
 <div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
 <p class="eyebrow">Overall Review</p>
 <h2>Final Thoughts</h2>
-<p class="overall-helper">看完整趟行程後，可以留下最後想法：最期待的部分、想放慢的地方，或任何希望 Crystal 留意的細節。</p>
-<div class="review-thread overall-thread-top" data-overall-thread=""></div>
+<p class="overall-helper">看完整趟行程後，可以留下最後想法：最期待的部分、想放慢的地方。</p>
+<details class="final-thoughts-summary day-summary-details">
+<summary><span>Final Thoughts Summary</span></summary>
+<div class="final-thoughts-summary-body">
+<div data-final-thoughts-summary-list></div>
+<div class="planner-notes cardmark" data-planner-notes="overall-planner-notes">
+<p class="eyebrow">CRYSTAL TO USE</p>
+<h4>Planner Notes</h4>
+<textarea placeholder="要改、要查、或者要再決定嘅位…"></textarea>
+<div class="comment-actions"><button data-planner-save="">Save</button><span data-planner-note=""></span></div>
+</div>
+</div>
+</details>
 <textarea placeholder="Final thoughts…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
 <div class="planner-tools" data-planner-tools hidden>
@@ -1746,7 +1772,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.19 Friend Test</div>
+<div class="build-badge">Build 11.26 Friend Test RC</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -2358,15 +2384,16 @@ function renderPlannerSummary(){
   list.innerHTML=rows||'<div class="summary-empty">No planner notes yet.</div>';
 }
 function renderOverallSummary(){
-  const list=document.querySelector('[data-overall-summary-list]');
+  const list=document.querySelector('[data-final-thoughts-summary-list]');
   if(!list) return;
   const id='trip-overall-review';
-  const rows=reviewerNames.map(name=>{
+  const finalReviewers=['Christal','Mero','Vivian'];
+  const rows=finalReviewers.map(name=>{
     const cm=localStorage.getItem(reviewKey('overall-comment',id,name));
     if(!cm) return '';
-    return `<div class="summary-row"><div class="summary-row-head"><b>${reviewers[name]}</b><span class="summary-chip">Overall Review</span></div><div class="summary-comments"><div class="summary-comment">${esc(cm)}</div></div></div>`;
+    return `<div class="summary-row"><div class="summary-row-head"><b>${reviewers[name]}</b><span class="summary-chip">Final Thoughts</span></div><div class="summary-comments"><div class="summary-comment">${esc(cm)}</div></div></div>`;
   }).filter(Boolean).join('');
-  list.innerHTML=rows||'<div class="summary-row"><b>No Overall Review notes yet.</b><div class="summary-empty">Go to Overall Review to submit final whole-trip comments.</div></div>';
+  list.innerHTML=rows||'<div class="summary-empty">No Final Thoughts saved yet.</div>';
 }
 function renderOverall(){
   const box=document.querySelector('[data-overall-review]');
@@ -2378,16 +2405,7 @@ function renderOverall(){
   box.dataset.draftText = localStorage.getItem(draftKey('overall-comment',id)) || '';
   box.dataset.savedForce=Boolean((saved||'').trim()||editedAt)?'true':'false';
   setupCommentBox(box,{saved,editedAt,saveSelector:'[data-overall-save]',statusSelector:'[data-overall-note]',placeholderSaved:'Saved overall comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('overall',id))});
-  const thread=box.querySelector('[data-overall-thread]');
-  if(thread){
-    const items=reviewerNames.map(name=>{
-      const cm=localStorage.getItem(reviewKey('overall-comment',id,name));
-      const time=localStorage.getItem(reviewKey('overall-comment-edited',id,name));
-      if(!cm) return '';
-      return `<div class="thread-item"><b>${reviewers[name]} · Overall Review</b><p>${esc(cm)}</p>${time?`<p><small>Last edited ${time}</small></p>`:''}</div>`;
-    }).join('');
-    thread.innerHTML='<h3 class="overall-saved-title">Saved Overall Comments</h3>'+(items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>');
-  }
+
 }
 
 function relocateDaySummaries(){
