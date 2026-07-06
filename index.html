@@ -674,6 +674,8 @@ textarea:focus{
 
 /* Build 11.4: visual hierarchy cleanup + compact read-only summary */
 body{background:#f7f0e6 !important;}
+body.splash-active header,body.splash-active main{visibility:hidden !important;}
+body.splash-active #ccmv-splash{visibility:visible !important;}
 header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 #home #progressDashboard{display:none !important;}
 .home-actions{display:flex;gap:8px;flex-wrap:wrap;}
@@ -824,10 +826,12 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="./icon-180.png">
 </head>
-<body>
+<body class="splash-active">
 <style>
 /* Build 11.4: visual hierarchy cleanup + compact read-only summary */
 body{background:#f7f0e6 !important;}
+body.splash-active header,body.splash-active main{visibility:hidden !important;}
+body.splash-active #ccmv-splash{visibility:visible !important;}
 header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 #home #progressDashboard{display:none !important;}
 .home-actions{display:flex;gap:8px;flex-wrap:wrap;}
@@ -958,9 +962,15 @@ textarea{background:#fff !important;}
   100%{opacity:1;transform:translateY(0);filter:blur(0);}
 }
 #ccmv-splash{
-  position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:radial-gradient(circle at 50% 38%, rgba(255,255,255,.72) 0%, rgba(247,240,230,.96) 46%, #efe1cf 100%);
+  position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 38%, #fffaf3 0%, #f7f0e6 46%, #efe1cf 100%);
   transition:opacity 1.05s ease;
+  pointer-events:auto;
+  isolation:isolate;
+}
+#ccmv-splash::before{
+  content:'';position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,#fffaf3 0%,#f7f0e6 52%,#efe1cf 100%);
 }
 #ccmv-splash .ccmv-splash-logo{
   width:clamp(180px,22vw,340px);height:clamp(180px,22vw,340px);border-radius:22%;box-shadow:0 14px 36px rgba(142,111,63,.24);
@@ -986,12 +996,12 @@ textarea{background:#fff !important;}
   var startTime = Date.now();
   function hideSplash(){
     var s = document.getElementById('ccmv-splash');
-    if(!s) return;
+    if(!s){ document.body.classList.remove('splash-active'); return; }
     var elapsed = Date.now() - startTime;
     var wait = Math.max(0, MIN_SHOW_MS - elapsed);
     setTimeout(function(){
       s.style.opacity = '0';
-      setTimeout(function(){ s.remove(); }, 1050);
+      setTimeout(function(){ s.remove(); document.body.classList.remove('splash-active'); }, 1050);
     }, wait);
   }
   var fallback = setTimeout(hideSplash, 7600);
