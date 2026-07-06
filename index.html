@@ -1108,7 +1108,7 @@ textarea{background:#fff !important;}
 <button data-open="overall">Overall Review</button>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
-<div data-reviewer-toggle=""><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></div>
+<button type="button" class="reviewer-toggle-btn" data-reviewer-toggle="" aria-haspopup="true" aria-expanded="false"><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></button>
 <div aria-label="Reviewer identity" class="reviewer-pills" role="group">
 <button class="reviewer-pill" data-reviewer="Christal">🧸 Christal</button>
 <button class="reviewer-pill" data-reviewer="Crystal">👓 Crystal</button>
@@ -2705,6 +2705,59 @@ if ('serviceWorker' in navigator) {
   }, true);
   window.addEventListener('resize', positionReviewerMenu, {passive:true});
   window.addEventListener('scroll', positionReviewerMenu, {passive:true});
+})();
+</script>
+
+
+<style>
+/* Build 11.20: reliable reviewer switch tap target */
+.reviewer-toggle-btn{appearance:none;-webkit-appearance:none;border:1px solid rgba(142,111,63,.24);border-radius:999px;background:rgba(255,250,243,.94);padding:7px 12px;font-family:var(--sans);font-size:13px;font-weight:800;color:var(--gold-deep);display:inline-flex;align-items:center;gap:6px;cursor:pointer;touch-action:manipulation;position:relative;z-index:2147482000;white-space:nowrap;pointer-events:auto;}
+.topnav .reviewer-toggle-btn{height:34px;flex:0 0 auto;}
+.reviewer-bar,.reviewer-inner{pointer-events:auto !important;}
+.reviewer-pills{pointer-events:auto !important;}
+</style>
+<script>
+/* Build 11.20: handle reviewer toggle before nav/scroll handlers can swallow the tap. */
+(function(){
+  function positionMenu(){
+    var bar=document.querySelector('.reviewer-bar');
+    var toggle=document.querySelector('[data-reviewer-toggle]');
+    var menu=document.querySelector('.reviewer-pills');
+    if(!bar||!toggle||!menu||!bar.classList.contains('open')) return;
+    menu.classList.add('reviewer-overlay-open');
+    var r=toggle.getBoundingClientRect();
+    var menuWidth=Math.max(178, Math.min(224, menu.offsetWidth || 178));
+    var left=Math.min(Math.max(14, r.left), window.innerWidth-menuWidth-14);
+    var top=Math.min(r.bottom+8, window.innerHeight-20);
+    document.documentElement.style.setProperty('--reviewer-menu-top', top+'px');
+    document.documentElement.style.setProperty('--reviewer-menu-left', left+'px');
+    document.documentElement.style.setProperty('--reviewer-menu-width', menuWidth+'px');
+    toggle.setAttribute('aria-expanded','true');
+  }
+  function closeMenu(){
+    var bar=document.querySelector('.reviewer-bar');
+    var toggle=document.querySelector('[data-reviewer-toggle]');
+    var menu=document.querySelector('.reviewer-pills');
+    if(bar) bar.classList.remove('open');
+    if(menu) menu.classList.remove('reviewer-overlay-open');
+    if(toggle) toggle.setAttribute('aria-expanded','false');
+  }
+  document.addEventListener('click', function(e){
+    var toggle=e.target.closest('[data-reviewer-toggle]');
+    if(toggle){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var bar=document.querySelector('.reviewer-bar');
+      var willOpen=!(bar&&bar.classList.contains('open'));
+      if(bar) bar.classList.toggle('open', willOpen);
+      if(willOpen) setTimeout(positionMenu,0); else closeMenu();
+      return;
+    }
+    if(e.target.closest('[data-reviewer]')){ setTimeout(closeMenu,0); return; }
+    if(!e.target.closest('.reviewer-bar')) closeMenu();
+  }, true);
+  window.addEventListener('resize', positionMenu, {passive:true});
+  window.addEventListener('scroll', positionMenu, {passive:true});
 })();
 </script>
 
