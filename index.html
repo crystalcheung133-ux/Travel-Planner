@@ -984,11 +984,46 @@ textarea{background:#fff !important;}
   margin-top:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans TC',sans-serif;color:#8e6f3f;opacity:0;font-size:13px;letter-spacing:.24em;text-transform:uppercase;
   animation:ccmvSplashTextIn 1.9s cubic-bezier(.2,.8,.2,1) 3.35s forwards;
 }
+
+/* Build 11.18: first-time reviewer gate */
+#ccmv-join{
+  position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(circle at 50% 36%, #fffaf3 0%, #f7f0e6 50%, #efe1cf 100%);
+  opacity:0;transition:opacity .75s ease;pointer-events:auto;
+}
+#ccmv-join.show{display:flex;opacity:1;}
+.ccmv-join-card{
+  width:min(92vw,420px);border:1px solid rgba(142,111,63,.20);border-radius:30px;background:rgba(255,250,243,.92);
+  box-shadow:0 28px 70px rgba(77,55,30,.16);padding:28px 22px;text-align:center;position:relative;overflow:hidden;
+}
+.ccmv-join-card::before{content:'';position:absolute;inset:-60px auto auto -50px;width:150px;height:150px;border-radius:50%;background:rgba(142,111,63,.08);}
+.ccmv-join-card h2{margin:0 0 8px;font-family:ui-serif,Georgia,'Times New Roman','Noto Serif TC',serif;color:#8e6f3f;font-size:30px;letter-spacing:.02em;}
+.ccmv-join-card p{margin:0 0 18px;color:#7d6f62;font-size:14px;line-height:1.55;}
+.ccmv-join-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.ccmv-join-options button{
+  border:1px solid rgba(142,111,63,.20);border-radius:20px;background:#fff;padding:13px 10px;font-family:var(--sans);font-size:15px;color:var(--ink);
+  box-shadow:0 10px 24px rgba(77,55,30,.06);cursor:pointer;
+}
+.ccmv-join-options button:active{transform:translateY(1px);}
+@media(max-width:420px){.ccmv-join-options{grid-template-columns:1fr}.ccmv-join-card{padding:26px 18px}.ccmv-join-card h2{font-size:28px}}
+
 </style>
 <div id="ccmv-splash">
   <img class="ccmv-splash-logo" src="./icon-512.png" alt="CCMV"/>
   <div class="ccmv-splash-title">CCMV Journey Planner</div>
   <div class="ccmv-splash-subtitle">Vietnam 2026</div>
+</div>
+<div id="ccmv-join" aria-modal="true" role="dialog" aria-labelledby="ccmv-join-title">
+  <div class="ccmv-join-card">
+    <h2 id="ccmv-join-title">Who’s joining?</h2>
+    <p>Choose your name to begin.</p>
+    <div class="ccmv-join-options">
+      <button data-join-reviewer="Christal">🧸 Christal</button>
+      <button data-join-reviewer="Crystal">👓 Crystal</button>
+      <button data-join-reviewer="Mero">✝️ Mero</button>
+      <button data-join-reviewer="Vivian">👟 Vivian</button>
+    </div>
+  </div>
 </div>
 <script>
 (function(){
@@ -1001,7 +1036,7 @@ textarea{background:#fff !important;}
     var wait = Math.max(0, MIN_SHOW_MS - elapsed);
     setTimeout(function(){
       s.style.opacity = '0';
-      setTimeout(function(){ s.remove(); document.body.classList.remove('splash-active'); }, 1050);
+      setTimeout(function(){ s.remove(); document.body.classList.remove('splash-active'); if(window.CCMV_showJoinGate) window.CCMV_showJoinGate(); }, 1050);
     }, wait);
   }
   var fallback = setTimeout(hideSplash, 9000);
@@ -1022,6 +1057,7 @@ textarea{background:#fff !important;}
 <div data-reviewer-toggle=""><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></div>
 <div aria-label="Reviewer identity" class="reviewer-pills" role="group">
 <button class="reviewer-pill" data-reviewer="Christal">🧸 Christal</button>
+<button class="reviewer-pill" data-reviewer="Crystal">👓 Crystal</button>
 <button class="reviewer-pill" data-reviewer="Mero">✝️ Mero</button>
 <button class="reviewer-pill" data-reviewer="Vivian">👟 Vivian</button>
 </div>
@@ -1643,7 +1679,7 @@ textarea{background:#fff !important;}
 <div class="build-badge">Build 11.14 Welcome</div>
 <script>
 
-const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
+const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
 
 
 /* Build 11.11 clean planner test: isolate this ZIP from previous testing data. */
@@ -1807,9 +1843,10 @@ async function initSupabaseReadiness(){
     setSyncStatus('Offline fallback · Supabase unavailable','warn');
   }
 }
-const reviewers=(tripData.reviewers||[]).reduce((acc,r)=>{acc[r.id]=`${r.emoji} ${r.name}`;return acc;}, {Christal:'🧸 Christal',Mero:'✝️ Mero',Vivian:'👟 Vivian'});
+const reviewers=(tripData.reviewers||[]).reduce((acc,r)=>{acc[r.id]=`${r.emoji} ${r.name}`;return acc;}, {Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'});
 const reviewerNames=Object.keys(reviewers);
-let currentReviewer=localStorage.getItem('ccmv:reviewer')||'Christal';
+const storedReviewer=localStorage.getItem('ccmv:reviewer');
+let currentReviewer=storedReviewer||'Christal';
 if(!reviewers[currentReviewer]) currentReviewer='Christal';
 let currentFilter=localStorage.getItem('ccmv:reviewFilter')||'All';
 const pages=[...document.querySelectorAll('[data-page]')];
@@ -1936,6 +1973,8 @@ function showPage(id){
 function setReviewer(name){
   currentReviewer=reviewers[name]?name:'Christal';
   localStorage.setItem('ccmv:reviewer',currentReviewer);
+  localStorage.setItem('ccmv:reviewerChosen','yes');
+  document.getElementById('ccmv-join')?.classList.remove('show');
   document.querySelectorAll('.comment-box,[data-day-wrap],[data-overall-review],[data-planner-notes]').forEach(b=>delete b.dataset.editing);
   renderAll();
 }
@@ -1943,6 +1982,18 @@ function renderReviewer(){
   document.querySelector('[data-current-reviewer-label]').textContent=reviewers[currentReviewer];
   document.querySelectorAll('[data-reviewer]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.reviewer===currentReviewer));
 }
+
+function shouldShowJoinGate(){
+  const chosen=localStorage.getItem('ccmv:reviewerChosen')==='yes';
+  const stored=localStorage.getItem('ccmv:reviewer');
+  return !(chosen && stored && reviewers[stored]);
+}
+window.CCMV_showJoinGate=function(){
+  if(!shouldShowJoinGate()) return;
+  const gate=document.getElementById('ccmv-join');
+  if(gate){ gate.classList.add('show'); }
+};
+
 function reactionLabel(r){return r?({keep:'Keep',discuss:'Discuss',replace:'Replace'}[r]||r):'Comment';}
 function reactionIcon(r){return ({keep:'🟢',discuss:'🟡',replace:'🔴'}[r]||'⚪');}
 function cardTitle(card){return (card.querySelector('h4')?.textContent||'Review item').trim();}
@@ -2413,6 +2464,7 @@ function renderPlannerNotes(){
   });
 }
 document.addEventListener('click',async e=>{
+  const join=e.target.closest('[data-join-reviewer]'); if(join){ setReviewer(join.dataset.joinReviewer); return; }
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
   const toggleReviewer=e.target.closest('[data-reviewer-toggle]'); if(toggleReviewer){ document.querySelector('.reviewer-bar')?.classList.toggle('open'); return; }
   const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); document.querySelector('.reviewer-bar')?.classList.remove('open'); return; }
