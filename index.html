@@ -618,7 +618,7 @@ textarea:focus{
 
 
 /* Build 11.1: reviewer dropdown + mobile timeline reference fix */
-.build-badge::after{content:' · 11.3'}
+.build-badge::after{content:' · 11.4'}
 .reviewer-bar{
   overflow:visible !important;
   contain:none !important;
@@ -670,6 +670,62 @@ textarea:focus{
 .summary-list{display:grid;gap:10px}.summary-row{border:1px solid rgba(142,111,63,.18);border-radius:18px;background:rgba(255,250,243,.62);padding:12px}.summary-row-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.summary-row-head b{font-family:var(--font);font-size:18px}.summary-comments{margin-top:8px;display:grid;gap:6px}.summary-comment{font-size:13px;line-height:1.45;color:var(--ink);background:rgba(255,255,255,.62);border-radius:12px;padding:8px}.summary-comment b{font-family:var(--sans);font-size:12px;color:var(--gold-deep);display:block;margin-bottom:2px}.summary-empty{color:var(--muted);font-size:13px}.summary-chipline{display:flex;gap:5px;flex-wrap:wrap}.summary-chip{font-size:12px;border:1px solid rgba(142,111,63,.18);border-radius:999px;padding:4px 7px;background:rgba(255,255,255,.6)}
 @media(max-width:720px){.reviewer-pills{right:0 !important}.summary-row{padding:10px}.summary-row-head b{font-size:16px}}
 
+
+
+/* Build 11.4: visual hierarchy cleanup + compact read-only summary */
+body{background:#f7f0e6 !important;}
+header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
+#home #progressDashboard{display:none !important;}
+.home-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.home-actions button{white-space:nowrap;}
+.reviewer-inner{position:relative !important;justify-content:flex-end !important;}
+.reviewer-pills{right:0 !important;top:calc(100% + 6px) !important;}
+.activity,.day-wrap,.day-summary,.final-card,.summary-section,.review-summary-intro{background:rgba(255,255,255,.58) !important;border-color:rgba(142,111,63,.16) !important;box-shadow:0 8px 18px rgba(77,55,30,.035) !important;}
+.activity.cardmark::after,.day-wrap.cardmark::after,.day-summary.cardmark::after,.final-card.cardmark::after{opacity:.055 !important;}
+.chips span,.summary-chip,.pending-pill,.review-badge{background:rgba(255,250,243,.58) !important;border-color:rgba(142,111,63,.14) !important;color:rgba(47,41,35,.72) !important;}
+.reaction button,.wrap-actions button{background:rgba(255,255,255,.7) !important;border-color:rgba(142,111,63,.18) !important;color:rgba(47,41,35,.75) !important;}
+.reaction button.selected,.wrap-actions button.selected{background:var(--ink) !important;border-color:var(--ink) !important;color:var(--paper) !important;}
+.status-all-good,.decision-status-card.status-all-good{background:rgba(255,255,255,.62) !important;color:#4f7354 !important;}
+.status-discuss,.decision-status-card.status-discuss{background:rgba(255,250,243,.86) !important;color:#8e6f3f !important;}
+.status-replace,.decision-status-card.status-replace{background:rgba(255,244,241,.86) !important;color:#8f4b43 !important;}
+.status-none,.decision-status-card.status-none{background:rgba(255,255,255,.5) !important;color:var(--muted) !important;}
+.summary-section{padding:14px !important;margin-top:12px !important;}
+.summary-section h3{font-size:21px !important;margin:0 0 4px !important;}
+.summary-section .muted{font-size:13px !important;line-height:1.35 !important;}
+.decision-status-grid{gap:8px !important;margin:10px 0 !important;}
+.decision-status-card{padding:11px !important;border-radius:16px !important;}
+.decision-status-card b{font-size:24px !important;}
+.dashboard-summary{grid-template-columns:1fr !important;gap:8px !important;}
+.progress-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}
+.progress-card,.summary-card{padding:11px !important;border-radius:16px !important;background:rgba(255,255,255,.58) !important;}
+.summary-bucket{border:1px solid rgba(142,111,63,.16);border-radius:18px;background:rgba(255,250,243,.48);padding:0;overflow:hidden;}
+.summary-bucket+ .summary-bucket{margin-top:8px;}
+.summary-bucket>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 13px;font-family:var(--font);font-size:18px;color:var(--ink);}
+.summary-bucket>summary::-webkit-details-marker{display:none;}
+.summary-bucket>summary::before{content:'+';font-family:var(--sans);font-weight:900;color:var(--gold-deep);}
+.summary-bucket[open]>summary::before{content:'−';}
+.summary-bucket>summary span{flex:1;}
+.summary-bucket>summary b{font-family:var(--sans);font-size:12px;border:1px solid rgba(142,111,63,.16);border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.72);}
+.summary-bucket>.summary-empty{margin:0 13px 10px;font-size:12.5px;}
+.summary-list-inner{display:grid;gap:8px;padding:0 10px 10px;}
+.summary-row{border-radius:14px !important;padding:10px !important;background:rgba(255,255,255,.62) !important;}
+.summary-row-head b{font-size:16px !important;line-height:1.25;}
+.summary-chipline{margin-top:7px;}
+.compact-comments{margin-top:7px;}
+.compact-comments summary{cursor:pointer;font-size:12px;font-weight:800;color:var(--gold-deep);list-style:none;}
+.compact-comments summary::-webkit-details-marker{display:none;}
+.overall-review .review-thread{display:grid !important;}
+#final .review-thread{display:none !important;}
+#overall .final-card{max-width:860px;margin-inline:auto;}
+#overall textarea{min-height:120px !important;}
+@media(max-width:720px){
+  .topnav{overflow-x:auto;justify-content:flex-start;}
+  .topnav button{flex:0 0 auto;}
+  .progress-grid{grid-template-columns:1fr !important;}
+  .summary-bucket>summary{font-size:16px;padding:11px;}
+  .home-actions button{font-size:12px;padding:8px 10px;}
+}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -691,6 +747,62 @@ textarea:focus{
 #ccmv-splash .ccmv-splash-title {
   animation: ccmvFadeInUp .7s ease-out .2s both;
 }
+
+
+/* Build 11.4: visual hierarchy cleanup + compact read-only summary */
+body{background:#f7f0e6 !important;}
+header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
+#home #progressDashboard{display:none !important;}
+.home-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.home-actions button{white-space:nowrap;}
+.reviewer-inner{position:relative !important;justify-content:flex-end !important;}
+.reviewer-pills{right:0 !important;top:calc(100% + 6px) !important;}
+.activity,.day-wrap,.day-summary,.final-card,.summary-section,.review-summary-intro{background:rgba(255,255,255,.58) !important;border-color:rgba(142,111,63,.16) !important;box-shadow:0 8px 18px rgba(77,55,30,.035) !important;}
+.activity.cardmark::after,.day-wrap.cardmark::after,.day-summary.cardmark::after,.final-card.cardmark::after{opacity:.055 !important;}
+.chips span,.summary-chip,.pending-pill,.review-badge{background:rgba(255,250,243,.58) !important;border-color:rgba(142,111,63,.14) !important;color:rgba(47,41,35,.72) !important;}
+.reaction button,.wrap-actions button{background:rgba(255,255,255,.7) !important;border-color:rgba(142,111,63,.18) !important;color:rgba(47,41,35,.75) !important;}
+.reaction button.selected,.wrap-actions button.selected{background:var(--ink) !important;border-color:var(--ink) !important;color:var(--paper) !important;}
+.status-all-good,.decision-status-card.status-all-good{background:rgba(255,255,255,.62) !important;color:#4f7354 !important;}
+.status-discuss,.decision-status-card.status-discuss{background:rgba(255,250,243,.86) !important;color:#8e6f3f !important;}
+.status-replace,.decision-status-card.status-replace{background:rgba(255,244,241,.86) !important;color:#8f4b43 !important;}
+.status-none,.decision-status-card.status-none{background:rgba(255,255,255,.5) !important;color:var(--muted) !important;}
+.summary-section{padding:14px !important;margin-top:12px !important;}
+.summary-section h3{font-size:21px !important;margin:0 0 4px !important;}
+.summary-section .muted{font-size:13px !important;line-height:1.35 !important;}
+.decision-status-grid{gap:8px !important;margin:10px 0 !important;}
+.decision-status-card{padding:11px !important;border-radius:16px !important;}
+.decision-status-card b{font-size:24px !important;}
+.dashboard-summary{grid-template-columns:1fr !important;gap:8px !important;}
+.progress-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}
+.progress-card,.summary-card{padding:11px !important;border-radius:16px !important;background:rgba(255,255,255,.58) !important;}
+.summary-bucket{border:1px solid rgba(142,111,63,.16);border-radius:18px;background:rgba(255,250,243,.48);padding:0;overflow:hidden;}
+.summary-bucket+ .summary-bucket{margin-top:8px;}
+.summary-bucket>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 13px;font-family:var(--font);font-size:18px;color:var(--ink);}
+.summary-bucket>summary::-webkit-details-marker{display:none;}
+.summary-bucket>summary::before{content:'+';font-family:var(--sans);font-weight:900;color:var(--gold-deep);}
+.summary-bucket[open]>summary::before{content:'−';}
+.summary-bucket>summary span{flex:1;}
+.summary-bucket>summary b{font-family:var(--sans);font-size:12px;border:1px solid rgba(142,111,63,.16);border-radius:999px;padding:4px 8px;background:rgba(255,255,255,.72);}
+.summary-bucket>.summary-empty{margin:0 13px 10px;font-size:12.5px;}
+.summary-list-inner{display:grid;gap:8px;padding:0 10px 10px;}
+.summary-row{border-radius:14px !important;padding:10px !important;background:rgba(255,255,255,.62) !important;}
+.summary-row-head b{font-size:16px !important;line-height:1.25;}
+.summary-chipline{margin-top:7px;}
+.compact-comments{margin-top:7px;}
+.compact-comments summary{cursor:pointer;font-size:12px;font-weight:800;color:var(--gold-deep);list-style:none;}
+.compact-comments summary::-webkit-details-marker{display:none;}
+.overall-review .review-thread{display:grid !important;}
+#final .review-thread{display:none !important;}
+#overall .final-card{max-width:860px;margin-inline:auto;}
+#overall textarea{min-height:120px !important;}
+@media(max-width:720px){
+  .topnav{overflow-x:auto;justify-content:flex-start;}
+  .topnav button{flex:0 0 auto;}
+  .progress-grid{grid-template-columns:1fr !important;}
+  .summary-bucket>summary{font-size:16px;padding:11px;}
+  .home-actions button{font-size:12px;padding:8px 10px;}
+}
+
 </style>
 <div id="ccmv-splash" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f0e6;transition:opacity .4s ease;">
   <img src="./icon-512.png" alt="CCMV" style="width:clamp(180px,22vw,340px);height:clamp(180px,22vw,340px);border-radius:22%;box-shadow:0 12px 32px rgba(142,111,63,.3);"/>
@@ -723,6 +835,7 @@ textarea:focus{
 <div class="topnav">
 <button data-open="home">Journey</button>
 <button data-open="day1">DAY 1</button><button data-open="day2">DAY 2</button><button data-open="day3">DAY 3</button><button data-open="day4">DAY 4</button><button data-open="day5">DAY 5</button>
+<button data-open="overall">Overall Review</button>
 <button data-open="final">Review Summary</button>
 </div>
 </div>
@@ -748,6 +861,7 @@ textarea:focus{
 <p>出發前簡單睇一次行程，按自己感覺表態，提出想改或想保留的地方。唔需要寫長 comment；撳一個 quick reaction，已經係 contribution。</p>
 <div class="home-actions">
 <button data-open="day1">Start Day 1 →</button>
+<button data-open="overall">Overall Review</button>
 <button data-open="final">Review Summary</button>
 </div>
 </div>
@@ -1377,14 +1491,30 @@ with check (true);</pre>
 <div class="bottom-nav">
 <button data-open="day4">← Previous Day</button>
 <button data-open="home">Journey</button>
-<button data-open="final">Overall Review →</button>
+<button data-open="overall">Overall Review →</button>
+</div>
+</section>
+<section class="page" data-page="" id="overall">
+<div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
+<p class="eyebrow">Overall Review</p>
+<h2>Whole Journey Check</h2>
+<p class="muted">呢一頁係俾每位 reviewer 最後提交一次整體意見；Review Summary 只負責睇結果，不會在 Summary 頁再輸入。</p>
+<div class="wrap-actions overall-actions">
+<button data-overall-status="keep">👍 Overall OK</button>
+<button data-overall-status="discuss">🤔 Need to discuss</button>
+<button data-overall-status="replace">🔁 Important change needed</button>
+</div>
+<textarea placeholder="Overall Review comment / 對成個行程嘅總體想法、最想保留、最想改、或者 unresolved decision…"></textarea>
+<div class="comment-actions"><button data-overall-save="">Save Overall Review</button><span class="wrap-status" data-overall-note=""></span></div>
+<div class="review-thread" data-overall-thread=""></div>
+<div class="bottom-nav"><button data-open="day5">← Day 5</button><button data-open="final">Review Summary →</button></div>
 </div>
 </section>
 <section class="page" data-page="" id="final">
 <div class="final-card cardmark">
 <p class="eyebrow">Review Summary</p>
-<h2>Planner Results</h2>
-<p class="muted">呢一頁只係睇結果，不再喺呢度輸入 comment。要表態或留言，請入返 Day 1–5 活動卡或每日 Day Wrap-up。</p>
+<h2>Clean Decision Summary</h2>
+<p class="muted">只讀結果頁：先睇 unresolved / replace / discuss，再睇 Day Wrap-up 同 Overall Review。要留言請去 Day cards、Day Wrap-up 或 Overall Review。</p>
 <div class="review-summary-intro">
   <p class="eyebrow">Final Decision Status</p>
   <div class="decision-status-grid" data-decision-status></div>
@@ -1414,7 +1544,7 @@ with check (true);</pre>
 </div>
 </section>
 </main>
-<div class="build-badge">Build 11.3 Compact</div>
+<div class="build-badge">Build 11.4 Clean</div>
 <script src="trip-data.js"></script>
 <script>
 
@@ -1831,7 +1961,11 @@ function renderSummaryActivities(){
   const list=document.querySelector('[data-summary-activity-list]');
   if(!list) return;
   const cards=[...document.querySelectorAll('.activity')];
-  const rows=cards.map(card=>{
+  const bucketOrder=['replace','discuss','none','all-good'];
+  const bucketTitle={replace:'🔁 Replacement Requested',discuss:'🤔 Needs Discussion',none:'⚪ Not Reviewed', 'all-good':'✅ All Good'};
+  const bucketHint={replace:'需要優先決定是否更換。',discuss:'有人按 Discuss，或未達四人一致 Keep。',none:'暫時未有人 review。', 'all-good':'四人一致 Keep；預設收起，減少雜訊。'};
+  const buckets={replace:[],discuss:[],none:[], 'all-good':[]};
+  cards.forEach(card=>{
     const id=safeCardKey(card);
     const day=card.closest('.page')?.id?.replace('day','Day ')||'Plan';
     const title=card.querySelector('h4')?.textContent.trim()||'Activity';
@@ -1845,9 +1979,14 @@ function renderSummaryActivities(){
       if(!cm) return '';
       return `<div class="summary-comment"><b>${reviewers[name]}</b>${esc(cm)}</div>`;
     }).filter(Boolean).join('');
-    return `<div class="summary-row status-${status}"><div class="summary-row-head"><b>${esc(day)} · ${esc(title)}</b><span class="day-summary-status status-${status}">${statusLabel[status]}</span></div><div class="summary-chipline">${chips}</div>${comments?`<div class="summary-comments">${comments}</div>`:`<div class="summary-empty">No comments yet.</div>`}</div>`;
+    buckets[status].push(`<div class="summary-row status-${status}"><div class="summary-row-head"><b>${esc(day)} · ${esc(title)}</b><span class="day-summary-status status-${status}">${statusLabel[status]}</span></div><div class="summary-chipline">${chips}</div>${comments?`<details class="summary-comments compact-comments"><summary>${(comments.match(/summary-comment/g)||[]).length} comment${(comments.match(/summary-comment/g)||[]).length>1?'s':''}</summary>${comments}</details>`:`<div class="summary-empty">No comments yet.</div>`}</div>`);
+  });
+  const groups=bucketOrder.map(status=>{
+    const rows=buckets[status];
+    const open=status==='replace'||status==='discuss';
+    return `<details class="summary-bucket status-${status}" ${open?'open':''}><summary><span>${bucketTitle[status]}</span><b>${rows.length}</b></summary><p class="summary-empty">${bucketHint[status]}</p><div class="summary-list-inner">${rows.length?rows.join(''):'<div class="summary-row"><div class="summary-empty">No items in this bucket.</div></div>'}</div></details>`;
   }).join('');
-  list.innerHTML=rows||'<div class="summary-row"><b>No activity cards found.</b></div>';
+  list.innerHTML=cards.length?groups:'<div class="summary-row"><b>No activity cards found.</b></div>';
 }
 function renderFinal(){
   const list=document.querySelector('[data-final-review-list]');
@@ -1862,7 +2001,8 @@ function renderFinal(){
     }).filter(Boolean).join('');
     const status=computeWrapStatus(day);
     const dayName=day.replace('-wrap','').toUpperCase();
-    return `<div class="summary-row"><div class="summary-row-head"><b>${dayName}</b><span class="day-summary-status status-${status}">${statusLabel[status]}</span></div>${rows?`<div class="summary-comments">${rows}</div>`:`<div class="summary-empty">No Day Wrap-up submitted yet.</div>`}</div>`;
+    const count=(rows.match(/summary-comment/g)||[]).length;
+    return `<details class="summary-bucket day-wrap-summary status-${status}" ${status==='replace'||status==='discuss'?'open':''}><summary><span>${dayName} · ${statusLabel[status]}</span><b>${count}</b></summary>${rows?`<div class="summary-comments">${rows}</div>`:`<div class="summary-empty">No Day Wrap-up submitted yet.</div>`}</details>`;
   }).join('');
   list.innerHTML=items||`<div class="summary-row"><b>Day Wrap-up Summary</b><div class="summary-empty">Submitted day summaries will appear here.</div></div>`;
 }
@@ -1876,7 +2016,7 @@ function renderOverallSummary(){
     if(!st && !cm) return '';
     return `<div class="summary-row"><div class="summary-row-head"><b>${reviewers[name]}</b><span class="summary-chip">${st?reactionIcon(st)+' '+reactionLabel(st):'Comment'}</span></div>${cm?`<div class="summary-comments"><div class="summary-comment">${esc(cm)}</div></div>`:`<div class="summary-empty">No comment text.</div>`}</div>`;
   }).filter(Boolean).join('');
-  list.innerHTML=rows||'<div class="summary-row"><b>No Overall Review notes yet.</b><div class="summary-empty">Overall Review input is hidden from the Summary page to keep this page read-only.</div></div>';
+  list.innerHTML=rows||'<div class="summary-row"><b>No Overall Review notes yet.</b><div class="summary-empty">Go to Overall Review to submit final whole-trip comments.</div></div>';
 }
 function renderOverall(){
   const box=document.querySelector('[data-overall-review]');
