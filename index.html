@@ -779,6 +779,12 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 .day-summary-details>summary{text-align:left !important;}
 .overall-helper{margin:8px 0 14px;color:var(--muted);line-height:1.55;font-size:14px;}
 .overall-review h2{margin-bottom:6px;}
+
+/* Build 11.11 fixes */
+#overall [data-overall-thread].review-thread{display:grid !important; gap:10px !important; margin:12px 0 16px !important;}
+#overall [data-overall-thread] .thread-item{display:block !important;}
+.saved-review-view{background:rgba(70,55,42,.08) !important;border:1px solid rgba(70,55,42,.12) !important;}
+body.keyboard-editing{overflow-x:hidden;}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -1578,16 +1584,26 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.7 Cleanup</div>
+<div class="build-badge">Build 11.11 Clear Test</div>
 <script src="trip-data.js"></script>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
 
+
+/* Build 11.11 clean planner test: isolate this ZIP from previous testing data. */
+(function clearPreviousPlannerTestDataOnce(){
+  const flag='ccmv11_11_clear_test_loaded';
+  if(localStorage.getItem(flag)==='yes') return;
+  Object.keys(localStorage).forEach(k=>{
+    if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:reviewFilter')) localStorage.removeItem(k);
+  });
+  localStorage.setItem(flag,'yes');
+})();
 const CCMV_SUPABASE={
   url:'https://dafgbqygccvctifrevpa.supabase.co',
   anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhZmdicXlnY2N2Y3RpZnJldnBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTQyOTksImV4cCI6MjA5ODgzMDI5OX0.9dB6WV8BldV6rGze3QuisIaj3qnUV7zSzdo_eGPBbrA',
-  planId:tripData.planId||'ccmv-saigon-2026',
+  planId:'ccmv-saigon-2026-build11-11-clear-test',
   table:'planner_reviews'
 };
 let supabaseClient=null;
@@ -2153,6 +2169,7 @@ function renderOverall(){
   const id=box.dataset.overallReview;
   const saved=localStorage.getItem(reviewKey('overall-comment',id));
   const editedAt=localStorage.getItem(reviewKey('overall-comment-edited',id));
+  box.dataset.draftText = localStorage.getItem(draftKey('overall-comment',id)) || '';
   box.dataset.savedForce=Boolean((saved||'').trim()||editedAt)?'true':'false';
   setupCommentBox(box,{saved,editedAt,saveSelector:'[data-overall-save]',statusSelector:'[data-overall-note]',placeholderSaved:'Saved overall comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('overall',id))});
   const thread=box.querySelector('[data-overall-thread]');
@@ -2224,10 +2241,8 @@ function keepActiveCommentVisible(extra=28){
   }
 }
 function scheduleActiveCommentVisible(){
-  requestAnimationFrame(()=>keepActiveCommentVisible(34));
-  setTimeout(()=>keepActiveCommentVisible(40),120);
-  setTimeout(()=>keepActiveCommentVisible(46),320);
-  setTimeout(()=>keepActiveCommentVisible(52),650);
+  /* Build 11.11: one gentle positioning pass only, no repeated scroll chasing. */
+  requestAnimationFrame(()=>keepActiveCommentVisible(36));
 }
 document.addEventListener('focusin',e=>{
   const ta=e.target.closest?.('textarea');
@@ -2244,7 +2259,7 @@ document.addEventListener('focusin',e=>{
   scheduleActiveCommentVisible();
 });
 document.addEventListener('input',e=>{
-  if(e.target && e.target===ccmvActiveTextarea) scheduleActiveCommentVisible();
+  /* Build 11.11: do not auto-scroll on every keystroke; it made mobile comment pages jump. */
 });
 document.addEventListener('focusout',e=>{
   const ta=e.target.closest?.('textarea');
@@ -2262,7 +2277,7 @@ if(window.visualViewport){
     if(ccmvActiveTextarea) scheduleActiveCommentVisible();
   });
   window.visualViewport.addEventListener('scroll',()=>{
-    if(ccmvActiveTextarea) scheduleActiveCommentVisible();
+    /* no-op: prevent typing/focus scroll loops on mobile */
   });
 }
 async function saveActivity(card){
@@ -2311,6 +2326,7 @@ async function saveOverall(box){
   closeIOSKeyboard();
   setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
   localStorage.setItem(reviewKey('overall-comment',id),comment);
+  localStorage.removeItem(draftKey('overall-comment',id));
   localStorage.setItem(reviewKey('overall-comment-edited',id),stamp());
   setSyncNote('overall',id,'Saving…');
   delete box.dataset.editing; renderAll();
@@ -2369,7 +2385,7 @@ document.addEventListener('click',async e=>{
     const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]'); const plannerBox=clear.closest('[data-planner-notes]');
     if(activity){ const id=safeCardKey(activity); ['reaction','comment','comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('reaction',id)); localStorage.removeItem(draftKey('comment',id)); setSyncNote('activity',id,''); await deleteSupabaseReview('activity',id); const b=activity.querySelector('.comment-box'); if(b) delete b.dataset.editing; }
     else if(wrapBox){ const id=wrapBox.dataset.dayWrap; ['wrap-status','wrap-comment','wrap-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('wrap-status',id)); localStorage.removeItem(draftKey('wrap-comment',id)); setSyncNote('wrap',id,''); await deleteSupabaseReview('wrap',id); delete wrapBox.dataset.editing; }
-    else if(overallBox){ const id=overallBox.dataset.overallReview; ['overall-status','overall-comment','overall-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); setSyncNote('overall',id,''); await deleteSupabaseReview('overall',id); delete overallBox.dataset.editing; }
+    else if(overallBox){ const id=overallBox.dataset.overallReview; ['overall-status','overall-comment','overall-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(draftKey('overall-comment',id)); setSyncNote('overall',id,''); await deleteSupabaseReview('overall',id); delete overallBox.dataset.editing; }
     else if(plannerBox){ const id=plannerBox.dataset.plannerNotes; localStorage.removeItem(reviewKey('planner-note',id,'Planner')); localStorage.removeItem(reviewKey('planner-note-edited',id,'Planner')); await deleteSupabaseReview('planner',id); delete plannerBox.dataset.editing; }
     renderAll(); return;
   }
@@ -2398,6 +2414,8 @@ document.addEventListener('input',e=>{
     if(card) localStorage.setItem(draftKey('comment',safeCardKey(card)),ta.value);
   }else if(box?.matches?.('[data-day-wrap]')){
     localStorage.setItem(draftKey('wrap-comment',box.dataset.dayWrap),ta.value);
+  }else if(box?.matches?.('[data-overall-review]')){
+    localStorage.setItem(draftKey('overall-comment',box.dataset.overallReview),ta.value);
   }
   const save=box?.querySelector('[data-save],[data-wrap-save],[data-overall-save],[data-planner-save]');
   if(save) save.disabled=false;
