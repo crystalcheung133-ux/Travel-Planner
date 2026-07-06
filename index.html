@@ -726,6 +726,14 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
   .home-actions button{font-size:12px;padding:8px 10px;}
 }
 
+
+/* Build 11.5: cleaner decision workflow */
+.comment-warning{font-family:var(--sans);font-size:12px;color:#9b4d32;margin-top:6px;font-weight:700}
+.planner-notes{margin-top:18px;padding:16px;border:1px solid rgba(142,111,63,.18);border-radius:22px;background:rgba(255,255,255,.62);box-shadow:0 8px 18px rgba(77,55,30,.035)}
+.planner-notes textarea{min-height:96px}
+.planner-notes .saved-review-view{margin-top:10px}
+.overall-actions{display:none !important}
+#overall .review-thread{display:none !important}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -803,6 +811,14 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
   .home-actions button{font-size:12px;padding:8px 10px;}
 }
 
+
+/* Build 11.5: cleaner decision workflow */
+.comment-warning{font-family:var(--sans);font-size:12px;color:#9b4d32;margin-top:6px;font-weight:700}
+.planner-notes{margin-top:18px;padding:16px;border:1px solid rgba(142,111,63,.18);border-radius:22px;background:rgba(255,255,255,.62);box-shadow:0 8px 18px rgba(77,55,30,.035)}
+.planner-notes textarea{min-height:96px}
+.planner-notes .saved-review-view{margin-top:10px}
+.overall-actions{display:none !important}
+#overall .review-thread{display:none !important}
 </style>
 <div id="ccmv-splash" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f0e6;transition:opacity .4s ease;">
   <img src="./icon-512.png" alt="CCMV" style="width:clamp(180px,22vw,340px);height:clamp(180px,22vw,340px);border-radius:22%;box-shadow:0 12px 32px rgba(142,111,63,.3);"/>
@@ -833,7 +849,6 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 <div class="container header-inner">
 <button class="brand" data-open="home"><div class="logo"></div><div><b>CCMV Journey Planner</b><span>Vietnam 2026</span></div></button>
 <div class="topnav">
-<button data-open="home">Journey</button>
 <button data-open="day1">DAY 1</button><button data-open="day2">DAY 2</button><button data-open="day3">DAY 3</button><button data-open="day4">DAY 4</button><button data-open="day5">DAY 5</button>
 <button data-open="overall">Overall Review</button>
 <button data-open="final">Review Summary</button>
@@ -1039,6 +1054,14 @@ with check (true);</pre>
 <textarea placeholder="DAY 1 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
+
+<div class="planner-notes cardmark" data-planner-notes="day1-planner-notes">
+<p class="eyebrow">Planner Notes</p>
+<h3>What to change / look into</h3>
+<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
+<textarea placeholder="例如：Day 1 dinner 要再比較；第一日會唔會太趕；要查 spa booking details…"></textarea>
+<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+</div>
 <div class="bottom-nav">
 <button data-open="home">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1159,6 +1182,14 @@ with check (true);</pre>
 <textarea placeholder="DAY 2 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
+
+<div class="planner-notes cardmark" data-planner-notes="day2-planner-notes">
+<p class="eyebrow">Planner Notes</p>
+<h3>What to change / look into</h3>
+<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
+<textarea placeholder="例如：Day 2 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
+<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+</div>
 <div class="bottom-nav">
 <button data-open="day1">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1270,6 +1301,14 @@ with check (true);</pre>
 <div class="wrap-actions"><button data-wrap-status="keep">👍 Keep this day</button><button data-wrap-status="discuss">🤔 Discuss</button><button data-wrap-status="replace">🔁 Replace something</button></div>
 <textarea placeholder="DAY 3 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
+</div>
+
+<div class="planner-notes cardmark" data-planner-notes="day3-planner-notes">
+<p class="eyebrow">Planner Notes</p>
+<h3>What to change / look into</h3>
+<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
+<textarea placeholder="例如：Day 3 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
+<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
 </div>
 <div class="bottom-nav">
 <button data-open="day2">← Previous Day</button>
@@ -1391,6 +1430,14 @@ with check (true);</pre>
 <textarea placeholder="DAY 4 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
+
+<div class="planner-notes cardmark" data-planner-notes="day4-planner-notes">
+<p class="eyebrow">Planner Notes</p>
+<h3>What to change / look into</h3>
+<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
+<textarea placeholder="例如：Day 4 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
+<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+</div>
 <div class="bottom-nav">
 <button data-open="day3">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1488,6 +1535,14 @@ with check (true);</pre>
 <textarea placeholder="DAY 5 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
+
+<div class="planner-notes cardmark" data-planner-notes="day5-planner-notes">
+<p class="eyebrow">Planner Notes</p>
+<h3>What to change / look into</h3>
+<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
+<textarea placeholder="例如：Day 5 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
+<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+</div>
 <div class="bottom-nav">
 <button data-open="day4">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1497,14 +1552,9 @@ with check (true);</pre>
 <section class="page" data-page="" id="overall">
 <div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
 <p class="eyebrow">Overall Review</p>
-<h2>Whole Journey Check</h2>
-<p class="muted">呢一頁係俾每位 reviewer 最後提交一次整體意見；Review Summary 只負責睇結果，不會在 Summary 頁再輸入。</p>
-<div class="wrap-actions overall-actions">
-<button data-overall-status="keep">👍 Overall OK</button>
-<button data-overall-status="discuss">🤔 Need to discuss</button>
-<button data-overall-status="replace">🔁 Important change needed</button>
-</div>
-<textarea placeholder="Overall Review comment / 對成個行程嘅總體想法、最想保留、最想改、或者 unresolved decision…"></textarea>
+<h2>Final Overall Comment</h2>
+<p class="muted">每位 reviewer 最後留一段整體意見就可以；呢度唔需要 Approve / Discuss / Replace。</p>
+<textarea placeholder="Overall Review / 對成個行程嘅總體想法、最想保留、最想改、或者 unresolved decision…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save Overall Review</button><span class="wrap-status" data-overall-note=""></span></div>
 <div class="review-thread" data-overall-thread=""></div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button><button data-open="final">Review Summary →</button></div>
@@ -1575,6 +1625,7 @@ function formatRemoteTime(value){
 }
 function applyRemoteReview(row){
   if(!row || !row.item_id || !row.reviewer) return;
+  if(!row.reaction && !row.comment) return;
   const item=String(row.item_id);
   const person=row.reviewer;
   const time=formatRemoteTime(row.updated_at);
@@ -1584,6 +1635,12 @@ function applyRemoteReview(row){
     localStorage.setItem(reviewKey('wrap-comment',id,person),row.comment||'');
     localStorage.setItem(reviewKey('wrap-comment-edited',id,person),time);
     setSyncNote('wrap',id,'Synced to Supabase',person);
+    return;
+  }
+  if(item.startsWith('planner:')){
+    const id=item.replace(/^planner:/,'');
+    localStorage.setItem(reviewKey('planner-note',id,'Planner'),row.comment||'');
+    localStorage.setItem(reviewKey('planner-note-edited',id,'Planner'),time);
     return;
   }
   if(item.startsWith('overall:')){
@@ -1718,6 +1775,9 @@ function safeCardKey(card){
   return key;
 }
 function reviewKey(type,id,person=currentReviewer){return `ccmv09:${type}:${id}:${person}`;}
+function pendingKey(type,id,person=currentReviewer){return `ccmv09:pending:${type}:${id}:${person}`;}
+function hasSavedActivity(id,person=currentReviewer){return !!(localStorage.getItem(reviewKey('reaction',id,person))||localStorage.getItem(reviewKey('comment-edited',id,person))||localStorage.getItem(reviewKey('comment',id,person)));}
+function hasSavedWrap(id,person=currentReviewer){return !!(localStorage.getItem(reviewKey('wrap-status',id,person))||localStorage.getItem(reviewKey('wrap-comment-edited',id,person))||localStorage.getItem(reviewKey('wrap-comment',id,person)));}
 function ensureCommentControls(box,kind='activity'){
   const actions=box.querySelector('.comment-actions');
   if(!actions) return;
@@ -1725,7 +1785,7 @@ function ensureCommentControls(box,kind='activity'){
   if(!save){ save=document.createElement('button'); save.textContent='Save'; save.setAttribute(kind==='activity'?'data-save':kind==='wrap'?'data-wrap-save':'data-overall-save',''); actions.prepend(save); }
   if(!actions.querySelector('[data-edit]')){ const b=document.createElement('button'); b.textContent='Edit'; b.setAttribute('data-edit',''); actions.insertBefore(b, save.nextSibling); }
   if(!actions.querySelector('[data-cancel]')){ const b=document.createElement('button'); b.textContent='Cancel'; b.setAttribute('data-cancel',''); actions.insertBefore(b, actions.querySelector('[data-clear]')||actions.querySelector('[data-status]')||actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||null); }
-  if(kind!=='activity' && !actions.querySelector('[data-clear]')){ const b=document.createElement('button'); b.textContent='Clear'; b.setAttribute('data-clear',''); actions.insertBefore(b, actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||null); }
+  if(!actions.querySelector('[data-clear]')){ const b=document.createElement('button'); b.textContent='Clear'; b.setAttribute('data-clear',''); actions.insertBefore(b, actions.querySelector('[data-status]')||actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||actions.querySelector('[data-planner-note]')||null); }
   if(!actions.querySelector('[data-status]') && !actions.querySelector('[data-wrap-note]') && !actions.querySelector('[data-overall-note]')){ const s=document.createElement('span'); s.setAttribute('data-status',''); actions.appendChild(s); }
 }
 function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeholderSaved,syncNote}){
@@ -1737,7 +1797,7 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
   const clear=box.querySelector('[data-clear]');
   const status=box.querySelector(statusSelector)||box.querySelector('[data-status]');
   const isEditing=box.dataset.editing==='true';
-  const hasSavedRecord=Boolean((saved||'').trim() || editedAt);
+  const hasSavedRecord=Boolean((saved||'').trim() || editedAt || box.dataset.savedForce==='true');
   let view=box.querySelector('.saved-review-view');
   if(!view){
     view=document.createElement('div');
@@ -1832,13 +1892,16 @@ function dayLabelFor(el){
 
 function renderActivity(card){
   const id=safeCardKey(card);
-  card.querySelectorAll('[data-reaction]').forEach(b=>b.classList.toggle('selected',localStorage.getItem(reviewKey('reaction',id))===b.dataset.reaction));
   const box=card.querySelector('.comment-box');
+  const savedReaction=localStorage.getItem(reviewKey('reaction',id));
+  const pendingReaction=localStorage.getItem(pendingKey('reaction',id));
+  const activeReaction=(box && box.dataset.editing==='true') ? (pendingReaction||savedReaction) : savedReaction;
+  card.querySelectorAll('[data-reaction]').forEach(b=>b.classList.toggle('selected',activeReaction===b.dataset.reaction));
   const saved=localStorage.getItem(reviewKey('comment',id));
   const editedAt=localStorage.getItem(reviewKey('comment-edited',id));
   const hasReaction=!!localStorage.getItem(reviewKey('reaction',id));
   card.classList.toggle('review-open', !!(saved || (box && box.dataset.editing==='true')));
-  if(box) setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('activity',id))});
+  if(box){ box.dataset.savedForce=hasSavedActivity(id)?'true':'false'; setupCommentBox(box,{saved,editedAt,saveSelector:'[data-save]',statusSelector:'[data-status]',placeholderSaved:'Saved comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('activity',id))}); }
   let badge=card.querySelector('[data-approval-badge]');
   if(!badge){ badge=document.createElement('div'); badge.setAttribute('data-approval-badge',''); badge.className='review-badge'; const reactionBox=card.querySelector('.reaction'); if(reactionBox) reactionBox.insertAdjacentElement('afterend',badge); }
   const keepCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))==='keep').length;
@@ -1861,10 +1924,13 @@ function renderActivity(card){
 function renderWrap(box){
   ensureCommentControls(box,'wrap');
   const day=box.dataset.dayWrap;
-  const statusValue=localStorage.getItem(reviewKey('wrap-status',day));
+  const savedStatus=localStorage.getItem(reviewKey('wrap-status',day));
+  const pendingStatus=localStorage.getItem(pendingKey('wrap-status',day));
+  const statusValue=(box.dataset.editing==='true')?(pendingStatus||savedStatus):savedStatus;
   box.querySelectorAll('[data-wrap-status]').forEach(b=>b.classList.toggle('selected',b.dataset.wrapStatus===statusValue));
   const saved=localStorage.getItem(reviewKey('wrap-comment',day));
   const editedAt=localStorage.getItem(reviewKey('wrap-comment-edited',day));
+  box.dataset.savedForce=hasSavedWrap(day)?'true':'false';
   setupCommentBox(box,{saved,editedAt,saveSelector:'[data-wrap-save]',statusSelector:'[data-wrap-note]',placeholderSaved:'Saved day wrap-up / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('wrap',day))});
 }
 function renderDashboard(){
@@ -2006,6 +2072,18 @@ function renderFinal(){
   }).join('');
   list.innerHTML=items||`<div class="summary-row"><b>Day Wrap-up Summary</b><div class="summary-empty">Submitted day summaries will appear here.</div></div>`;
 }
+
+function renderPlannerSummary(){
+  const list=document.querySelector('[data-planner-summary-list]'); if(!list) return;
+  const rows=[1,2,3,4,5].map(n=>{
+    const id=`day${n}-planner-notes`;
+    const cm=localStorage.getItem(reviewKey('planner-note',id,'Planner'));
+    const time=localStorage.getItem(reviewKey('planner-note-edited',id,'Planner'));
+    if(!cm) return '';
+    return `<div class="summary-row"><b>DAY ${n}</b><p>${esc(cm)}</p>${time?`<small>Last edited ${time}</small>`:''}</div>`;
+  }).filter(Boolean).join('');
+  list.innerHTML=rows||'<div class="summary-empty">No planner notes yet.</div>';
+}
 function renderOverallSummary(){
   const list=document.querySelector('[data-overall-summary-list]');
   if(!list) return;
@@ -2023,10 +2101,9 @@ function renderOverall(){
   if(!box) return;
   ensureCommentControls(box,'overall');
   const id=box.dataset.overallReview;
-  const statusValue=localStorage.getItem(reviewKey('overall-status',id));
-  box.querySelectorAll('[data-overall-status]').forEach(b=>b.classList.toggle('selected',b.dataset.overallStatus===statusValue));
   const saved=localStorage.getItem(reviewKey('overall-comment',id));
   const editedAt=localStorage.getItem(reviewKey('overall-comment-edited',id));
+  box.dataset.savedForce=Boolean((saved||'').trim()||editedAt)?'true':'false';
   setupCommentBox(box,{saved,editedAt,saveSelector:'[data-overall-save]',statusSelector:'[data-overall-note]',placeholderSaved:'Saved overall comment / 已儲存，可按 Edit 修改',syncNote:localStorage.getItem(syncNoteKey('overall',id))});
   const thread=box.querySelector('[data-overall-thread]');
   if(thread){
@@ -2041,7 +2118,7 @@ function renderOverall(){
     thread.innerHTML=items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>';
   }
 }
-function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderSummaryActivities();renderFinal();renderOverall();renderOverallSummary();}
+function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderSummaryActivities();renderFinal();renderOverall();renderOverallSummary();renderPlannerNotes();renderPlannerSummary();}
 function closeIOSKeyboard(){
   const active=document.activeElement;
   if(active && /^(TEXTAREA|INPUT|SELECT)$/.test(active.tagName)) active.blur();
@@ -2128,34 +2205,38 @@ if(window.visualViewport){
 async function saveActivity(card){
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
   const comment=ta.value.trim();
-  const reaction=localStorage.getItem(reviewKey('reaction',id));
-  ccmvSuppressBlurRestore=true;
-  closeIOSKeyboard();
-  setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
+  const reaction=localStorage.getItem(pendingKey('reaction',id)) || localStorage.getItem(reviewKey('reaction',id));
+  const status=box.querySelector('[data-status]');
+  if(!reaction){ if(status) status.textContent='Please choose Keep / Discuss / Replace first.'; return; }
+  if((reaction==='discuss'||reaction==='replace') && !comment){ if(status) status.textContent='Discuss / Replace needs a comment.'; ta.focus(); return; }
+  ccmvSuppressBlurRestore=true; closeIOSKeyboard(); setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
+  localStorage.setItem(reviewKey('reaction',id),reaction);
+  localStorage.removeItem(pendingKey('reaction',id));
   localStorage.setItem(reviewKey('comment',id),comment);
   localStorage.setItem(reviewKey('comment-edited',id),stamp());
   setSyncNote('activity',id,'Saving…');
   delete box.dataset.editing; renderAll();
   const ok=await upsertSupabaseReview('activity',id,{reaction,comment});
   setSyncNote('activity',id,ok?'Synced to Supabase':'Saved offline');
-  closeIOSKeyboard();
-  renderAll();
+  closeIOSKeyboard(); renderAll();
 }
 async function saveWrap(box){
   const id=box.dataset.dayWrap, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
-  const reaction=localStorage.getItem(reviewKey('wrap-status',id));
-  ccmvSuppressBlurRestore=true;
-  closeIOSKeyboard();
-  setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
+  const reaction=localStorage.getItem(pendingKey('wrap-status',id)) || localStorage.getItem(reviewKey('wrap-status',id));
+  const status=box.querySelector('[data-wrap-note]');
+  if(!reaction){ if(status) status.textContent='Please choose Keep / Discuss / Replace first.'; return; }
+  if((reaction==='discuss'||reaction==='replace') && !comment){ if(status) status.textContent='Discuss / Replace needs a comment.'; ta.focus(); return; }
+  ccmvSuppressBlurRestore=true; closeIOSKeyboard(); setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
+  localStorage.setItem(reviewKey('wrap-status',id),reaction);
+  localStorage.removeItem(pendingKey('wrap-status',id));
   localStorage.setItem(reviewKey('wrap-comment',id),comment);
   localStorage.setItem(reviewKey('wrap-comment-edited',id),stamp());
   setSyncNote('wrap',id,'Saving…');
   delete box.dataset.editing; renderAll();
   const ok=await upsertSupabaseReview('wrap',id,{reaction,comment});
   setSyncNote('wrap',id,ok?'Synced to Supabase':'Saved offline');
-  closeIOSKeyboard();
-  renderAll();
+  closeIOSKeyboard(); renderAll();
 }
 async function saveOverall(box){
   const id=box.dataset.overallReview, ta=box.querySelector('textarea');
@@ -2173,37 +2254,61 @@ async function saveOverall(box){
   closeIOSKeyboard();
   renderAll();
 }
+
+async function savePlannerNotes(box){
+  const id=box.dataset.plannerNotes, ta=box.querySelector('textarea');
+  const comment=ta.value.trim();
+  ccmvSuppressBlurRestore=true; closeIOSKeyboard(); setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
+  localStorage.setItem(reviewKey('planner-note',id,'Planner'),comment);
+  localStorage.setItem(reviewKey('planner-note-edited',id,'Planner'),stamp());
+  const note=box.querySelector('[data-planner-note]'); if(note) note.textContent='Saving…';
+  delete box.dataset.editing; renderPlannerNotes();
+  const ok=await upsertSupabaseReview('planner',id,{reaction:'note',comment});
+  if(note) note.textContent=ok?'Synced to Supabase':'Saved offline';
+  renderPlannerNotes();
+}
+function renderPlannerNotes(){
+  document.querySelectorAll('[data-planner-notes]').forEach(box=>{
+    const id=box.dataset.plannerNotes, ta=box.querySelector('textarea');
+    const saved=localStorage.getItem(reviewKey('planner-note',id,'Planner'))||'';
+    const editedAt=localStorage.getItem(reviewKey('planner-note-edited',id,'Planner'));
+    box.dataset.savedForce=Boolean(saved||editedAt)?'true':'false';
+    setupCommentBox(box,{saved,editedAt,saveSelector:'[data-planner-save]',statusSelector:'[data-planner-note]',placeholderSaved:'Saved planner notes / 已儲存，可按 Edit 修改',syncNote:''});
+  });
+}
 document.addEventListener('click',async e=>{
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
   const toggleReviewer=e.target.closest('[data-reviewer-toggle]'); if(toggleReviewer){ document.querySelector('.reviewer-bar')?.classList.toggle('open'); return; }
   const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); document.querySelector('.reviewer-bar')?.classList.remove('open'); return; }
   const filter=e.target.closest('[data-filter-reviewer]'); if(filter){ currentFilter=filter.dataset.filterReviewer; localStorage.setItem('ccmv:reviewFilter',currentFilter); renderAll(); return; }
   const edit=e.target.closest('[data-edit]');
-  if(edit){ const box=edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]'); box.dataset.editing='true'; renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); return; }
+  if(edit){ const box=edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]')||edit.closest('[data-planner-notes]'); box.dataset.editing='true'; renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); return; }
   const cancel=e.target.closest('[data-cancel]');
-  if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]'); delete box.dataset.editing; renderAll(); return; }
+  if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]')||cancel.closest('[data-planner-notes]'); delete box.dataset.editing; renderAll(); return; }
   const rb=e.target.closest('[data-reaction]');
-  if(rb){ const card=rb.closest('.activity'); const id=safeCardKey(card); localStorage.setItem(reviewKey('reaction',id),rb.dataset.reaction); upsertSupabaseReview('activity',id,{reaction:rb.dataset.reaction,comment:localStorage.getItem(reviewKey('comment',id))||''}); const box=card.querySelector('.comment-box'); if(box && !localStorage.getItem(reviewKey('comment',id))){ box.dataset.editing='true'; } renderAll(); if(box && box.dataset.editing==='true') setTimeout(()=>box.querySelector('textarea')?.focus(),80); return; }
+  if(rb){ const card=rb.closest('.activity'); const id=safeCardKey(card); const box=card.querySelector('.comment-box'); localStorage.setItem(pendingKey('reaction',id),rb.dataset.reaction); if(box) box.dataset.editing='true'; renderAll(); if(box && (rb.dataset.reaction==='discuss'||rb.dataset.reaction==='replace')) setTimeout(()=>box.querySelector('textarea')?.focus(),80); return; }
   const save=e.target.closest('[data-save]'); if(save){ await saveActivity(save.closest('.activity')); return; }
   const clear=e.target.closest('[data-clear]');
   if(clear){
-    const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
-    if(activity){ const id=safeCardKey(activity); localStorage.removeItem(reviewKey('comment',id)); localStorage.removeItem(reviewKey('comment-edited',id)); setSyncNote('activity',id,''); upsertSupabaseReview('activity',id,{reaction:localStorage.getItem(reviewKey('reaction',id)),comment:''}); delete activity.querySelector('.comment-box').dataset.editing; }
-    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; localStorage.removeItem(reviewKey('wrap-comment',id)); localStorage.removeItem(reviewKey('wrap-comment-edited',id)); setSyncNote('wrap',id,''); upsertSupabaseReview('wrap',id,{reaction:localStorage.getItem(reviewKey('wrap-status',id)),comment:''}); delete wrapBox.dataset.editing; }
-    else if(overallBox){ const id=overallBox.dataset.overallReview; localStorage.removeItem(reviewKey('overall-comment',id)); localStorage.removeItem(reviewKey('overall-comment-edited',id)); setSyncNote('overall',id,''); upsertSupabaseReview('overall',id,{reaction:localStorage.getItem(reviewKey('overall-status',id)),comment:''}); delete overallBox.dataset.editing; }
+    const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]'); const plannerBox=clear.closest('[data-planner-notes]');
+    if(activity){ const id=safeCardKey(activity); ['reaction','comment','comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('reaction',id)); setSyncNote('activity',id,''); await deleteSupabaseReview('activity',id); delete activity.querySelector('.comment-box').dataset.editing; }
+    else if(wrapBox){ const id=wrapBox.dataset.dayWrap; ['wrap-status','wrap-comment','wrap-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('wrap-status',id)); setSyncNote('wrap',id,''); await deleteSupabaseReview('wrap',id); delete wrapBox.dataset.editing; }
+    else if(overallBox){ const id=overallBox.dataset.overallReview; ['overall-status','overall-comment','overall-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); setSyncNote('overall',id,''); await deleteSupabaseReview('overall',id); delete overallBox.dataset.editing; }
+    else if(plannerBox){ const id=plannerBox.dataset.plannerNotes; localStorage.removeItem(reviewKey('planner-note',id,'Planner')); localStorage.removeItem(reviewKey('planner-note-edited',id,'Planner')); await deleteSupabaseReview('planner',id); delete plannerBox.dataset.editing; }
     renderAll(); return;
   }
   const wrap=e.target.closest('[data-wrap-status]');
-  if(wrap){ const box=wrap.closest('[data-day-wrap]'); const id=box.dataset.dayWrap; localStorage.setItem(reviewKey('wrap-status',id),wrap.dataset.wrapStatus); upsertSupabaseReview('wrap',id,{reaction:wrap.dataset.wrapStatus,comment:localStorage.getItem(reviewKey('wrap-comment',id))||''}); renderAll(); return; }
+  if(wrap){ const box=wrap.closest('[data-day-wrap]'); const id=box.dataset.dayWrap; localStorage.setItem(pendingKey('wrap-status',id),wrap.dataset.wrapStatus); box.dataset.editing='true'; renderAll(); if(wrap.dataset.wrapStatus==='discuss'||wrap.dataset.wrapStatus==='replace') setTimeout(()=>box.querySelector('textarea')?.focus(),80); return; }
   const wrapSave=e.target.closest('[data-wrap-save]'); if(wrapSave){ await saveWrap(wrapSave.closest('[data-day-wrap]')); return; }
   const overall=e.target.closest('[data-overall-status]');
   if(overall){ const box=overall.closest('[data-overall-review]'); const id=box.dataset.overallReview; localStorage.setItem(reviewKey('overall-status',id),overall.dataset.overallStatus); upsertSupabaseReview('overall',id,{reaction:overall.dataset.overallStatus,comment:localStorage.getItem(reviewKey('overall-comment',id))||''}); renderAll(); return; }
   const overallSave=e.target.closest('[data-overall-save]'); if(overallSave){ await saveOverall(overallSave.closest('[data-overall-review]')); return; }
+  const plannerSave=e.target.closest('[data-planner-save]'); if(plannerSave){ await savePlannerNotes(plannerSave.closest('[data-planner-notes]')); return; }
 });
 document.addEventListener('input',e=>{
   const ta=e.target.closest('textarea'); if(!ta) return;
-  const box=ta.closest('.comment-box')||ta.closest('[data-day-wrap]')||ta.closest('[data-overall-review]');
-  const save=box?.querySelector('[data-save],[data-wrap-save],[data-overall-save]');
+  const box=ta.closest('.comment-box')||ta.closest('[data-day-wrap]')||ta.closest('[data-overall-review]')||ta.closest('[data-planner-notes]');
+  const save=box?.querySelector('[data-save],[data-wrap-save],[data-overall-save],[data-planner-save]');
   if(save && ta.dataset.original!==undefined) save.disabled=ta.value.trim()===ta.dataset.original.trim();
 });
 function migrateStableReviewIds(){
