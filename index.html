@@ -817,6 +817,24 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 #ccmv-splash .ccmv-splash-title{animation:ccmvSplashLift 1.25s cubic-bezier(.22,.8,.25,1) .28s both;}
 #ccmv-splash .ccmv-splash-subtitle{animation:ccmvSplashLift 1.2s cubic-bezier(.22,.8,.25,1) .48s both;}
 @keyframes ccmvSplashLift{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Build 11.19: mobile nav scroll fix + Crystal-only planner reset tool */
+.header-inner{min-width:0;}
+.topnav{min-width:0;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
+.topnav > *{flex:0 0 auto;}
+@media(max-width:720px){
+  .header-inner{width:100% !important;min-width:0 !important;}
+  .topnav{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;overflow-y:visible !important;width:100% !important;max-width:100% !important;justify-content:flex-start !important;gap:6px !important;padding:0 0 10px !important;touch-action:pan-x pan-y !important;}
+  .topnav button{flex:0 0 auto !important;white-space:nowrap !important;}
+  .topnav .reviewer-bar{order:-1 !important;flex:0 0 auto !important;position:relative !important;display:inline-flex !important;}
+  .topnav .reviewer-inner{display:flex !important;width:auto !important;}
+}
+.planner-tools{margin:22px 0 0;border:1px solid rgba(142,111,63,.18);border-radius:20px;background:rgba(255,255,255,.54);padding:14px;font-family:var(--sans)}
+.planner-tools h3{margin:0 0 6px;font-family:var(--font);font-size:19px;color:var(--ink)}
+.planner-tools p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45}
+.planner-tools button{border:1px solid rgba(142,111,63,.28);background:#fffaf3;border-radius:999px;padding:8px 12px;font-weight:800;color:var(--gold-deep);cursor:pointer}
+.planner-tools[hidden]{display:none !important}
+
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -951,6 +969,24 @@ textarea{background:#fff !important;}
   cursor:not-allowed;
 }
 
+
+/* Build 11.19: mobile nav scroll fix + Crystal-only planner reset tool */
+.header-inner{min-width:0;}
+.topnav{min-width:0;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
+.topnav > *{flex:0 0 auto;}
+@media(max-width:720px){
+  .header-inner{width:100% !important;min-width:0 !important;}
+  .topnav{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;overflow-y:visible !important;width:100% !important;max-width:100% !important;justify-content:flex-start !important;gap:6px !important;padding:0 0 10px !important;touch-action:pan-x pan-y !important;}
+  .topnav button{flex:0 0 auto !important;white-space:nowrap !important;}
+  .topnav .reviewer-bar{order:-1 !important;flex:0 0 auto !important;position:relative !important;display:inline-flex !important;}
+  .topnav .reviewer-inner{display:flex !important;width:auto !important;}
+}
+.planner-tools{margin:22px 0 0;border:1px solid rgba(142,111,63,.18);border-radius:20px;background:rgba(255,255,255,.54);padding:14px;font-family:var(--sans)}
+.planner-tools h3{margin:0 0 6px;font-family:var(--font);font-size:19px;color:var(--ink)}
+.planner-tools p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45}
+.planner-tools button{border:1px solid rgba(142,111,63,.28);background:#fffaf3;border-radius:999px;padding:8px 12px;font-weight:800;color:var(--gold-deep);cursor:pointer}
+.planner-tools[hidden]{display:none !important}
+
 </style>
 <style id="ccmv-splash-style">
 @keyframes ccmvSplashLogoIn{
@@ -1006,6 +1042,24 @@ textarea{background:#fff !important;}
 }
 .ccmv-join-options button:active{transform:translateY(1px);}
 @media(max-width:420px){.ccmv-join-options{grid-template-columns:1fr}.ccmv-join-card{padding:26px 18px}.ccmv-join-card h2{font-size:28px}}
+
+
+/* Build 11.19: mobile nav scroll fix + Crystal-only planner reset tool */
+.header-inner{min-width:0;}
+.topnav{min-width:0;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
+.topnav > *{flex:0 0 auto;}
+@media(max-width:720px){
+  .header-inner{width:100% !important;min-width:0 !important;}
+  .topnav{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;overflow-y:visible !important;width:100% !important;max-width:100% !important;justify-content:flex-start !important;gap:6px !important;padding:0 0 10px !important;touch-action:pan-x pan-y !important;}
+  .topnav button{flex:0 0 auto !important;white-space:nowrap !important;}
+  .topnav .reviewer-bar{order:-1 !important;flex:0 0 auto !important;position:relative !important;display:inline-flex !important;}
+  .topnav .reviewer-inner{display:flex !important;width:auto !important;}
+}
+.planner-tools{margin:22px 0 0;border:1px solid rgba(142,111,63,.18);border-radius:20px;background:rgba(255,255,255,.54);padding:14px;font-family:var(--sans)}
+.planner-tools h3{margin:0 0 6px;font-family:var(--font);font-size:19px;color:var(--ink)}
+.planner-tools p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45}
+.planner-tools button{border:1px solid rgba(142,111,63,.28);background:#fffaf3;border-radius:999px;padding:8px 12px;font-weight:800;color:var(--gold-deep);cursor:pointer}
+.planner-tools[hidden]{display:none !important}
 
 </style>
 <div id="ccmv-splash">
@@ -1671,12 +1725,17 @@ textarea{background:#fff !important;}
 <div class="review-thread overall-thread-top" data-overall-thread=""></div>
 <textarea placeholder="Final thoughts…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
+<div class="planner-tools" data-planner-tools hidden>
+  <h3>Planner Tools</h3>
+  <p>Crystal only. Clear all trial reviews, comments, day wrap-ups, planner notes, and final thoughts before sending to friends.</p>
+  <button data-reset-test-data>Reset Test Data</button> <span data-reset-note></span>
+</div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
 </div>
 </section>
 
 </main>
-<div class="build-badge">Build 11.14 Welcome</div>
+<div class="build-badge">Build 11.19 Friend Test</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -1801,6 +1860,36 @@ async function deleteSupabaseReview(kind,id){
     setSyncStatus('Cleared locally · sync failed','warn');
     return false;
   }
+}
+
+async function resetAllPlannerTestData(){
+  const note=document.querySelector('[data-reset-note]');
+  if(currentReviewer!=='Crystal'){ if(note) note.textContent='Crystal only.'; return; }
+  const confirmText=window.prompt('This will clear all saved review data for this planner. Type RESET to confirm.');
+  if(confirmText!=='RESET'){ if(note) note.textContent='Reset cancelled.'; return; }
+  if(note) note.textContent='Clearing…';
+  Object.keys(localStorage).forEach(k=>{
+    if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:draft:') || k.startsWith('ccmv:pending:') || k.startsWith('ccmv:sync:') || k.startsWith('ccmv:reviewFilter')) localStorage.removeItem(k);
+  });
+  let ok=true;
+  if(supabaseReady && supabaseClient){
+    try{
+      const {error}=await supabaseClient.from(CCMV_SUPABASE.table).delete().eq('trip_id',CCMV_SUPABASE.planId);
+      if(error) throw error;
+      setSyncStatus('✓ Test data reset','online');
+    }catch(err){
+      ok=false; console.warn('CCMV reset failed:',err); setSyncStatus('Reset local only · Supabase failed','warn');
+    }
+  }else{
+    ok=false; setSyncStatus('Reset local only · Supabase offline','warn');
+  }
+  if(note) note.textContent=ok?'All test data cleared.':'Local data cleared. Supabase may need checking.';
+  renderAll();
+}
+function renderPlannerTools(){
+  const panel=document.querySelector('[data-planner-tools]');
+  if(!panel) return;
+  panel.hidden=currentReviewer!=='Crystal';
 }
 
 function subscribeSupabaseRealtime(){
@@ -2298,7 +2387,7 @@ function relocateDaySummaries(){
     if(wrap && wrap.nextElementSibling!==summary) wrap.insertAdjacentElement('afterend', summary);
   });
 }
-function renderAll(){relocateDaySummaries();setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderSummaryActivities();renderFinal();renderOverall();renderOverallSummary();renderPlannerNotes();renderPlannerSummary();}
+function renderAll(){relocateDaySummaries();setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderSummaryActivities();renderFinal();renderOverall();renderOverallSummary();renderPlannerNotes();renderPlannerSummary();renderPlannerTools();}
 function closeIOSKeyboard(){
   const active=document.activeElement;
   if(active && /^(TEXTAREA|INPUT|SELECT)$/.test(active.tagName)) active.blur();
@@ -2464,6 +2553,7 @@ function renderPlannerNotes(){
   });
 }
 document.addEventListener('click',async e=>{
+  const reset=e.target.closest('[data-reset-test-data]'); if(reset){ await resetAllPlannerTestData(); return; }
   const join=e.target.closest('[data-join-reviewer]'); if(join){ setReviewer(join.dataset.joinReviewer); return; }
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
   const toggleReviewer=e.target.closest('[data-reviewer-toggle]'); if(toggleReviewer){ document.querySelector('.reviewer-bar')?.classList.toggle('open'); return; }
