@@ -394,7 +394,7 @@ header{background:rgba(247,240,230,.9)}
 .reaction button{min-width:102px;background:rgba(255,250,243,.94)}
 .reaction button.selected{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--paper);box-shadow:0 8px 18px rgba(142,111,63,.18)}
 .comment-box{margin-top:10px}
-.comment-actions button[data-save],.comment-actions button[data-wrap-save],.comment-actions button[data-overall-save]{background:var(--gold-deep);border-color:var(--gold-deep);color:var(--paper)}
+.comment-actions button[data-save],.comment-actions button[data-wrap-save],.comment-actions button[data-overall-save],.comment-actions button[data-planner-save]{background:#fffaf3;border-color:var(--line);color:var(--ink)}
 .comment-actions button:disabled{opacity:.48;cursor:not-allowed}
 .why-toggle{margin:10px 0 0;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.38);padding:0;overflow:hidden}
 .why-toggle summary{cursor:pointer;list-style:none;padding:10px 12px;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
@@ -749,6 +749,13 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 .day-summary-details .day-summary-table{padding:0 12px 12px;}
 .day-summary-details>.day-summary-row{margin:0 12px 12px;}
 
+
+#final{display:none !important;}
+.day-summary{margin-top:18px;}
+.day-summary .planner-notes{margin-top:10px;padding:12px;border:1px solid rgba(142,111,63,.16);border-radius:16px;background:rgba(255,255,255,.58);box-shadow:none;}
+.day-summary .planner-notes h4{margin:0 0 6px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);}
+.overall-thread-top{display:block !important;margin:12px 0 16px;}
+.review-badge{background:rgba(255,255,255,.5) !important;color:var(--muted) !important;}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -834,6 +841,28 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 .planner-notes .saved-review-view{margin-top:10px}
 .overall-actions{display:none !important}
 #overall .review-thread{display:none !important}
+
+/* Build 11.7: cleaner action hierarchy */
+.comment-actions button[data-save],
+.comment-actions button[data-wrap-save],
+.comment-actions button[data-overall-save],
+.comment-actions button[data-planner-save]{
+  background:rgba(255,250,243,.92) !important;
+  border-color:rgba(142,111,63,.22) !important;
+  color:var(--ink) !important;
+  box-shadow:none !important;
+}
+.day-summary-details .planner-notes{margin:14px 12px 16px;padding:14px;border:1px solid rgba(142,111,63,.16);border-radius:18px;background:rgba(255,255,255,.42);}
+.day-summary-details .planner-notes h3{font-size:18px;margin:0 0 8px;}
+.day-summary-divider{height:1px;background:rgba(142,111,63,.15);margin:16px 12px;}
+.overall-saved-title{margin:18px 0 8px;font-size:16px;color:var(--gold-deep);}
+
+#final{display:none !important;}
+.day-summary{margin-top:18px;}
+.day-summary .planner-notes{margin-top:10px;padding:12px;border:1px solid rgba(142,111,63,.16);border-radius:16px;background:rgba(255,255,255,.58);box-shadow:none;}
+.day-summary .planner-notes h4{margin:0 0 6px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);}
+.overall-thread-top{display:block !important;margin:12px 0 16px;}
+.review-badge{background:rgba(255,255,255,.5) !important;color:var(--muted) !important;}
 </style>
 <div id="ccmv-splash" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f0e6;transition:opacity .4s ease;">
   <img src="./icon-512.png" alt="CCMV" style="width:clamp(180px,22vw,340px);height:clamp(180px,22vw,340px);border-radius:22%;box-shadow:0 12px 32px rgba(142,111,63,.3);"/>
@@ -866,16 +895,15 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 <div class="topnav">
 <button data-open="day1">DAY 1</button><button data-open="day2">DAY 2</button><button data-open="day3">DAY 3</button><button data-open="day4">DAY 4</button><button data-open="day5">DAY 5</button>
 <button data-open="overall">Overall Review</button>
-<button data-open="final">Review Summary</button>
+
 </div>
 </div>
 </header>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
-<div data-reviewer-toggle=""><span class="reviewer-label">Who’s reviewing today?</span> <b data-current-reviewer-label="">👓 Crystal</b></div>
+<div data-reviewer-toggle=""><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></div>
 <div aria-label="Reviewer identity" class="reviewer-pills" role="group">
 <button class="reviewer-pill" data-reviewer="Christal">🧸 Christal</button>
-<button class="reviewer-pill" data-reviewer="Crystal">👓 Crystal</button>
 <button class="reviewer-pill" data-reviewer="Mero">✝️ Mero</button>
 <button class="reviewer-pill" data-reviewer="Vivian">👟 Vivian</button>
 </div>
@@ -888,71 +916,15 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 <div>
 <p class="eyebrow">Before the trip · Four friends</p>
 <h1>Journey Planner</h1>
-<p>出發前簡單睇一次行程，按自己感覺表態，提出想改或想保留的地方。唔需要寫長 comment；撳一個 quick reaction，已經係 contribution。</p>
+<p>出發前簡單睇一次行程，按自己感覺表態：Keep、Discuss、Replace。有需要先寫 comment。</p>
 <div class="home-actions">
 <button data-open="day1">Start Day 1 →</button>
 <button data-open="overall">Overall Review</button>
-<button data-open="final">Review Summary</button>
+
 </div>
 </div>
 <div class="seal home-logo-full" aria-label="CCMV logo"></div>
 </div>
-</div>
-<div class="progress-panel cardmark" id="progressDashboard">
-<p class="eyebrow">Review Summary</p>
-<h3>Review Summary</h3>
-<p class="muted">每位媽媽按活動直接揀 Keep / Discuss / Replace 會即時儲存；comment 先需要按 Save。Dashboard 會即時顯示整體進度。</p>
-
-<div class="supabase-panel" data-supabase-panel>
-  <div class="supabase-status">
-    <div>
-      <b>Sync Preparation</b>
-      <p class="muted" style="margin:4px 0 0">Build 10.2.7 已修正 iPhone keyboard 打字時 comment box 被遮住 / sync label，並保留 Supabase comment sync。Reaction / Comment / Edit 會同步到 Supabase；如果網絡失敗，仍會先保存在 localStorage。</p>
-    </div>
-    <span class="sync-pill" data-sync-status>Offline mode</span>
-  </div>
-  <details>
-    <summary>Supabase schema for Build 10</summary>
-    <pre class="schema-box">-- CCMV Journey Planner Build 10 schema
--- Run this once in Supabase SQL Editor before enabling sync.
-
-create table if not exists planner_reviews (
-  id uuid primary key default gen_random_uuid(),
-  trip_id text not null,
-  item_id text not null,
-  reviewer text not null,
-  reaction text check (reaction in ('keep','discuss','replace')),
-  comment text default '',
-  updated_at timestamptz default now(),
-  constraint planner_reviews_unique unique (trip_id, item_id, reviewer)
-);
-
-alter table planner_reviews enable row level security;
-
-create policy "Allow public read reviews"
-on planner_reviews for select
-using (true);
-
-create policy "Allow public insert reviews"
-on planner_reviews for insert
-with check (true);
-
-create policy "Allow public update reviews"
-on planner_reviews for update
-using (true)
-with check (true);</pre>
-  </details>
-</div>
-<div class="summary-card data-engine-note"><strong>Trip Data Engine</strong><span>Content source: <code>trip-data.js</code></span><div class="mini">Build 10.1.3 separates trip itinerary / review items from the approved planner UI. Next trip = replace the data object, not the design.</div></div>
-<div class="dashboard-summary" data-dashboard-summary></div>
-<div class="review-filter home-hidden-filter" aria-label="Review filter" data-review-filter>
-<button data-filter-reviewer="All">All</button>
-<button data-filter-reviewer="Christal">🧸 Christal</button>
-<button data-filter-reviewer="Crystal">👓 Crystal</button>
-<button data-filter-reviewer="Mero">✝️ Mero</button>
-<button data-filter-reviewer="Vivian">👟 Vivian</button>
-</div>
-<div class="progress-grid" data-progress-grid=""></div>
 </div>
 </section>
 <section class="page day-page" data-page="" id="day1">
@@ -1060,23 +1032,17 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
-<div class="day-summary cardmark" data-day-summary="day1"></div>
 <div class="day-wrap cardmark" data-day-wrap="day1-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 1 Review</h3>
-<p class="muted">用一個總結決定：呢日整體 OK、需要討論，定要改一個重點安排。</p>
 <div class="wrap-actions"><button data-wrap-status="keep">👍 Keep this day</button><button data-wrap-status="discuss">🤔 Discuss</button><button data-wrap-status="replace">🔁 Replace something</button></div>
 <textarea placeholder="DAY 1 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-<div class="planner-notes cardmark" data-planner-notes="day1-planner-notes">
-<p class="eyebrow">Planner Notes</p>
-<h3>What to change / look into</h3>
-<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
-<textarea placeholder="例如：Day 1 dinner 要再比較；第一日會唔會太趕；要查 spa booking details…"></textarea>
-<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+
 </div>
+<div class="day-summary cardmark" data-day-summary="day1"></div>
 <div class="bottom-nav">
 <button data-open="home">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1188,23 +1154,17 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
-<div class="day-summary cardmark" data-day-summary="day2"></div>
 <div class="day-wrap cardmark" data-day-wrap="day2-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 2 Review</h3>
-<p class="muted">用一個總結決定：呢日整體 OK、需要討論，定要改一個重點安排。</p>
 <div class="wrap-actions"><button data-wrap-status="keep">👍 Keep this day</button><button data-wrap-status="discuss">🤔 Discuss</button><button data-wrap-status="replace">🔁 Replace something</button></div>
 <textarea placeholder="DAY 2 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-<div class="planner-notes cardmark" data-planner-notes="day2-planner-notes">
-<p class="eyebrow">Planner Notes</p>
-<h3>What to change / look into</h3>
-<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
-<textarea placeholder="例如：Day 2 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
-<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+
 </div>
+<div class="day-summary cardmark" data-day-summary="day2"></div>
 <div class="bottom-nav">
 <button data-open="day1">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1308,23 +1268,17 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
-<div class="day-summary cardmark" data-day-summary="day3"></div>
 <div class="day-wrap cardmark" data-day-wrap="day3-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 3 Review</h3>
-<p class="muted">用一個總結決定：呢日整體 OK、需要討論，定要改一個重點安排。</p>
 <div class="wrap-actions"><button data-wrap-status="keep">👍 Keep this day</button><button data-wrap-status="discuss">🤔 Discuss</button><button data-wrap-status="replace">🔁 Replace something</button></div>
 <textarea placeholder="DAY 3 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-<div class="planner-notes cardmark" data-planner-notes="day3-planner-notes">
-<p class="eyebrow">Planner Notes</p>
-<h3>What to change / look into</h3>
-<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
-<textarea placeholder="例如：Day 3 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
-<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+
 </div>
+<div class="day-summary cardmark" data-day-summary="day3"></div>
 <div class="bottom-nav">
 <button data-open="day2">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1436,23 +1390,17 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
-<div class="day-summary cardmark" data-day-summary="day4"></div>
 <div class="day-wrap cardmark" data-day-wrap="day4-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 4 Review</h3>
-<p class="muted">用一個總結決定：呢日整體 OK、需要討論，定要改一個重點安排。</p>
 <div class="wrap-actions"><button data-wrap-status="keep">👍 Keep this day</button><button data-wrap-status="discuss">🤔 Discuss</button><button data-wrap-status="replace">🔁 Replace something</button></div>
 <textarea placeholder="DAY 4 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-<div class="planner-notes cardmark" data-planner-notes="day4-planner-notes">
-<p class="eyebrow">Planner Notes</p>
-<h3>What to change / look into</h3>
-<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
-<textarea placeholder="例如：Day 4 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
-<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+
 </div>
+<div class="day-summary cardmark" data-day-summary="day4"></div>
 <div class="bottom-nav">
 <button data-open="day3">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1541,23 +1489,17 @@ with check (true);</pre>
 <div class="review-thread" data-thread=""></div>
 </div>
 </article></div></div>
-<div class="day-summary cardmark" data-day-summary="day5"></div>
 <div class="day-wrap cardmark" data-day-wrap="day5-wrap">
 <p class="eyebrow">Day Wrap-up</p>
 <h3>DAY 5 Review</h3>
-<p class="muted">用一個總結決定：呢日整體 OK、需要討論，定要改一個重點安排。</p>
 <div class="wrap-actions"><button data-wrap-status="keep">👍 Keep this day</button><button data-wrap-status="discuss">🤔 Discuss</button><button data-wrap-status="replace">🔁 Replace something</button></div>
 <textarea placeholder="DAY 5 wrap-up comment / 今日整體想法…"></textarea>
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-<div class="planner-notes cardmark" data-planner-notes="day5-planner-notes">
-<p class="eyebrow">Planner Notes</p>
-<h3>What to change / look into</h3>
-<p class="muted">Crystal 睇完大家 feedback 後，用呢度記低要改、要查、或者要再決定嘅位。呢個唔計入 reviewer progress。</p>
-<textarea placeholder="例如：Day 5 dinner 要再比較；shopping 時間可能太趕；要查 spa booking details…"></textarea>
-<div class="comment-actions"><button data-planner-save>Save Planner Notes</button><span data-planner-note></span></div>
+
 </div>
+<div class="day-summary cardmark" data-day-summary="day5"></div>
 <div class="bottom-nav">
 <button data-open="day4">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1567,53 +1509,20 @@ with check (true);</pre>
 <section class="page" data-page="" id="overall">
 <div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
 <p class="eyebrow">Overall Review</p>
-<h2>Final Overall Comment</h2>
-<p class="muted">每位 reviewer 最後留一段整體意見就可以；呢度唔需要 Approve / Discuss / Replace。</p>
-<textarea placeholder="Overall Review / 對成個行程嘅總體想法、最想保留、最想改、或者 unresolved decision…"></textarea>
+<h2>Overall Comments</h2>
+<div class="review-thread overall-thread-top" data-overall-thread=""></div>
+<textarea placeholder="Overall comment…"></textarea>
 <div class="comment-actions"><button data-overall-save="">Save Overall Review</button><span class="wrap-status" data-overall-note=""></span></div>
-<div class="review-thread" data-overall-thread=""></div>
-<div class="bottom-nav"><button data-open="day5">← Day 5</button><button data-open="final">Review Summary →</button></div>
+<div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
 </div>
 </section>
-<section class="page" data-page="" id="final">
-<div class="final-card cardmark">
-<p class="eyebrow">Review Summary</p>
-<h2>Clean Decision Summary</h2>
-<p class="muted">只讀結果頁：先睇 unresolved / replace / discuss，再睇 Day Wrap-up 同 Overall Review。要留言請去 Day cards、Day Wrap-up 或 Overall Review。</p>
-<div class="review-summary-intro">
-  <p class="eyebrow">Final Decision Status</p>
-  <div class="decision-status-grid" data-decision-status></div>
-</div>
-<div class="summary-section">
-  <h3>四人 Review Progress</h3>
-  <p class="muted">每位 reviewer 完成咗幾多 activity reaction + day wrap-up。</p>
-  <div class="dashboard-summary" data-dashboard-summary></div>
-  <div class="progress-grid" data-progress-grid=""></div>
-</div>
-<div class="summary-section">
-  <h3>Activities Needing Decisions</h3>
-  <p class="muted">用 All Good / Needs Discussion / Replacement Requested / Not Reviewed 分類，方便 Crystal 更新 Final Master Itinerary。</p>
-  <div class="summary-list" data-summary-activity-list></div>
-</div>
-<div class="summary-section">
-  <h3>Day Wrap-up Conclusions</h3>
-  <p class="muted">每日總結只顯示結果，不在 Summary 頁再輸入。</p>
-  <div class="final-review-list" data-final-review-list=""></div>
-</div>
-<div class="summary-section">
-  <h3>Overall Review Notes</h3>
-  <p class="muted">如之前已提交 Whole Journey comment，會在這裡只讀顯示。</p>
-  <div class="summary-list" data-overall-summary-list></div>
-</div>
-<div class="bottom-nav"><button data-open="day5">← Previous Day</button><button data-open="home">Journey</button><button data-open="day1">Back to Review</button></div>
-</div>
-</section>
+
 </main>
-<div class="build-badge">Build 11.4 Clean</div>
+<div class="build-badge">Build 11.7 Cleanup</div>
 <script src="trip-data.js"></script>
 <script>
 
-const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
+const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
 
 const CCMV_SUPABASE={
   url:'https://dafgbqygccvctifrevpa.supabase.co',
@@ -1767,9 +1676,10 @@ async function initSupabaseReadiness(){
     setSyncStatus('Offline fallback · Supabase unavailable','warn');
   }
 }
-const reviewers=(tripData.reviewers||[]).reduce((acc,r)=>{acc[r.id]=`${r.emoji} ${r.name}`;return acc;}, {Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'});
+const reviewers=(tripData.reviewers||[]).reduce((acc,r)=>{acc[r.id]=`${r.emoji} ${r.name}`;return acc;}, {Christal:'🧸 Christal',Mero:'✝️ Mero',Vivian:'👟 Vivian'});
 const reviewerNames=Object.keys(reviewers);
-let currentReviewer=localStorage.getItem('ccmv:reviewer')||'Crystal';
+let currentReviewer=localStorage.getItem('ccmv:reviewer')||'Christal';
+if(!reviewers[currentReviewer]) currentReviewer='Christal';
 let currentFilter=localStorage.getItem('ccmv:reviewFilter')||'All';
 const pages=[...document.querySelectorAll('[data-page]')];
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
@@ -1817,15 +1727,15 @@ function hasSavedWrap(id,person=currentReviewer){return !!(localStorage.getItem(
 function ensureCommentControls(box,kind='activity'){
   const actions=box.querySelector('.comment-actions');
   if(!actions) return;
-  let save=actions.querySelector(kind==='activity'?'[data-save]':kind==='wrap'?'[data-wrap-save]':'[data-overall-save]');
-  if(!save){ save=document.createElement('button'); save.textContent='Save'; save.setAttribute(kind==='activity'?'data-save':kind==='wrap'?'data-wrap-save':'data-overall-save',''); actions.prepend(save); }
+  let save=actions.querySelector(kind==='activity'?'[data-save]':kind==='wrap'?'[data-wrap-save]':kind==='planner'?'[data-planner-save]':'[data-overall-save]');
+  if(!save){ save=document.createElement('button'); save.textContent='Save'; save.setAttribute(kind==='activity'?'data-save':kind==='wrap'?'data-wrap-save':kind==='planner'?'data-planner-save':'data-overall-save',''); actions.prepend(save); }
   if(!actions.querySelector('[data-edit]')){ const b=document.createElement('button'); b.textContent='Edit'; b.setAttribute('data-edit',''); actions.insertBefore(b, save.nextSibling); }
   if(!actions.querySelector('[data-cancel]')){ const b=document.createElement('button'); b.textContent='Cancel'; b.setAttribute('data-cancel',''); actions.insertBefore(b, actions.querySelector('[data-clear]')||actions.querySelector('[data-status]')||actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||null); }
   if(!actions.querySelector('[data-clear]')){ const b=document.createElement('button'); b.textContent='Clear'; b.setAttribute('data-clear',''); actions.insertBefore(b, actions.querySelector('[data-status]')||actions.querySelector('[data-wrap-note]')||actions.querySelector('[data-overall-note]')||actions.querySelector('[data-planner-note]')||null); }
-  if(!actions.querySelector('[data-status]') && !actions.querySelector('[data-wrap-note]') && !actions.querySelector('[data-overall-note]')){ const s=document.createElement('span'); s.setAttribute('data-status',''); actions.appendChild(s); }
+  if(!actions.querySelector('[data-status]') && !actions.querySelector('[data-wrap-note]') && !actions.querySelector('[data-overall-note]') && !actions.querySelector('[data-planner-note]')){ const s=document.createElement('span'); s.setAttribute('data-status',''); actions.appendChild(s); }
 }
 function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeholderSaved,syncNote}){
-  ensureCommentControls(box, box.closest('[data-day-wrap]')?'wrap':box.closest('[data-overall-review]')?'overall':'activity');
+  ensureCommentControls(box, box.closest('[data-day-wrap]')?'wrap':box.closest('[data-overall-review]')?'overall':box.closest('[data-planner-notes]')?'planner':'activity');
   const ta=box.querySelector('textarea');
   const save=box.querySelector(saveSelector);
   const edit=box.querySelector('[data-edit]');
@@ -1877,6 +1787,7 @@ function forcePageTop(){
   window.scrollTo({top:0,left:0,behavior:'auto'});
 }
 function showPage(id){
+  if(id==='final') id='overall';
   pages.forEach(p=>p.classList.toggle('active',p.id===id));
   document.querySelectorAll('.topnav button').forEach(b=>b.classList.toggle('active',b.dataset.open===id));
   renderAll();
@@ -1887,9 +1798,9 @@ function showPage(id){
   setTimeout(forcePageTop,180);
 }
 function setReviewer(name){
-  currentReviewer=reviewers[name]?name:'Crystal';
+  currentReviewer=reviewers[name]?name:'Christal';
   localStorage.setItem('ccmv:reviewer',currentReviewer);
-  document.querySelectorAll('.comment-box,[data-day-wrap],[data-overall-review]').forEach(b=>delete b.dataset.editing);
+  document.querySelectorAll('.comment-box,[data-day-wrap],[data-overall-review],[data-planner-notes]').forEach(b=>delete b.dataset.editing);
   renderAll();
 }
 function renderReviewer(){
@@ -1943,7 +1854,7 @@ function renderActivity(card){
   const keepCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))==='keep').length;
   const reviewedCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))).length;
   badge.className='review-badge'+(keepCount===reviewerNames.length?' approved':'');
-  badge.textContent=keepCount===reviewerNames.length?'✅ Approved by everyone · 4 / 4 Keep':`${reviewedCount} / 4 reviewed · ${keepCount} Keep`;
+  badge.textContent=keepCount===reviewerNames.length?`✅ All reviewers Keep · ${reviewerNames.length} / ${reviewerNames.length}`:`${reviewedCount} / ${reviewerNames.length} reviewed · ${keepCount} Keep`;
   const thread=card.querySelector('[data-thread]');
   if(thread){
     const items=reviewerNames.map(name=>{
@@ -2072,11 +1983,17 @@ ${commentCount?`<details class="day-summary-comments"><summary>${commentCount} c
   const wrapStatus=computeWrapStatus(wrapId);
   const dayName=(dayId||'day').replace('day','Day ');
   container.innerHTML=`<details class="day-summary-details">
-<summary><span><b>${dayName} Summary</b><small>Review status, reactions, comments, Day Wrap-up, Planner Notes</small></span><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></summary>
+<summary><span><b>${dayName} Summary</b><small>Open for Planner Notes + review results</small></span><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></summary>
+<div class="planner-notes" data-planner-notes="${plannerId}">
+  <p class="eyebrow">Planner Notes — Crystal to use</p>
+  <h3>What to change / look into</h3>
+  <textarea placeholder="例如：要改、要查、或者要再決定嘅位…"></textarea>
+  <div class="comment-actions"><button data-planner-save>Save Planner Notes</button><button data-edit hidden>Edit</button><button data-clear hidden>Clear</button><span data-planner-note></span></div>
+</div>
+<div class="day-summary-divider"></div>
 <div class="day-summary-overview"><span>🟢 ${overallCounts.keep||0} Keep</span><span>🟡 ${overallCounts.discuss||0} Discuss</span><span>🔴 ${overallCounts.replace||0} Replace</span><span>⚪ ${overallCounts.none||0} Not reviewed</span></div>
 <div class="day-summary-table">${activityRows}</div>
 <div class="day-summary-row"><div class="day-summary-row-head"><b>Day Wrap-up results</b><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></div>${wrapRows||'<div class="summary-empty">No Day Wrap-up submitted yet.</div>'}</div>
-<div class="day-summary-row"><div class="day-summary-row-head"><b>Planner Notes</b></div>${plannerNote?`<p>${esc(plannerNote)}</p>${plannerTime?`<small>Last edited ${plannerTime}</small>`:''}`:'<div class="summary-empty">No Planner Notes yet.</div>'}</div>
 </details>`;
 }
 function renderDecisionStatus(){
@@ -2174,13 +2091,21 @@ function renderOverall(){
       const cm=localStorage.getItem(reviewKey('overall-comment',id,name));
       const time=localStorage.getItem(reviewKey('overall-comment-edited',id,name));
       if(!cm) return '';
-      if(!filterAllows(name)) return '';
       return `<div class="thread-item"><b>${reviewers[name]} · Overall Review</b><p>${esc(cm)}</p>${time?`<p><small>Last edited ${time}</small></p>`:''}</div>`;
     }).join('');
-    thread.innerHTML=items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>';
+    thread.innerHTML='<h3 class="overall-saved-title">Saved Overall Comments</h3>'+(items||'<div class="thread-item"><b>No overall comments yet</b><p>選好 reviewer 後留下整體 comment。</p></div>');
   }
 }
-function renderAll(){setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderSummaryActivities();renderFinal();renderOverall();renderOverallSummary();renderPlannerNotes();renderPlannerSummary();}
+
+function relocateDaySummaries(){
+  document.querySelectorAll('[data-day-summary]').forEach(summary=>{
+    const section=summary.closest('section[data-page]');
+    if(!section) return;
+    const wrap=section.querySelector('[data-day-wrap]');
+    if(wrap && wrap.nextElementSibling!==summary) wrap.insertAdjacentElement('afterend', summary);
+  });
+}
+function renderAll(){relocateDaySummaries();setupCollapsibleWhy();renderReviewer();document.querySelectorAll('.activity').forEach(renderActivity);document.querySelectorAll('[data-day-wrap]').forEach(renderWrap);document.querySelectorAll('[data-day-summary]').forEach(renderDaySummary);renderDashboard();renderDecisionStatus();renderSummaryActivities();renderFinal();renderOverall();renderOverallSummary();renderPlannerNotes();renderPlannerSummary();}
 function closeIOSKeyboard(){
   const active=document.activeElement;
   if(active && /^(TEXTAREA|INPUT|SELECT)$/.test(active.tagName)) active.blur();
