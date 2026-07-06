@@ -756,6 +756,29 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 .day-summary .planner-notes h4{margin:0 0 6px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);}
 .overall-thread-top{display:block !important;margin:12px 0 16px;}
 .review-badge{background:rgba(255,255,255,.5) !important;color:var(--muted) !important;}
+
+/* Build 11.8: header reviewer alignment + cleaner review controls */
+.topnav .reviewer-bar{position:relative !important;top:auto !important;z-index:70 !important;background:transparent !important;border:0 !important;box-shadow:none !important;backdrop-filter:none !important;display:inline-flex !important;align-items:center !important;flex:0 0 auto !important;}
+.topnav .reviewer-inner{width:auto !important;min-width:0 !important;padding:0 !important;margin:0 !important;display:flex !important;align-items:center !important;justify-content:flex-start !important;position:relative !important;}
+.topnav .reviewer-inner [data-reviewer-toggle]{height:34px !important;padding:6px 12px !important;box-shadow:none !important;background:rgba(255,250,243,.92) !important;}
+.topnav .reviewer-pills{right:0 !important;left:auto !important;top:calc(100% + 8px) !important;z-index:120 !important;}
+.topnav .reviewer-label{display:none !important;}
+@media(max-width:720px){
+  header{z-index:90 !important;}
+  .header-inner{gap:8px !important;}
+  .topnav{display:flex !important;align-items:center !important;gap:6px !important;overflow-x:auto !important;overflow-y:visible !important;padding-bottom:8px !important;scrollbar-width:none;}
+  .topnav::-webkit-scrollbar{display:none;}
+  .topnav button{flex:0 0 auto !important;}
+  .topnav .reviewer-bar{flex:0 0 auto !important;}
+  .topnav .reviewer-pills{position:absolute !important;right:0 !important;}
+}
+.activity .comment-box{display:block !important;margin-top:9px !important;padding-top:8px;border-top:1px solid rgba(184,150,94,.16)}
+.comment-actions button[disabled]{opacity:.55;cursor:default;}
+.day-summary{width:100% !important;box-sizing:border-box !important;margin-top:22px !important;}
+.day-summary-details{width:100% !important;box-sizing:border-box !important;}
+.day-summary-details>summary{text-align:left !important;}
+.overall-helper{margin:8px 0 14px;color:var(--muted);line-height:1.55;font-size:14px;}
+.overall-review h2{margin-bottom:6px;}
 </style>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -895,10 +918,6 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 <div class="topnav">
 <button data-open="day1">DAY 1</button><button data-open="day2">DAY 2</button><button data-open="day3">DAY 3</button><button data-open="day4">DAY 4</button><button data-open="day5">DAY 5</button>
 <button data-open="overall">Overall Review</button>
-
-</div>
-</div>
-</header>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
 <div data-reviewer-toggle=""><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></div>
@@ -909,6 +928,10 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 </div>
 </div>
 </div>
+
+</div>
+</div>
+</header>
 <main class="container">
 <section class="page active" data-page="" id="home">
 <div class="hero intro-only">
@@ -1042,12 +1065,12 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 
 
 </div>
-<div class="day-summary cardmark" data-day-summary="day1"></div>
 <div class="bottom-nav">
 <button data-open="home">← Previous Day</button>
 <button data-open="home">Journey</button>
 <button data-open="day2">Next Day →</button>
 </div>
+<div class="day-summary cardmark" data-day-summary="day1"></div>
 </section>
 <section class="page day-page" data-page="" id="day2">
 <div class="day-hero cardmark">
@@ -1164,12 +1187,12 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 
 
 </div>
-<div class="day-summary cardmark" data-day-summary="day2"></div>
 <div class="bottom-nav">
 <button data-open="day1">← Previous Day</button>
 <button data-open="home">Journey</button>
 <button data-open="day3">Next Day →</button>
 </div>
+<div class="day-summary cardmark" data-day-summary="day2"></div>
 </section>
 <section class="page day-page" data-page="" id="day3">
 <div class="day-hero cardmark">
@@ -1278,12 +1301,12 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 
 
 </div>
-<div class="day-summary cardmark" data-day-summary="day3"></div>
 <div class="bottom-nav">
 <button data-open="day2">← Previous Day</button>
 <button data-open="home">Journey</button>
 <button data-open="day4">Next Day →</button>
 </div>
+<div class="day-summary cardmark" data-day-summary="day3"></div>
 </section>
 <section class="page day-page" data-page="" id="day4">
 <div class="day-hero cardmark">
@@ -1400,12 +1423,12 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 
 
 </div>
-<div class="day-summary cardmark" data-day-summary="day4"></div>
 <div class="bottom-nav">
 <button data-open="day3">← Previous Day</button>
 <button data-open="home">Journey</button>
 <button data-open="day5">Next Day →</button>
 </div>
+<div class="day-summary cardmark" data-day-summary="day4"></div>
 </section>
 <section class="page day-page" data-page="" id="day5">
 <div class="day-hero cardmark">
@@ -1499,20 +1522,21 @@ header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
 
 
 </div>
-<div class="day-summary cardmark" data-day-summary="day5"></div>
 <div class="bottom-nav">
 <button data-open="day4">← Previous Day</button>
 <button data-open="home">Journey</button>
 <button data-open="overall">Overall Review →</button>
 </div>
+<div class="day-summary cardmark" data-day-summary="day5"></div>
 </section>
 <section class="page" data-page="" id="overall">
 <div class="final-card cardmark overall-review" data-overall-review="trip-overall-review">
 <p class="eyebrow">Overall Review</p>
-<h2>Overall Comments</h2>
+<h2>整體感覺 / Final thoughts</h2>
+<p class="overall-helper">寫低你睇完整個行程後嘅整體感覺：例如會唔會太趕、最期待邊一日、邊度想留白多啲、或者有冇最後想 Crystal 留意嘅位。</p>
 <div class="review-thread overall-thread-top" data-overall-thread=""></div>
-<textarea placeholder="Overall comment…"></textarea>
-<div class="comment-actions"><button data-overall-save="">Save Overall Review</button><span class="wrap-status" data-overall-note=""></span></div>
+<textarea placeholder="整體感覺 / final thoughts…"></textarea>
+<div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
 </div>
 </section>
@@ -1763,7 +1787,9 @@ function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeho
     if(syncNote) meta.push(syncNote);
     const commentHtml=(saved||'').trim()?esc(saved):'<span class="muted">No written comment</span>';
     view.innerHTML=`<p>${commentHtml}</p><small>${meta.join(' · ')||`Saved for ${reviewers[currentReviewer]}`}</small>`;
-    save.hidden=true;
+    save.hidden=false;
+    save.textContent='Save';
+    save.disabled=true;
     edit.hidden=false;
     cancel.hidden=true;
     if(clear) clear.hidden=false;
@@ -1983,7 +2009,7 @@ ${commentCount?`<details class="day-summary-comments"><summary>${commentCount} c
   const wrapStatus=computeWrapStatus(wrapId);
   const dayName=(dayId||'day').replace('day','Day ');
   container.innerHTML=`<details class="day-summary-details">
-<summary><span><b>${dayName} Summary</b><small>Open for Planner Notes + review results</small></span><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></summary>
+<summary><span><b>${dayName} Summary</b><small>Planner Notes + review results</small></span><span class="day-summary-status status-${wrapStatus}">${statusLabel[wrapStatus]}</span></summary>
 <div class="planner-notes" data-planner-notes="${plannerId}">
   <p class="eyebrow">Planner Notes — Crystal to use</p>
   <h3>What to change / look into</h3>
