@@ -1801,15 +1801,15 @@ textarea{background:#fff !important;}
 </details>
 <div class="planner-tools" data-planner-tools hidden>
   <h3>Planner Tools</h3>
-  <p>Crystal only. Clears Supabase + this device's local storage + PWA cache, then reloads. Friends' devices auto-clear their own stale test data next time they open the app.</p>
-  <button data-reset-test-data>Reset Test Data</button> <span data-reset-note></span>
+  <p>Crystal only. 輸入 PIN 後先可以清除所有 Review 資料、此裝置 local data、PWA cache，並重新選擇 Reviewer。</p>
+  <button data-reset-test-data>Clear Data</button> <span data-reset-note></span>
 </div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
 </div>
 </section>
 
 </main>
-<div class="build-badge">Build 11.37 Duplicate Save Fix</div>
+<div class="build-badge">Build 11.38 Clear Data PIN Fix</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -1895,7 +1895,7 @@ async function checkResetEpoch(){
     if(localEpoch===remoteEpoch) return;
     // Crystal reset the trip since this device last checked in - wipe this device's stale test data too.
     Object.keys(localStorage).forEach(k=>{
-      if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:draft:') || k.startsWith('ccmv:pending:') || k.startsWith('ccmv:sync:')) localStorage.removeItem(k);
+      if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:draft:') || k.startsWith('ccmv:pending:') || k.startsWith('ccmv:sync:') || k==='ccmv:reviewer' || k==='ccmv:reviewerChosen' || k==='ccmv:reviewFilter') localStorage.removeItem(k);
     });
     localStorage.setItem('ccmv:resetEpoch',remoteEpoch);
   }catch(err){ console.warn('CCMV epoch check failed:',err); }
@@ -1949,9 +1949,12 @@ async function deleteSupabaseReview(kind,id){
 
 async function resetAllPlannerTestData(){
   const note=document.querySelector('[data-reset-note]');
+  const RESET_PIN='1016';
   if(currentReviewer!=='Crystal'){ if(note) note.textContent='Crystal only.'; return; }
-  const confirmText=window.prompt('This will clear Supabase data AND this device\'s local data/cache, then reload. Type RESET to confirm.');
-  if(confirmText!=='RESET'){ if(note) note.textContent='Reset cancelled.'; return; }
+  const pinText=window.prompt('請輸入 PIN 才能清除所有資料。');
+  if(pinText!==RESET_PIN){ if(note) note.textContent='PIN 錯誤，資料未清除。'; return; }
+  const confirmText=window.prompt('此操作會清除所有 Review 資料、此裝置 local data、PWA cache，並需要重新選擇 Reviewer。請輸入 RESET 確認。');
+  if(confirmText!=='RESET'){ if(note) note.textContent='已取消，資料未清除。'; return; }
   if(note) note.textContent='Clearing…';
 
   // 1. Clear Supabase (shared data for everyone), then stamp a reset-epoch marker
@@ -2004,7 +2007,7 @@ async function resetAllPlannerTestData(){
   if(rlsBlocked){
     window.alert('Supabase 冇真正刪到 row — 好可能係 Row Level Security 冇畀 DELETE 政策俾 anon key。呢部機同 Supabase 本身嘅資料暫時清唔到，麻煩去 Supabase SQL Editor 加返個 DELETE policy。');
   }
-  if(note) note.textContent=ok?'All data + cache cleared. Reloading…':(rlsBlocked?'⚠ Supabase RLS blocked delete — see alert. Local cache cleared.':'Local cache cleared, Supabase may need checking. Reloading…');
+  if(note) note.textContent=ok?'All data + cache cleared. Reloading…':(rlsBlocked?'⚠ Supabase RLS blocked delete — see alert. Local cache cleared.':'Local data cleared. Supabase may need checking. Reloading…');
 
   // 5. Force a hard reload with a cache-busting param, bypassing any leftover HTTP cache
   const url=new URL(location.href);
