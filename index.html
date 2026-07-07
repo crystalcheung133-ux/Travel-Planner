@@ -1819,7 +1819,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.32 Planner Final Thoughts Fix</div>
+<div class="build-badge">Build 11.33 RLS Delete Check</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -1978,10 +1978,17 @@ async function resetAllPlannerTestData(){
   // 1. Clear Supabase (shared data for everyone), then stamp a reset-epoch marker
   let ok=true;
   let epoch=null;
+  let rlsBlocked=false;
   if(supabaseReady && supabaseClient){
     try{
-      const {error}=await supabaseClient.from(CCMV_SUPABASE.table).delete().eq('trip_id',CCMV_SUPABASE.planId);
+      const {data:deletedRows,error}=await supabaseClient.from(CCMV_SUPABASE.table).delete().eq('trip_id',CCMV_SUPABASE.planId).select('id');
       if(error) throw error;
+      if(!deletedRows || deletedRows.length===0){
+        // Supabase can report "success" with 0 rows affected if Row Level Security
+        // has no DELETE policy for this key - the rows are still sitting there.
+        const {data:stillThere}=await supabaseClient.from(CCMV_SUPABASE.table).select('id').eq('trip_id',CCMV_SUPABASE.planId).limit(1);
+        if(stillThere && stillThere.length>0){ rlsBlocked=true; ok=false; }
+      }
       epoch=String(Date.now());
       const {error:epochError}=await supabaseClient.from(CCMV_SUPABASE.table).upsert({
         trip_id:CCMV_SUPABASE.planId, item_id:'system:reset-epoch', reviewer:'System',
@@ -2015,7 +2022,10 @@ async function resetAllPlannerTestData(){
     }catch(err){ console.warn('CCMV service worker unregister failed:',err); }
   }
 
-  if(note) note.textContent=ok?'All data + cache cleared. Reloading…':'Local cache cleared, Supabase may need checking. Reloading…';
+  if(rlsBlocked){
+    window.alert('Supabase 冇真正刪到 row — 好可能係 Row Level Security 冇畀 DELETE 政策俾 anon key。呢部機同 Supabase 本身嘅資料暫時清唔到，麻煩去 Supabase SQL Editor 加返個 DELETE policy。');
+  }
+  if(note) note.textContent=ok?'All data + cache cleared. Reloading…':(rlsBlocked?'⚠ Supabase RLS blocked delete — see alert. Local cache cleared.':'Local cache cleared, Supabase may need checking. Reloading…');
 
   // 5. Force a hard reload with a cache-busting param, bypassing any leftover HTTP cache
   const url=new URL(location.href);
