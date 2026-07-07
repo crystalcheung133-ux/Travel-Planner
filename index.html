@@ -1809,7 +1809,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.36 Trial UX Fixes</div>
+<div class="build-badge">Build 11.37 Duplicate Save Fix</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -2121,7 +2121,7 @@ function ensureCommentControls(box,kind='activity'){
   if(!actions.querySelector('[data-status]') && !actions.querySelector('[data-wrap-note]') && !actions.querySelector('[data-overall-note]') && !actions.querySelector('[data-planner-note]')){ const s=document.createElement('span'); s.setAttribute('data-status',''); actions.appendChild(s); }
 }
 function setupCommentBox(box,{saved,editedAt,saveSelector,statusSelector,placeholderSaved,syncNote}){
-  ensureCommentControls(box, box.closest('[data-day-wrap]')?'wrap':box.closest('[data-overall-review]')?'overall':box.closest('[data-planner-notes]')?'planner':'activity');
+  ensureCommentControls(box, box.closest('[data-planner-notes]')?'planner':box.closest('[data-day-wrap]')?'wrap':box.closest('[data-overall-review]')?'overall':'activity');
   const ta=box.querySelector('textarea');
   const save=box.querySelector(saveSelector);
   const edit=box.querySelector('[data-edit]');
@@ -2517,7 +2517,7 @@ function closeIOSKeyboard(){
   },80);
 }
 
-/* Build 11.36: iPhone bottom comment visibility + nested planner notes controls fix */
+/* Build 11.37: remove duplicate Save button in nested Overall Planner Notes */
 /* Build 10.2.7: iPhone comment focus visibility fix
    Real issue: when the iOS keyboard opens, Safari can place the active
    textarea underneath the keyboard/toolbar. We do NOT try to freeze the
