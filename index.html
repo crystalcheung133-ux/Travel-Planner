@@ -677,7 +677,6 @@ body{background:#f7f0e6 !important;}
 body.splash-active header,body.splash-active main{visibility:hidden !important;}
 body.splash-active #ccmv-splash{visibility:visible !important;}
 header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
-#home #progressDashboard{display:none !important;}
 .home-actions{display:flex;gap:8px;flex-wrap:wrap;}
 .home-actions button{white-space:nowrap;}
 .reviewer-inner{position:relative !important;justify-content:flex-end !important;}
@@ -924,7 +923,6 @@ body{background:#f7f0e6 !important;}
 body.splash-active header,body.splash-active main{visibility:hidden !important;}
 body.splash-active #ccmv-splash{visibility:visible !important;}
 header,.reviewer-bar{background:rgba(247,240,230,.94) !important;}
-#home #progressDashboard{display:none !important;}
 .home-actions{display:flex;gap:8px;flex-wrap:wrap;}
 .home-actions button{white-space:nowrap;}
 .reviewer-inner{position:relative !important;justify-content:flex-end !important;}
@@ -1058,7 +1056,6 @@ textarea{background:#fff !important;}
 .planner-tools h3{margin:0 0 6px;font-family:var(--font);font-size:19px;color:var(--ink)}
 .planner-tools p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45}
 .planner-tools button{border:1px solid rgba(142,111,63,.28);background:#fffaf3;border-radius:999px;padding:8px 12px;font-weight:800;color:var(--gold-deep);cursor:pointer}
-.planner-tools[hidden]{display:none !important}
 
 </style>
 <style id="ccmv-splash-style">
@@ -1132,7 +1129,6 @@ textarea{background:#fff !important;}
 .planner-tools h3{margin:0 0 6px;font-family:var(--font);font-size:19px;color:var(--ink)}
 .planner-tools p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45}
 .planner-tools button{border:1px solid rgba(142,111,63,.28);background:#fffaf3;border-radius:999px;padding:8px 12px;font-weight:800;color:var(--gold-deep);cursor:pointer}
-.planner-tools[hidden]{display:none !important}
 
 </style>
 <div id="ccmv-splash">
@@ -1182,12 +1178,6 @@ textarea{background:#fff !important;}
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
 <button type="button" class="reviewer-toggle-btn" data-reviewer-toggle="" onclick="window.CCMV_openReviewerDialog && window.CCMV_openReviewerDialog(event)" aria-haspopup="true" aria-expanded="false"><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></button>
-<div aria-label="Reviewer identity" class="reviewer-pills" role="group">
-<button class="reviewer-pill" data-reviewer="Christal">🧸 Christal</button>
-<button class="reviewer-pill" data-reviewer="Crystal">👓 Crystal</button>
-<button class="reviewer-pill" data-reviewer="Mero">✝️ Mero</button>
-<button class="reviewer-pill" data-reviewer="Vivian">👟 Vivian</button>
-</div>
 </div>
 </div>
 
@@ -1819,21 +1809,10 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.33 RLS Delete Check</div>
+<div class="build-badge">Build 11.34 Cleanup</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
-
-
-/* Build 11.11 clean planner test: isolate this ZIP from previous testing data. */
-(function clearPreviousPlannerTestDataOnce(){
-  const flag='ccmv11_11_clear_test_loaded';
-  if(localStorage.getItem(flag)==='yes') return;
-  Object.keys(localStorage).forEach(k=>{
-    if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:reviewFilter')) localStorage.removeItem(k);
-  });
-  localStorage.setItem(flag,'yes');
-})();
 const CCMV_SUPABASE={
   url:'https://dafgbqygccvctifrevpa.supabase.co',
   anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhZmdicXlnY2N2Y3RpZnJldnBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTQyOTksImV4cCI6MjA5ODgzMDI5OX0.9dB6WV8BldV6rGze3QuisIaj3qnUV7zSzdo_eGPBbrA',
@@ -2725,8 +2704,6 @@ document.addEventListener('click',async e=>{
   const reset=e.target.closest('[data-reset-test-data]'); if(reset){ await resetAllPlannerTestData(); return; }
   const join=e.target.closest('[data-join-reviewer]'); if(join){ setReviewer(join.dataset.joinReviewer); return; }
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
-  const toggleReviewer=e.target.closest('[data-reviewer-toggle]'); if(toggleReviewer){ document.querySelector('.reviewer-bar')?.classList.toggle('open'); return; }
-  const reviewer=e.target.closest('[data-reviewer]'); if(reviewer){ setReviewer(reviewer.dataset.reviewer); document.querySelector('.reviewer-bar')?.classList.remove('open'); return; }
   const filter=e.target.closest('[data-filter-reviewer]'); if(filter){ currentFilter=filter.dataset.filterReviewer; localStorage.setItem('ccmv:reviewFilter',currentFilter); renderAll(); return; }
   const edit=e.target.closest('[data-edit]');
   if(edit){ const box=edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]')||edit.closest('[data-planner-notes]'); box.dataset.editing='true'; renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); return; }
