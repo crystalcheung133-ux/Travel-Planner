@@ -2680,6 +2680,7 @@ async function saveOverall(box){
 }
 
 async function savePlannerNotes(box){
+  if(!isPlanner() || !box) return;
   const id=box.dataset.plannerNotes, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   ccmvSuppressBlurRestore=true; closeIOSKeyboard(); setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
@@ -2696,8 +2697,28 @@ function renderPlannerNotes(){
     const id=box.dataset.plannerNotes, ta=box.querySelector('textarea');
     const saved=localStorage.getItem(reviewKey('planner-note',id,'Planner'))||'';
     const editedAt=localStorage.getItem(reviewKey('planner-note-edited',id,'Planner'));
-    box.dataset.savedForce=Boolean(saved||editedAt)?'true':'false';
+    const hasPlannerNote=Boolean((saved||'').trim() || editedAt);
+    const plannerMode=isPlanner();
+    box.hidden=!plannerMode && !hasPlannerNote;
+    box.classList.toggle('reviewer-readonly', !plannerMode);
+    box.dataset.savedForce=hasPlannerNote?'true':'false';
     setupCommentBox(box,{saved,editedAt,saveSelector:'[data-planner-save]',statusSelector:'[data-planner-note]',placeholderSaved:'Saved planner notes / 已儲存，可按 Edit 修改',syncNote:''});
+    const eyebrow=box.querySelector('.eyebrow');
+    if(eyebrow){
+      if(plannerMode) eyebrow.textContent=id==='overall-planner-notes'?'CRYSTAL TO USE':'Planner Notes — Crystal to use';
+      else eyebrow.textContent='Planner Note from Crystal';
+    }
+    const title=box.querySelector('h3,h4');
+    if(title && !plannerMode) title.textContent='Planner Note';
+    const actions=box.querySelector('.comment-actions');
+    if(!plannerMode){
+      if(ta) ta.hidden=true;
+      if(actions) actions.hidden=true;
+      box.querySelectorAll('[data-planner-save],[data-edit],[data-clear],[data-cancel]').forEach(btn=>btn.hidden=true);
+    }else{
+      if(ta) ta.hidden=false;
+      if(actions) actions.hidden=false;
+    }
   });
 }
 document.addEventListener('click',async e=>{
@@ -2708,6 +2729,7 @@ document.addEventListener('click',async e=>{
   const edit=e.target.closest('[data-edit]');
   if(edit){
     const plannerBox=edit.closest('[data-planner-notes]');
+    if(plannerBox && !isPlanner()) return;
     const box=plannerBox||edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]');
     box.dataset.editing='true';
     if(plannerBox){ renderPlannerNotes(); setTimeout(()=>plannerBox.querySelector('textarea')?.focus(),0); }
@@ -2740,6 +2762,7 @@ document.addEventListener('click',async e=>{
   const clear=e.target.closest('[data-clear]');
   if(clear){
     const plannerBox=clear.closest('[data-planner-notes]'); const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
+    if(plannerBox && !isPlanner()) return;
     if(plannerBox){
       const id=plannerBox.dataset.plannerNotes;
       localStorage.removeItem(reviewKey('planner-note',id,'Planner'));
@@ -2772,7 +2795,7 @@ document.addEventListener('click',async e=>{
   const overall=e.target.closest('[data-overall-status]');
   if(overall){ const box=overall.closest('[data-overall-review]'); const id=box.dataset.overallReview; localStorage.setItem(reviewKey('overall-status',id),overall.dataset.overallStatus); upsertSupabaseReview('overall',id,{reaction:overall.dataset.overallStatus,comment:localStorage.getItem(reviewKey('overall-comment',id))||''}); renderAll(); return; }
   const overallSave=e.target.closest('[data-overall-save]'); if(overallSave){ await saveOverall(overallSave.closest('[data-overall-review]')); return; }
-  const plannerSave=e.target.closest('[data-planner-save]'); if(plannerSave){ await savePlannerNotes(plannerSave.closest('[data-planner-notes]')); return; }
+  const plannerSave=e.target.closest('[data-planner-save]'); if(plannerSave){ if(!isPlanner()) return; await savePlannerNotes(plannerSave.closest('[data-planner-notes]')); return; }
 });
 document.addEventListener('input',e=>{
   const ta=e.target.closest('textarea'); if(!ta) return;
