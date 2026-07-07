@@ -1809,7 +1809,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.35 Comment Required Copy Fix</div>
+<div class="build-badge">Build 11.36 Trial UX Fixes</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -2517,6 +2517,7 @@ function closeIOSKeyboard(){
   },80);
 }
 
+/* Build 11.36: iPhone bottom comment visibility + nested planner notes controls fix */
 /* Build 10.2.7: iPhone comment focus visibility fix
    Real issue: when the iOS keyboard opens, Safari can place the active
    textarea underneath the keyboard/toolbar. We do NOT try to freeze the
@@ -2561,16 +2562,12 @@ function scheduleActiveCommentVisible(){
 document.addEventListener('focusin',e=>{
   const ta=e.target.closest?.('textarea');
   if(!ta) return;
-  if(ta.closest('[data-overall-review]')){
-    ccmvActiveTextarea=null;
-    ccmvActiveInputBox=null;
-    document.body.classList.remove('keyboard-editing');
-    return;
-  }
   ccmvActiveTextarea=ta;
-  ccmvActiveInputBox=ta.closest('.comment-box,[data-day-wrap],[data-planner-notes]') || ta;
+  ccmvActiveInputBox=ta.closest('.comment-box,[data-day-wrap],[data-overall-review],[data-planner-notes]') || ta;
   document.body.classList.add('keyboard-editing');
   scheduleActiveCommentVisible();
+  setTimeout(()=>keepActiveCommentVisible(56),180);
+  setTimeout(()=>keepActiveCommentVisible(56),360);
 });
 document.addEventListener('input',e=>{
   /* Build 11.11: do not auto-scroll on every keystroke; it made mobile comment pages jump. */
@@ -2706,9 +2703,22 @@ document.addEventListener('click',async e=>{
   const open=e.target.closest('[data-open]'); if(open){ showPage(open.dataset.open); return; }
   const filter=e.target.closest('[data-filter-reviewer]'); if(filter){ currentFilter=filter.dataset.filterReviewer; localStorage.setItem('ccmv:reviewFilter',currentFilter); renderAll(); return; }
   const edit=e.target.closest('[data-edit]');
-  if(edit){ const box=edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]')||edit.closest('[data-planner-notes]'); box.dataset.editing='true'; renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); return; }
+  if(edit){
+    const plannerBox=edit.closest('[data-planner-notes]');
+    const box=plannerBox||edit.closest('.comment-box')||edit.closest('[data-day-wrap]')||edit.closest('[data-overall-review]');
+    box.dataset.editing='true';
+    if(plannerBox){ renderPlannerNotes(); setTimeout(()=>plannerBox.querySelector('textarea')?.focus(),0); }
+    else { renderAll(); setTimeout(()=>box.querySelector('textarea')?.focus(),0); }
+    return;
+  }
   const cancel=e.target.closest('[data-cancel]');
-  if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]')||cancel.closest('[data-planner-notes]'); delete box.dataset.editing; renderAll(); return; }
+  if(cancel){
+    const plannerBox=cancel.closest('[data-planner-notes]');
+    const box=plannerBox||cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]');
+    delete box.dataset.editing;
+    if(plannerBox) renderPlannerNotes(); else renderAll();
+    return;
+  }
   const rb=e.target.closest('[data-reaction]');
   if(rb){
     clearReactionValidation(rb.closest('.reaction'));
@@ -2726,11 +2736,21 @@ document.addEventListener('click',async e=>{
   const save=e.target.closest('[data-save]'); if(save){ await saveActivity(save.closest('.activity')); return; }
   const clear=e.target.closest('[data-clear]');
   if(clear){
-    const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]'); const plannerBox=clear.closest('[data-planner-notes]');
+    const plannerBox=clear.closest('[data-planner-notes]'); const activity=clear.closest('.activity'); const wrapBox=clear.closest('[data-day-wrap]'); const overallBox=clear.closest('[data-overall-review]');
+    if(plannerBox){
+      const id=plannerBox.dataset.plannerNotes;
+      localStorage.removeItem(reviewKey('planner-note',id,'Planner'));
+      localStorage.removeItem(reviewKey('planner-note-edited',id,'Planner'));
+      await deleteSupabaseReview('planner',id);
+      plannerBox.dataset.editing='true';
+      renderPlannerNotes();
+      renderPlannerSummary();
+      setTimeout(()=>plannerBox.querySelector('textarea')?.focus(),0);
+      return;
+    }
     if(activity){ const id=safeCardKey(activity); ['reaction','comment','comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('reaction',id)); localStorage.removeItem(draftKey('comment',id)); setSyncNote('activity',id,''); await deleteSupabaseReview('activity',id); const b=activity.querySelector('.comment-box'); if(b) delete b.dataset.editing; }
     else if(wrapBox){ const id=wrapBox.dataset.dayWrap; ['wrap-status','wrap-comment','wrap-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(pendingKey('wrap-status',id)); localStorage.removeItem(draftKey('wrap-comment',id)); setSyncNote('wrap',id,''); await deleteSupabaseReview('wrap',id); delete wrapBox.dataset.editing; }
     else if(overallBox){ const id=overallBox.dataset.overallReview; ['overall-status','overall-comment','overall-comment-edited'].forEach(t=>localStorage.removeItem(reviewKey(t,id))); localStorage.removeItem(draftKey('overall-comment',id)); setSyncNote('overall',id,''); await deleteSupabaseReview('overall',id); delete overallBox.dataset.editing; }
-    else if(plannerBox){ const id=plannerBox.dataset.plannerNotes; localStorage.removeItem(reviewKey('planner-note',id,'Planner')); localStorage.removeItem(reviewKey('planner-note-edited',id,'Planner')); await deleteSupabaseReview('planner',id); delete plannerBox.dataset.editing; }
     renderAll(); return;
   }
   const wrap=e.target.closest('[data-wrap-status]');
