@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ccmv-journey-planner-build-11-1';
+const CACHE_NAME = 'ccmv-journey-planner-build-11-30-reset';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-180.png', './icon-192.png', './icon-512.png',

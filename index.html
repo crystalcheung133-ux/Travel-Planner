@@ -1809,7 +1809,7 @@ textarea{background:#fff !important;}
 </details>
 <div class="planner-tools" data-planner-tools hidden>
   <h3>Planner Tools</h3>
-  <p>Crystal only. Clear all trial reviews, comments, day wrap-ups, planner notes, and final thoughts before sending to friends.</p>
+  <p>Crystal only. Clears Supabase + this device's local storage + PWA cache, then reloads. Friends' devices auto-clear their own stale test data next time they open the app.</p>
   <button data-reset-test-data>Reset Test Data</button> <span data-reset-note></span>
 </div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
@@ -1817,7 +1817,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.29 Friend Test RC</div>
+<div class="build-badge">Build 11.31 Reset + Friend Auto-Clear</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -1857,6 +1857,7 @@ function formatRemoteTime(value){
 }
 function applyRemoteReview(row){
   if(!row || !row.item_id || !row.reviewer) return;
+  if(row.item_id.startsWith('system:')) return;
   if(!row.reaction && !row.comment) return;
   const item=String(row.item_id);
   const person=row.reviewer;
@@ -1896,6 +1897,27 @@ async function loadSupabaseReviews(){
     .eq('trip_id',CCMV_SUPABASE.planId);
   if(error) throw error;
   (data||[]).forEach(applyRemoteReview);
+}
+async function checkResetEpoch(){
+  if(!supabaseClient) return;
+  try{
+    const {data,error}=await supabaseClient
+      .from(CCMV_SUPABASE.table)
+      .select('comment')
+      .eq('trip_id',CCMV_SUPABASE.planId)
+      .eq('item_id','system:reset-epoch')
+      .eq('reviewer','System')
+      .maybeSingle();
+    if(error || !data || !data.comment) return;
+    const remoteEpoch=data.comment;
+    const localEpoch=localStorage.getItem('ccmv:resetEpoch');
+    if(localEpoch===remoteEpoch) return;
+    // Crystal reset the trip since this device last checked in - wipe this device's stale test data too.
+    Object.keys(localStorage).forEach(k=>{
+      if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:draft:') || k.startsWith('ccmv:pending:') || k.startsWith('ccmv:sync:')) localStorage.removeItem(k);
+    });
+    localStorage.setItem('ccmv:resetEpoch',remoteEpoch);
+  }catch(err){ console.warn('CCMV epoch check failed:',err); }
 }
 async function upsertSupabaseReview(kind,id,{reaction=null,comment=null}={}){
   if(!supabaseReady || !supabaseClient) return false;
@@ -1947,26 +1969,56 @@ async function deleteSupabaseReview(kind,id){
 async function resetAllPlannerTestData(){
   const note=document.querySelector('[data-reset-note]');
   if(currentReviewer!=='Crystal'){ if(note) note.textContent='Crystal only.'; return; }
-  const confirmText=window.prompt('This will clear all saved review data for this planner. Type RESET to confirm.');
+  const confirmText=window.prompt('This will clear Supabase data AND this device\'s local data/cache, then reload. Type RESET to confirm.');
   if(confirmText!=='RESET'){ if(note) note.textContent='Reset cancelled.'; return; }
   if(note) note.textContent='Clearing…';
-  Object.keys(localStorage).forEach(k=>{
-    if(k.startsWith('ccmv09:') || k.startsWith('ccmv10:') || k.startsWith('ccmv:draft:') || k.startsWith('ccmv:pending:') || k.startsWith('ccmv:sync:') || k.startsWith('ccmv:reviewFilter')) localStorage.removeItem(k);
-  });
+
+  // 1. Clear Supabase (shared data for everyone), then stamp a reset-epoch marker
   let ok=true;
+  let epoch=null;
   if(supabaseReady && supabaseClient){
     try{
       const {error}=await supabaseClient.from(CCMV_SUPABASE.table).delete().eq('trip_id',CCMV_SUPABASE.planId);
       if(error) throw error;
-      setSyncStatus('✓ Test data reset','online');
+      epoch=String(Date.now());
+      const {error:epochError}=await supabaseClient.from(CCMV_SUPABASE.table).upsert({
+        trip_id:CCMV_SUPABASE.planId, item_id:'system:reset-epoch', reviewer:'System',
+        reaction:null, comment:epoch, updated_at:new Date().toISOString()
+      },{onConflict:'trip_id,item_id,reviewer'});
+      if(epochError) throw epochError;
     }catch(err){
-      ok=false; console.warn('CCMV reset failed:',err); setSyncStatus('Reset local only · Supabase failed','warn');
+      ok=false; console.warn('CCMV reset failed:',err);
     }
   }else{
-    ok=false; setSyncStatus('Reset local only · Supabase offline','warn');
+    ok=false;
   }
-  if(note) note.textContent=ok?'All test data cleared.':'Local data cleared. Supabase may need checking.';
-  renderAll();
+
+  // 2. Clear ALL ccmv-prefixed localStorage on this device (covers every past/future key prefix)
+  Object.keys(localStorage).forEach(k=>{ if(k.startsWith('ccmv')) localStorage.removeItem(k); });
+  if(epoch) localStorage.setItem('ccmv:resetEpoch',epoch);
+
+  // 3. Clear this device's Cache Storage (removes the offline-cached HTML/JS/icons)
+  if('caches' in window){
+    try{
+      const keys=await caches.keys();
+      await Promise.all(keys.map(k=>caches.delete(k)));
+    }catch(err){ console.warn('CCMV cache clear failed:',err); }
+  }
+
+  // 4. Unregister the service worker so a fresh one installs on reload (effectively bumps cache version)
+  if('serviceWorker' in navigator){
+    try{
+      const regs=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r=>r.unregister()));
+    }catch(err){ console.warn('CCMV service worker unregister failed:',err); }
+  }
+
+  if(note) note.textContent=ok?'All data + cache cleared. Reloading…':'Local cache cleared, Supabase may need checking. Reloading…';
+
+  // 5. Force a hard reload with a cache-busting param, bypassing any leftover HTTP cache
+  const url=new URL(location.href);
+  url.searchParams.set('_reset',Date.now());
+  setTimeout(()=>{ location.replace(url.toString()); },400);
 }
 function renderPlannerTools(){
   const panel=document.querySelector('[data-planner-tools]');
@@ -2005,6 +2057,7 @@ async function initSupabaseReadiness(){
     const {error}=await supabaseClient.from(CCMV_SUPABASE.table).select('id').eq('trip_id',CCMV_SUPABASE.planId).limit(1);
     if(error){setSyncStatus('Supabase connected · table/policy issue','warn'); console.warn('CCMV Supabase schema check:',error.message); return;}
     supabaseReady=true;
+    await checkResetEpoch();
     await loadSupabaseReviews();
     renderAll();
     /* Build 11.3: realtime paused by design; refresh-based sync only. */
