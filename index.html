@@ -897,6 +897,23 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 }
 </style>
 
+
+<style id="build-11-29-planner-role-ui">
+body.planner-role .activity .reaction,
+body.planner-role .activity .comment-box,
+body.planner-role [data-day-wrap],
+body.planner-role [data-overall-review] > textarea,
+body.planner-role [data-overall-review] > .comment-actions{
+  display:none !important;
+}
+body.planner-role .activity.review-open{padding-bottom:18px;}
+body.planner-role .review-badge::after{
+  content:" · planner view";
+  font-weight:700;
+  color:rgba(47,41,35,.48);
+}
+</style>
+
 </head>
 <body class="splash-active">
 <style>
@@ -1800,7 +1817,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.27 Friend Test RC</div>
+<div class="build-badge">Build 11.29 Friend Test RC</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -1999,6 +2016,8 @@ async function initSupabaseReadiness(){
 }
 const reviewers=(tripData.reviewers||[]).reduce((acc,r)=>{acc[r.id]=`${r.emoji} ${r.name}`;return acc;}, {Christal:'🧸 Christal',Crystal:'👓 Crystal',Mero:'✝️ Mero',Vivian:'👟 Vivian'});
 const reviewerNames=Object.keys(reviewers);
+const feedbackReviewerNames=['Christal','Mero','Vivian'];
+function isPlanner(person=currentReviewer){return person==='Crystal';}
 const storedReviewer=localStorage.getItem('ccmv:reviewer');
 let currentReviewer=storedReviewer||'Christal';
 if(!reviewers[currentReviewer]) currentReviewer='Christal';
@@ -2133,6 +2152,7 @@ function setReviewer(name){
   renderAll();
 }
 function renderReviewer(){
+  document.body.classList.toggle('planner-role', isPlanner());
   document.querySelector('[data-current-reviewer-label]').textContent=reviewers[currentReviewer];
   document.querySelectorAll('[data-reviewer]').forEach(btn=>btn.classList.toggle('selected',btn.dataset.reviewer===currentReviewer));
 }
@@ -2196,13 +2216,13 @@ function renderActivity(card){
   }
   let badge=card.querySelector('[data-approval-badge]');
   if(!badge){ badge=document.createElement('div'); badge.setAttribute('data-approval-badge',''); badge.className='review-badge'; const reactionBox=card.querySelector('.reaction'); if(reactionBox) reactionBox.insertAdjacentElement('afterend',badge); }
-  const keepCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))==='keep').length;
-  const reviewedCount=reviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))).length;
-  badge.className='review-badge'+(keepCount===reviewerNames.length?' approved':'');
-  badge.textContent=keepCount===reviewerNames.length?`✅ All reviewers Keep · ${reviewerNames.length} / ${reviewerNames.length}`:`${reviewedCount} / ${reviewerNames.length} reviewed · ${keepCount} Keep`;
+  const keepCount=feedbackReviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))==='keep').length;
+  const reviewedCount=feedbackReviewerNames.filter(name=>localStorage.getItem(reviewKey('reaction',id,name))).length;
+  badge.className='review-badge'+(keepCount===feedbackReviewerNames.length?' approved':'');
+  badge.textContent=keepCount===feedbackReviewerNames.length?`✅ All reviewers Keep · ${feedbackReviewerNames.length} / ${feedbackReviewerNames.length}`:`${reviewedCount} / ${feedbackReviewerNames.length} reviewed · ${keepCount} Keep`;
   const thread=card.querySelector('[data-thread]');
   if(thread){
-    const items=reviewerNames.map(name=>{
+    const items=feedbackReviewerNames.map(name=>{
       const reaction=localStorage.getItem(reviewKey('reaction',id,name));
       const comment=localStorage.getItem(reviewKey('comment',id,name));
       const time=localStorage.getItem(reviewKey('comment-edited',id,name));
@@ -2233,15 +2253,15 @@ function renderDashboard(){
   const cards=[...document.querySelectorAll('.activity')];
   const wraps=[...document.querySelectorAll('[data-day-wrap]')];
   const totalSteps=cards.length+wraps.length;
-  const totalPossible=totalSteps*reviewerNames.length;
+  const totalPossible=totalSteps*feedbackReviewerNames.length;
   const allReactions=[];
-  cards.forEach(c=>reviewerNames.forEach(name=>{ const r=localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)); if(r) allReactions.push(r); }));
-  const wrapDone=wraps.reduce((sum,w)=>sum+reviewerNames.filter(name=>localStorage.getItem(reviewKey('wrap-status',w.dataset.dayWrap,name))||localStorage.getItem(reviewKey('wrap-comment',w.dataset.dayWrap,name))).length,0);
+  cards.forEach(c=>feedbackReviewerNames.forEach(name=>{ const r=localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)); if(r) allReactions.push(r); }));
+  const wrapDone=wraps.reduce((sum,w)=>sum+feedbackReviewerNames.filter(name=>localStorage.getItem(reviewKey('wrap-status',w.dataset.dayWrap,name))||localStorage.getItem(reviewKey('wrap-comment',w.dataset.dayWrap,name))).length,0);
   const done=allReactions.length+wrapDone;
   const pct=totalPossible?Math.round(done/totalPossible*100):0;
   const keep=allReactions.filter(r=>r==='keep').length, discuss=allReactions.filter(r=>r==='discuss').length, replace=allReactions.filter(r=>r==='replace').length;
-  const approved=cards.filter(c=>reviewerNames.every(name=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='keep')).length;
-  const pending=cards.filter(c=>reviewerNames.some(name=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)))).slice(0,4);
+  const approved=cards.filter(c=>feedbackReviewerNames.every(name=>localStorage.getItem(reviewKey('reaction',safeCardKey(c),name))==='keep')).length;
+  const pending=cards.filter(c=>feedbackReviewerNames.some(name=>!localStorage.getItem(reviewKey('reaction',safeCardKey(c),name)))).slice(0,4);
   const summaryHtml=`<div class="summary-card"><strong>${pct}%</strong><span>Overall ready score</span><div class="mini">${done}/${totalPossible} review steps completed · ${approved}/${cards.length} items fully approved</div><div class="progress-meter"><i style="width:${pct}%"></i></div></div><div class="summary-card"><strong>${allReactions.length}</strong><span>Total item reviews</span><div class="progress-breakdown"><span>🟢 ${keep} Keep</span><span>🟡 ${discuss} Discuss</span><span>🔴 ${replace} Replace</span></div>${pending.length?`<div class="mini">${pending.length} item groups still need responses.</div>`:`<div class="mini">All review items have at least one response.</div>`}</div>`;
   summaries.forEach(summary=>summary.innerHTML=summaryHtml);
   if(!grids.length) return;
@@ -2265,21 +2285,21 @@ function renderDashboard(){
          else nobody has reviewed yet → Not Reviewed. */
 function computeCardStatus(card){
   const id=safeCardKey(card);
-  const states=reviewerNames.map(name=>localStorage.getItem(reviewKey('reaction',id,name)));
+  const states=feedbackReviewerNames.map(name=>localStorage.getItem(reviewKey('reaction',id,name)));
   const reviewedCount=states.filter(Boolean).length;
   if(reviewedCount===0) return 'none';
   if(states.includes('replace')) return 'replace';
   if(states.includes('discuss')) return 'discuss';
-  if(reviewedCount===reviewerNames.length && states.every(s=>s==='keep')) return 'all-good';
+  if(reviewedCount===feedbackReviewerNames.length && states.every(s=>s==='keep')) return 'all-good';
   return 'discuss';
 }
 function computeWrapStatus(day){
-  const states=reviewerNames.map(name=>localStorage.getItem(reviewKey('wrap-status',day,name)));
+  const states=feedbackReviewerNames.map(name=>localStorage.getItem(reviewKey('wrap-status',day,name)));
   const reviewedCount=states.filter(Boolean).length;
   if(reviewedCount===0) return 'none';
   if(states.includes('replace')) return 'replace';
   if(states.includes('discuss')) return 'discuss';
-  if(reviewedCount===reviewerNames.length && states.every(s=>s==='keep')) return 'all-good';
+  if(reviewedCount===feedbackReviewerNames.length && states.every(s=>s==='keep')) return 'all-good';
   return 'discuss';
 }
 const statusLabel={'all-good':'✅ All Good',discuss:'🤔 Needs Discussion',replace:'🔁 Replacement Requested',none:'⚪ Not Reviewed'};
@@ -2293,7 +2313,7 @@ function renderDaySummary(container){
   if(!cards.length){ container.innerHTML=''; return; }
   const overallCounts={keep:0,discuss:0,replace:0,none:0};
   cards.forEach(card=>{
-    reviewerNames.forEach(name=>{
+    feedbackReviewerNames.forEach(name=>{
       const r=localStorage.getItem(reviewKey('reaction',safeCardKey(card),name))||'none';
       overallCounts[r]=(overallCounts[r]||0)+1;
     });
@@ -2301,12 +2321,12 @@ function renderDaySummary(container){
   const activityRows=cards.map(card=>{
     const id=safeCardKey(card);
     const title=card.querySelector('h4')?.textContent.trim()||'Activity';
-    const pills=reviewerNames.map(name=>{
+    const pills=feedbackReviewerNames.map(name=>{
       const r=localStorage.getItem(reviewKey('reaction',id,name));
       return `<span class="day-summary-pill" title="${reviewers[name]} · ${reactionLabel(r)}">${reactionIcon(r)}</span>`;
     }).join('');
     const status=computeCardStatus(card);
-    const comments=reviewerNames.map(name=>{
+    const comments=feedbackReviewerNames.map(name=>{
       const cm=localStorage.getItem(reviewKey('comment',id,name));
       if(!cm || !filterAllows(name)) return '';
       const r=localStorage.getItem(reviewKey('reaction',id,name));
@@ -2318,14 +2338,12 @@ function renderDaySummary(container){
 ${commentCount?`<details class="day-summary-comments"><summary>${commentCount} comment${commentCount>1?'s':''}</summary>${comments}</details>`:`<div class="summary-empty">No comments yet.</div>`}
 </div>`;
   }).join('');
-  const wrapRows=reviewerNames.map(name=>{
+  const wrapRows=feedbackReviewerNames.map(name=>{
     const st=localStorage.getItem(reviewKey('wrap-status',wrapId,name));
     const cm=localStorage.getItem(reviewKey('wrap-comment',wrapId,name));
     if(!st && !cm) return '';
     return `<div class="day-summary-comment-item"><b>${reviewers[name]} ${st?`· ${reactionIcon(st)} ${reactionLabel(st)}`:'· Comment'}</b>${cm?esc(cm):'<span class="muted">No written comment</span>'}</div>`;
   }).filter(Boolean).join('');
-  const plannerNote=localStorage.getItem(reviewKey('planner-note',plannerId,'Planner'))||'';
-  const plannerTime=localStorage.getItem(reviewKey('planner-note-edited',plannerId,'Planner'))||'';
   const wrapStatus=computeWrapStatus(wrapId);
   const dayName=(dayId||'day').replace('day','Day ');
   container.innerHTML=`<details class="day-summary-details">
@@ -2356,18 +2374,18 @@ function renderSummaryActivities(){
   const cards=[...document.querySelectorAll('.activity')];
   const bucketOrder=['replace','discuss','none','all-good'];
   const bucketTitle={replace:'🔁 Replacement Requested',discuss:'🤔 Needs Discussion',none:'⚪ Not Reviewed', 'all-good':'✅ All Good'};
-  const bucketHint={replace:'需要優先決定是否更換。',discuss:'有人按 Discuss，或未達四人一致 Keep。',none:'暫時未有人 review。', 'all-good':'四人一致 Keep；預設收起，減少雜訊。'};
+  const bucketHint={replace:'需要優先決定是否更換。',discuss:'有人按 Discuss，或未達三位 reviewer 一致 Keep。',none:'暫時未有人 review。', 'all-good':'三位 reviewer 一致 Keep；預設收起，減少雜訊。'};
   const buckets={replace:[],discuss:[],none:[], 'all-good':[]};
   cards.forEach(card=>{
     const id=safeCardKey(card);
     const day=card.closest('.page')?.id?.replace('day','Day ')||'Plan';
     const title=card.querySelector('h4')?.textContent.trim()||'Activity';
     const status=computeCardStatus(card);
-    const chips=reviewerNames.map(name=>{
+    const chips=feedbackReviewerNames.map(name=>{
       const r=localStorage.getItem(reviewKey('reaction',id,name));
       return `<span class="summary-chip">${reviewers[name]} ${reactionIcon(r)}</span>`;
     }).join('');
-    const comments=reviewerNames.map(name=>{
+    const comments=feedbackReviewerNames.map(name=>{
       const cm=localStorage.getItem(reviewKey('comment',id,name));
       if(!cm) return '';
       return `<div class="summary-comment"><b>${reviewers[name]}</b>${esc(cm)}</div>`;
@@ -2559,6 +2577,7 @@ function clearReactionValidation(target){
 }
 
 async function saveActivity(card){
+  if(isPlanner()) return;
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(pendingKey('reaction',id)) || localStorage.getItem(reviewKey('reaction',id));
@@ -2578,6 +2597,7 @@ async function saveActivity(card){
   closeIOSKeyboard(); renderAll();
 }
 async function saveWrap(box){
+  if(isPlanner()) return;
   const id=box.dataset.dayWrap, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(pendingKey('wrap-status',id)) || localStorage.getItem(reviewKey('wrap-status',id));
@@ -2597,6 +2617,7 @@ async function saveWrap(box){
   closeIOSKeyboard(); renderAll();
 }
 async function saveOverall(box){
+  if(isPlanner()) return;
   const id=box.dataset.overallReview, ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=null;
