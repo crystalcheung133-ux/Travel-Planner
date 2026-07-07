@@ -869,6 +869,34 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 .final-thoughts-summary-body{padding-top:12px;}
 .final-thoughts-summary .planner-notes{margin-top:14px;}
 </style>
+
+<style id="build-11-27-validation-ux">
+.validation-banner{
+  display:none;
+  margin:10px 0 8px;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(142,65,45,.11);
+  border:1px solid rgba(142,65,45,.25);
+  color:#7b3f31;
+  font-weight:850;
+  font-size:13px;
+}
+.validation-banner.show{display:block;}
+.reaction.validation-focus,
+.wrap-actions.validation-focus{
+  outline:2px solid rgba(142,65,45,.38);
+  outline-offset:5px;
+  border-radius:18px;
+  animation:ccmvNudge .34s ease-out 1;
+}
+@keyframes ccmvNudge{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-3px)}
+  55%{transform:translateX(3px)}
+}
+</style>
+
 </head>
 <body class="splash-active">
 <style>
@@ -1748,6 +1776,8 @@ textarea{background:#fff !important;}
 <p class="eyebrow">Overall Review</p>
 <h2>Final Thoughts</h2>
 <p class="overall-helper">看完整趟行程後，可以留下最後想法：最期待的部分、想放慢的地方。</p>
+<textarea placeholder="Final thoughts…"></textarea>
+<div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
 <details class="final-thoughts-summary day-summary-details">
 <summary><span>Final Thoughts Summary</span></summary>
 <div class="final-thoughts-summary-body">
@@ -1760,8 +1790,6 @@ textarea{background:#fff !important;}
 </div>
 </div>
 </details>
-<textarea placeholder="Final thoughts…"></textarea>
-<div class="comment-actions"><button data-overall-save="">Save</button><span class="wrap-status" data-overall-note=""></span></div>
 <div class="planner-tools" data-planner-tools hidden>
   <h3>Planner Tools</h3>
   <p>Crystal only. Clear all trial reviews, comments, day wrap-ups, planner notes, and final thoughts before sending to friends.</p>
@@ -1772,7 +1800,7 @@ textarea{background:#fff !important;}
 </section>
 
 </main>
-<div class="build-badge">Build 11.26 Friend Test RC</div>
+<div class="build-badge">Build 11.27 Friend Test RC</div>
 <script>
 
 const tripData = window.CCMV_TRIP_DATA || { planId:"ccmv-saigon-2026", title:"CCMV Journey Planner", subtitle:"Vietnam 2026", reviewers:[{id:"Christal",name:"Christal",emoji:"🧸"},{id:"Crystal",name:"Crystal",emoji:"👓"},{id:"Mero",name:"Mero",emoji:"✝️"},{id:"Vivian",name:"Vivian",emoji:"👟"}] };
@@ -2504,12 +2532,38 @@ if(window.visualViewport){
     /* no-op: prevent typing/focus scroll loops on mobile */
   });
 }
+
+function showReactionValidation(target,msg='Please choose Keep, Discuss, or Replace first.'){
+  if(!target) return;
+  let banner=target.parentElement?.querySelector?.('.validation-banner');
+  if(!banner){
+    banner=document.createElement('div');
+    banner.className='validation-banner';
+    target.insertAdjacentElement('afterend', banner);
+  }
+  banner.textContent=msg;
+  banner.classList.add('show');
+  target.classList.add('validation-focus');
+  ccmvSuppressBlurRestore=true;
+  closeIOSKeyboard();
+  setTimeout(()=>{
+    try{ target.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){ target.scrollIntoView(); }
+    ccmvSuppressBlurRestore=false;
+  },260);
+  setTimeout(()=>target.classList.remove('validation-focus'),900);
+}
+function clearReactionValidation(target){
+  if(!target) return;
+  target.classList.remove('validation-focus');
+  target.parentElement?.querySelector?.('.validation-banner')?.classList.remove('show');
+}
+
 async function saveActivity(card){
   const id=safeCardKey(card), box=card.querySelector('.comment-box'), ta=box.querySelector('textarea');
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(pendingKey('reaction',id)) || localStorage.getItem(reviewKey('reaction',id));
   const status=box.querySelector('[data-status]');
-  if(!reaction){ if(status) status.textContent='Please choose Keep / Discuss / Replace first.'; return; }
+  if(!reaction){ const reactionBox=card.querySelector('.reaction'); showReactionValidation(reactionBox,'Please choose Keep, Discuss, or Replace first.'); if(status) status.textContent='Choose Keep, Discuss, or Replace first.'; return; }
   if((reaction==='discuss'||reaction==='replace') && !comment){ if(status) status.textContent='Discuss / Replace needs a comment.'; ta.focus(); return; }
   ccmvSuppressBlurRestore=true; closeIOSKeyboard(); setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
   localStorage.setItem(reviewKey('reaction',id),reaction);
@@ -2528,7 +2582,7 @@ async function saveWrap(box){
   const comment=ta.value.trim();
   const reaction=localStorage.getItem(pendingKey('wrap-status',id)) || localStorage.getItem(reviewKey('wrap-status',id));
   const status=box.querySelector('[data-wrap-note]');
-  if(!reaction){ if(status) status.textContent='Please choose Keep / Discuss / Replace first.'; return; }
+  if(!reaction){ const reactionBox=box.querySelector('.wrap-actions'); showReactionValidation(reactionBox,'Please choose Keep, Discuss, or Replace first.'); if(status) status.textContent='Choose Keep, Discuss, or Replace first.'; return; }
   if((reaction==='discuss'||reaction==='replace') && !comment){ if(status) status.textContent='Discuss / Replace needs a comment.'; ta.focus(); return; }
   ccmvSuppressBlurRestore=true; closeIOSKeyboard(); setTimeout(()=>{ccmvSuppressBlurRestore=false;},500);
   localStorage.setItem(reviewKey('wrap-status',id),reaction);
@@ -2594,6 +2648,7 @@ document.addEventListener('click',async e=>{
   if(cancel){ const box=cancel.closest('.comment-box')||cancel.closest('[data-day-wrap]')||cancel.closest('[data-overall-review]')||cancel.closest('[data-planner-notes]'); delete box.dataset.editing; renderAll(); return; }
   const rb=e.target.closest('[data-reaction]');
   if(rb){
+    clearReactionValidation(rb.closest('.reaction'));
     const card=rb.closest('.activity');
     const id=safeCardKey(card);
     const box=card.querySelector('.comment-box');
@@ -2617,6 +2672,7 @@ document.addEventListener('click',async e=>{
   }
   const wrap=e.target.closest('[data-wrap-status]');
   if(wrap){
+    clearReactionValidation(wrap.closest('.wrap-actions'));
     const box=wrap.closest('[data-day-wrap]');
     const id=box.dataset.dayWrap;
     localStorage.setItem(draftKey('wrap-comment',id),box.querySelector('textarea')?.value || '');
