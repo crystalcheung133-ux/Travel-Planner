@@ -835,14 +835,12 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 .planner-tools[hidden]{display:none !important}
 
 </style>
-
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#8e6f3f">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="CCMV Planner">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="./icon-180.png">
-
+<link href="./manifest.webmanifest" rel="manifest"/>
+<meta content="#8e6f3f" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="CCMV Planner" name="apple-mobile-web-app-title"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<link href="./icon-180.png" rel="apple-touch-icon"/>
 <style>
 /* Build 11.23: clean reviewer selector. One existing click controller only. */
 .reviewer-bar{overflow:visible !important;z-index:10000 !important;}
@@ -853,7 +851,6 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 .reviewer-pills button{width:100% !important;min-height:44px !important;pointer-events:auto !important;}
 @media(min-width:721px){.reviewer-pills{left:auto !important;right:24px !important;width:220px !important;margin:0 !important;}}
 </style>
-
 <style id="build-11-26-mobile-saved-final-summary">
 @media(max-width:720px){
   .comment-box.is-saved .saved-review-view,
@@ -868,7 +865,6 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
 .final-thoughts-summary-body{padding-top:12px;}
 .final-thoughts-summary .planner-notes{margin-top:14px;}
 </style>
-
 <style id="build-11-27-validation-ux">
 .validation-banner{
   display:none;
@@ -895,8 +891,6 @@ header,.topnav,.reviewer-bar,.reviewer-inner{overflow:visible !important;}
   55%{transform:translateX(3px)}
 }
 </style>
-
-
 <style id="build-11-29-planner-role-ui">
 body.planner-role .activity .reaction,
 body.planner-role .activity .comment-box,
@@ -914,7 +908,6 @@ body.planner-role .review-badge::after{
   color:rgba(47,41,35,.48);
 }
 </style>
-
 </head>
 <body class="splash-active">
 <style>
@@ -1132,21 +1125,21 @@ textarea{background:#fff !important;}
 
 </style>
 <div id="ccmv-splash">
-  <img class="ccmv-splash-logo" src="./icon-512.png" alt="CCMV"/>
-  <div class="ccmv-splash-title">CCMV Journey Planner</div>
-  <div class="ccmv-splash-subtitle">Vietnam 2026</div>
+<img alt="CCMV" class="ccmv-splash-logo" src="./icon-512.png"/>
+<div class="ccmv-splash-title">CCMV Journey Planner</div>
+<div class="ccmv-splash-subtitle">Vietnam 2026</div>
 </div>
-<div id="ccmv-join" aria-modal="true" role="dialog" aria-labelledby="ccmv-join-title">
-  <div class="ccmv-join-card">
-    <h2 id="ccmv-join-title">Who’s joining?</h2>
-    <p>Choose your name to begin.</p>
-    <div class="ccmv-join-options">
-      <button data-join-reviewer="Christal">🧸 Christal</button>
-      <button data-join-reviewer="Crystal">👓 Crystal</button>
-      <button data-join-reviewer="Mero">✝️ Mero</button>
-      <button data-join-reviewer="Vivian">👟 Vivian</button>
-    </div>
-  </div>
+<div aria-labelledby="ccmv-join-title" aria-modal="true" id="ccmv-join" role="dialog">
+<div class="ccmv-join-card">
+<h2 id="ccmv-join-title">Who’s joining?</h2>
+<p>Choose your name to begin.</p>
+<div class="ccmv-join-options">
+<button data-join-reviewer="Christal">🧸 Christal</button>
+<button data-join-reviewer="Crystal">👓 Crystal</button>
+<button data-join-reviewer="Mero">✝️ Mero</button>
+<button data-join-reviewer="Vivian">👟 Vivian</button>
+</div>
+</div>
 </div>
 <script>
 (function(){
@@ -1177,10 +1170,9 @@ textarea{background:#fff !important;}
 <button data-open="overall">Overall Review</button>
 <div class="reviewer-bar">
 <div class="container reviewer-inner">
-<button type="button" class="reviewer-toggle-btn" data-reviewer-toggle="" onclick="window.CCMV_openReviewerDialog && window.CCMV_openReviewerDialog(event)" aria-haspopup="true" aria-expanded="false"><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></button>
+<button aria-expanded="false" aria-haspopup="true" class="reviewer-toggle-btn" data-reviewer-toggle="" onclick="window.CCMV_openReviewerDialog &amp;&amp; window.CCMV_openReviewerDialog(event)" type="button"><span class="reviewer-label">Reviewer</span> <b data-current-reviewer-label="">🧸 Christal</b></button>
 </div>
 </div>
-
 </div>
 </div>
 </header>
@@ -1194,10 +1186,9 @@ textarea{background:#fff !important;}
 <p>計劃，也是旅程的一部分。一起參與，一起決定，讓這趟旅程慢慢成為屬於我們的版本。</p>
 <div class="home-actions">
 <button data-open="day1">Let’s go ✨</button>
-
 </div>
 </div>
-<div class="seal home-logo-full" aria-label="CCMV logo"></div>
+<div aria-label="CCMV logo" class="seal home-logo-full"></div>
 </div>
 </div>
 </section>
@@ -1216,7 +1207,7 @@ textarea{background:#fff !important;}
 <div class="block"><h3>Review Points</h3><div class="activity-grid">
 <article class="activity cardmark" data-card="day1-pho-sol">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍜</span>Phở SOL</h4><div class="meta">Arrival Lunch · Hotel Area</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Ph%E1%BB%9F%20SOL%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
+<div><h4><span class="tl-emoji">🍜</span>Phở SOL</h4><div class="meta">Arrival Lunch · Hotel Area</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Ph%E1%BB%9F%20SOL%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
 <span>Selected meal</span>
 </div>
 <p>Day 1 第一餐安排在酒店附近，重點是穩陣、近、容易集合。石鍋河粉有記憶點，但仍然是輕鬆地道第一餐，不會太 heavy。</p>
@@ -1239,10 +1230,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day1-classic-landmarks">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">📍</span>三大經典地標</h4><div class="meta">Classic First Look · Free</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Saigon%20Central%20Post%20Office" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">📍</span>三大經典地標</h4><div class="meta">Classic First Look · Free</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Saigon%20Central%20Post%20Office" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>這三個點都在酒店附近，適合第一天用最少交通完成西貢第一輪打卡。去完可以先 check-in 休息，也可以直接去 Café Apartments，保留最大彈性。</p>
+<p>三個經典點集中在酒店附近，第一天可以用最少交通完成西貢第一輪打卡。完成後可按體力 check-in 休息或繼續去 Café Apartments，彈性最高。</p>
 <div class="chips"><span>Post Office</span><span>Cathedral</span><span>Book Street</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1262,10 +1253,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day1-nha-suga-premium">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🧖</span>Nha Suga Premium</h4><div class="meta">Arrival Spa · VND 500k–800k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Nha%20Suga%20Spa%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🧖</span>Nha Suga Premium</h4><div class="meta">Arrival Spa · VND 500k–800k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Nha%20Suga%20Spa%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>抵達日不適合一直硬行。Nha Suga 放在 Café Apartments 同一段，是為了把逛、坐低、放鬆合併處理，讓大家在第一天慢慢進入旅程狀態。</p>
+<p>主打 Premium Korean Head Spa，加上肩頸及頭皮護理，適合長途飛行後先放鬆同整理狀態。位置在 Café Apartments 內，可以把逛小店、坐低飲嘢、做 Spa 同夜景回訪放在同一條動線。</p>
 <div class="chips"><span>Head spa</span><span>Shoulder + neck</span><span>Café Apartments</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1285,10 +1276,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day1-omakase-tiger">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍷</span>Omakase Tiger</h4><div class="meta">Sunset Counter Dinner · AUD ~$60 pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Omakase%20Tiger%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍷</span>Omakase Tiger</h4><div class="meta">Sunset Counter Dinner · AUD ~$60 pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Omakase%20Tiger%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>第一天以適應節奏為主。5:30 早場可以欣賞日落，又可提早完成晚餐，讓大家在長途飛行後慢慢調整狀態，不用第一晚已經食到太夜。</p>
+<p>第一晚選 5:30 日落早場，是因為可以邊食邊看西貢由黃昏轉入夜景。Omakase Tiger 比傳統日式板前更有 rooftop / Saigon night view 記憶點，食完亦不會太夜。</p>
 <div class="chips"><span>Sunset seating</span><span>Japanese omakase</span><span>Early finish</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1314,8 +1305,6 @@ textarea{background:#fff !important;}
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-
-</div>
 <div class="bottom-nav">
 <button data-open="home">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1338,10 +1327,10 @@ textarea{background:#fff !important;}
 <div class="block"><h3>Review Points</h3><div class="activity-grid">
 <article class="activity cardmark" data-card="day2-com-tam-moc">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍜</span>Cơm Tấm Mộc</h4><div class="meta">Vietnamese Breakfast · VND 60k–100k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=C%C6%A1m%20T%E1%BA%A5m%20M%E1%BB%99c%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍜</span>Cơm Tấm Mộc</h4><div class="meta">Vietnamese Breakfast · VND 60k–100k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=C%C6%A1m%20T%E1%BA%A5m%20M%E1%BB%99c%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>早餐不是為了食得豪，而是想在 Day 2 開始前試一次越南豬扒碎飯。份量可以 share，既有在地感，也不會令後面的 cooking class 太飽。</p>
+<p>用越南豬扒碎飯開始 Day 2，有在地感但不會太 heavy。份量可以 share，剛好留肚俾之後三小時 cooking class。</p>
 <div class="chips"><span>Pork chop rice</span><span>Local breakfast</span><span>Shareable</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1361,10 +1350,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day2-saigon-cooking-class">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍳</span>Saigon Cooking Class</h4><div class="meta">Shared Memory · AUD ~$50 pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Saigon%20Cooking%20Class%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍳</span>Saigon Cooking Class</h4><div class="meta">Shared Memory · AUD ~$50 pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Saigon%20Cooking%20Class%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>這段不只是午餐，而是四個朋友一起完成的 shared memory。由學、煮到食，參與感比單純打卡更強，是 Day 2 最值得保留的核心活動。</p>
+<p>這段不只是午餐，而是四個人一起學、煮、食的 shared memory。相比普通餐廳，Cooking Class 更有參與感，是 Day 2 最值得保留的核心活動。</p>
 <div class="chips"><span>Hands-on</span><span>Shared lunch</span><span>Memory point</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1384,10 +1373,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day2-moc-kim-spa">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🧖</span>Mộc Kim Spa</h4><div class="meta">Post-class Reset · Check package</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=M%E1%BB%99c%20Kim%20Spa%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🧖</span>Mộc Kim Spa</h4><div class="meta">Post-class Reset · Check package</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=M%E1%BB%99c%20Kim%20Spa%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Cooking class 到 1 點完，直接去 Spa 是為了讓下午先有一段真正休息。做完草本洗頭與 head spa，再去逛街會舒服得多。</p>
+<p>Cooking Class 後直接去 Mộc Kim，是為了在下午 shopping 前先 reset。草本洗頭同 head spa 可以整理頭髮、肩頸同精神狀態，做完再逛 D1 brands 會舒服得多。</p>
 <div class="chips"><span>Herbal hair wash</span><span>Head spa</span><span>Reset before shopping</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1407,10 +1396,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day2-lune">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍷</span>LÚNE</h4><div class="meta">Michelin Selected French · VND 800k–1.5m pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=L%C3%9ANE%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍷</span>LÚNE</h4><div class="meta">Michelin Selected French · VND 800k–1.5m pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=L%C3%9ANE%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>LÚNE 放在 Day 2，是因為它接在 D1 shopping 後最順路，而且能滿足旅程中一餐較正式的法餐體驗。相比之後的 Quince，它更偏 contemporary French 與 Michelin selected 的精緻感。</p>
+<p>LÚNE 是旅程中較精緻的一餐，主打 contemporary French / refined dining 氣氛，亦是 Michelin Selected。放在 Day 2 晚上，剛好接住 D1 shopping 後的 central route。</p>
 <div class="chips"><span>Contemporary French</span><span>Michelin selected</span><span>Elegant dinner</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1436,8 +1425,6 @@ textarea{background:#fff !important;}
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-
-</div>
 <div class="bottom-nav">
 <button data-open="day1">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1458,25 +1445,24 @@ textarea{background:#fff !important;}
 <div class="block today cardmark"><h3>Today’s Plan</h3><p>Day 3 是文青日，不追求逛盡每一間店，而是把 Thảo Điền 當成一個慢生活 neighbourhood。上午先完成蟹肉粉絲與粉紅教堂，再過橋到草田。下午茶、OHQUAO、Mộc Hương、Louh 和 Little Bear 連成一條較舒服的節奏，食唔食、食幾多都由大家自己 buffer。</p></div>
 <div class="block"><h3>Timeline</h3><div class="timeline"><div class="timeline-row cardmark"><div class="time">09:00 – 10:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍜</span>Quán Thuý 94</h4><p>蟹肉粉絲早餐，之後步行約 5 分鐘到粉紅教堂。</p></div></div><div class="timeline-row cardmark"><div class="time">10:00 – 10:45</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🏛️</span>Pink Church + Cộng Cà Phê</h4><p>快閃打卡；可在 Cộng Cà Phê 高層坐一坐。</p></div></div><div class="timeline-row cardmark"><div class="time">10:45 – 11:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🚕</span>Grab → Thảo Điền</h4><p>跨橋到草田區，開啟 slower neighbourhood day。</p></div></div><div class="timeline-row cardmark"><div class="time">11:45 – 13:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Lifestyle Walk</h4><p>Saigon Concept → In the Mood → Soo Kafe 外帶蛋撻 → YouOn Boutique。</p></div></div><div class="timeline-row cardmark"><div class="time">13:00 – 14:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">☕</span>Afternoon Tea</h4><p>Bakes 或 The Dreamers。食唔食、食幾多自己 buffer；重點是坐低休息。</p></div></div><div class="timeline-row cardmark"><div class="time">14:30 – 15:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>OHQUAO Living</h4><p>藝術家明信片、香氛、手工藝品。放 Spa 前，趁仍有精神慢慢睇。</p></div></div><div class="timeline-row cardmark"><div class="time">15:30 – 17:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🧖</span>Mộc Hương Wellness</h4><p>白色法式別墅、蒸氣房、草本熱石水療；可寄存戰利品。</p></div></div><div class="timeline-row cardmark"><div class="time">17:30 – 18:00</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🛍️</span>Louh × Alouane</h4><p>高級棉織品家居服，Spa 後慢慢逛，讓節奏降下來。</p></div></div><div class="timeline-row cardmark"><div class="time">18:30 – 20:30</div><div class="dot"></div><div class="tl-body"><h4><span class="tl-emoji">🍷</span>Little Bear</h4><p>Creative Vietnamese，Michelin Guide 入選。Mộc Hương 到 Little Bear 約 3 分鐘 Grab。</p></div></div></div></div>
 <div class="block"><h3>Review Points</h3><div class="activity-grid"><article class="activity cardmark" data-card="day3-quan-thuy-94">
-<div class="activity-head"><div><h4><span class="tl-emoji">🍜</span>Quán Thuý 94</h4><div class="meta">Breakfast · Crab Vermicelli</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Qu%C3%A1n%20Thu%C3%BD%2094%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
+<div class="activity-head"><div><h4><span class="tl-emoji">🍜</span>Quán Thuý 94</h4><div class="meta">Breakfast · Crab Vermicelli</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Qu%C3%A1n%20Thu%C3%BD%2094%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
 <span>Selected meal</span></div>
 <p>Day 3 早餐用蟹肉粉絲開場，之後順路去粉紅教堂。這餐是地道小店感覺，適合放在文青日之前，先補一個 local food memory。</p><div class="chips"><span>Breakfast</span><span>Crab vermicelli</span><span>Near Pink Church</span></div>
 <div class="reaction"><button data-reaction="keep">👍 Keep</button><button data-reaction="discuss">🤔 Discuss</button><button data-reaction="replace">🔁 Replace</button></div>
 <div class="comment-box"><textarea placeholder="Comments required for DISCUSS / REPLACE"></textarea><div class="comment-actions"><button data-save="">Save</button><button data-edit="" hidden="">Edit</button><button data-clear="" hidden="">Clear</button><span data-status=""></span></div><div class="review-thread" data-thread=""></div></div>
 </article><article class="activity cardmark" data-card="day3-pink-church">
-<div class="activity-head"><div><h4><span class="tl-emoji">🏛️</span>Pink Church + Cộng Cà Phê</h4><div class="meta">Photo Stop · District 3</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=T%C3%A2n%20%C4%90%E1%BB%8Bnh%20Church%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
+<div class="activity-head"><div><h4><span class="tl-emoji">🏛️</span>Pink Church + Cộng Cà Phê</h4><div class="meta">Photo Stop · District 3</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=T%C3%A2n%20%C4%90%E1%BB%8Bnh%20Church%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
 <span>Selected sight</span></div>
 <p>粉紅教堂是快閃景點，不會佔太多體力；Cộng Cà Phê 作為短暫冷氣位，讓大家拍完照可以坐一坐再過橋去 Thảo Điền。</p><div class="chips"><span>Photo stop</span><span>Short visit</span><span>Cooling break</span></div>
 <div class="reaction"><button data-reaction="keep">👍 Keep</button><button data-reaction="discuss">🤔 Discuss</button><button data-reaction="replace">🔁 Replace</button></div>
 <div class="comment-box"><textarea placeholder="Comments required for DISCUSS / REPLACE"></textarea><div class="comment-actions"><button data-save="">Save</button><button data-edit="" hidden="">Edit</button><button data-clear="" hidden="">Clear</button><span data-status=""></span></div><div class="review-thread" data-thread=""></div></div>
 </article>
-
 <article class="activity cardmark" data-card="day3-afternoon-tea">
 <div class="activity-head">
 <div><h4><span class="tl-emoji">☕</span>Afternoon Tea</h4><div class="meta">Soft Buffer · VND 80k–150k pp</div></div>
-<span>Why this plan</span>
+<span>WHY THIS PICK</span>
 </div>
-<p>下午茶是一段 buffer，不是一餐硬性午餐。大家可以視乎肚餓程度決定食幾多，重點是坐低、吹冷氣，讓下半日節奏更舒服。</p>
+<p>Bakes / Dreamers 不是硬性午餐，而是 Thảo Điền 中段的冷氣 buffer。法式甜點、蛋撻同咖啡可以按肚餓程度 share，讓下半日節奏更舒服。</p>
 <div class="chips"><span>Bakes</span><span>Dreamers</span><span>No rush</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1494,13 +1480,12 @@ textarea{background:#fff !important;}
 <div class="review-thread" data-thread=""></div>
 </div>
 </article>
-
 <article class="activity cardmark" data-card="day3-moc-huong-wellness">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🧖</span>Mộc Hương Wellness</h4><div class="meta">French Villa Spa · VND 700k–1.1m pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=M%E1%BB%99c%20H%C6%B0%C6%A1ng%20Wellness%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🧖</span>Mộc Hương Wellness</h4><div class="meta">French Villa Spa · VND 700k–1.1m pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=M%E1%BB%99c%20H%C6%B0%C6%A1ng%20Wellness%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Mộc Hương 是 Day 3 的中段 reset。白色法式別墅、蒸氣房與熱石按摩適合放在逛街後，讓身體真正慢下來，再進入晚餐前的輕鬆節奏。</p>
+<p>Mộc Hương 的特色是白色法式別墅、蒸氣房同草本熱石按摩，比一般街邊 massage 更有完整 Spa 感。放在 Thảo Điền shopping 後，可以真正慢下來再去晚餐。</p>
 <div class="chips"><span>Colonial villa</span><span>Steam room</span><span>Hot stone</span><span>Luggage friendly</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1518,13 +1503,12 @@ textarea{background:#fff !important;}
 <div class="review-thread" data-thread=""></div>
 </div>
 </article>
-
 <article class="activity cardmark" data-card="day3-little-bear">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍷</span>Little Bear</h4><div class="meta">Creative Vietnamese · VND 600k–1m pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Little%20Bear%20Restaurant%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍷</span>Little Bear</h4><div class="meta">Creative Vietnamese · VND 600k–1m pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Little%20Bear%20Restaurant%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Little Bear 放在 Day 3，不是因為順路，而是因為它最適合作為文青日的結尾。比正式 fine dining 更 chill，更適合逛完整天後慢慢聊天、分享菜式。</p>
+<p>Little Bear 適合做文青日的結尾：創意越菜、neighbourhood dining 氣氛、比正式 fine dining 更 relaxed。逛完 Thảo Điền 後，這餐最適合慢慢聊天同 share dishes。</p>
 <div class="chips"><span>Michelin selected</span><span>Relaxed</span><span>Sharing dinner</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1550,8 +1534,6 @@ textarea{background:#fff !important;}
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-
-</div>
 <div class="bottom-nav">
 <button data-open="day2">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1574,10 +1556,10 @@ textarea{background:#fff !important;}
 <div class="block"><h3>Review Points</h3><div class="activity-grid">
 <article class="activity cardmark" data-card="day4-the-running-bean">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">☕</span>The Running Bean</h4><div class="meta">Breakfast Coffee Stop · $</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=The%20Running%20Bean%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">☕</span>The Running Bean</h4><div class="meta">Breakfast Coffee Stop · $</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=The%20Running%20Bean%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Running Bean 放在 Day 4 早餐，是為了用一個簡單、舒服、容易集合的 coffee stop 開始博物館日。這張卡可以確認大家想保留西式早餐咖啡，還是改回更地道早餐。</p>
+<p>Running Bean 是簡單舒服的 morning coffee stop，適合用蛋咖啡或椰子咖啡開始博物館日。位置及節奏都輕鬆，不會令 Day 4 一早已太趕。</p>
 <div class="chips"><span>Breakfast</span><span>Coffee</span><span>Easy start</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1597,10 +1579,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day4-pizza-4ps">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍜</span>Pizza 4P's</h4><div class="meta">Local Must-try Pizza · VND 200k–350k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Pizza%204P%27s%20Hai%20Ba%20Trung%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍜</span>Pizza 4P's</h4><div class="meta">Local Must-try Pizza · VND 200k–350k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Pizza%204P%27s%20Hai%20Ba%20Trung%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Pizza 4P’s 放在 lunch，是因為它幾乎是胡志明不能錯過的本地 pizza 品牌。午餐試會比晚餐輕鬆，也能為 Quince 保留晚上的食慾。</p>
+<p>Pizza 4P’s 是胡志明最有代表性的本地 pizza 品牌之一，招牌 cheese、burrata 同 crab pasta 都有記憶點。放在 lunch 試，比晚餐輕鬆，也可保留晚上 Quince 的食慾。</p>
 <div class="chips"><span>Vietnam favourite</span><span>Burrata</span><span>Crab pasta</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1620,10 +1602,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day4-temple-leaf-spa-land">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🧖</span>Tỉnh Thức Spa</h4><div class="meta">Body Massage + Facial · 90 min · 地址 118/54 Trần Quang Diệu</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=T%E1%BB%89nh%20Th%E1%BB%A9c%20Spa%20118%2F54%20Tr%E1%BA%A7n%20Quang%20Di%E1%BB%87u%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🧖</span>Tỉnh Thức Spa</h4><div class="meta">Body Massage + Facial · 90 min · 地址 118/54 Trần Quang Diệu</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=T%E1%BB%89nh%20Th%E1%BB%A9c%20Spa%20118%2F54%20Tr%E1%BA%A7n%20Quang%20Di%E1%BB%87u%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Tỉnh Thức Spa 夾喺 Phú Nhuận shopping 兩輪之間，建議預約 15:30–17:00，讓第一輪 shopping 後有一段真正休息，先精神飽滿咁繼續逛第二輪同去晚飯。呢間評價 4.9 星，主打身體按摩與面部護理，隱密性同環境都適合中途充電。</p>
+<p>Tỉnh Thức Spa 正好位於 Phú Nhuận shopping route 中段，第一輪 shopping 後可以用 90 分鐘身體按摩同面部護理充電。位置令大家不用離開 shopping 動線，做完可繼續第二輪小店。</p>
 <div class="chips"><span>Body massage</span><span>Facial</span><span>4.9★ local favourite</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1643,10 +1625,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day4-quince">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍷</span>Quince</h4><div class="meta">Wood-fired Contemporary European · $$$</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Quince%20Saigon%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍷</span>Quince</h4><div class="meta">Wood-fired Contemporary European · $$$</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Quince%20Saigon%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Quince 是另一種法餐方向：比 LÚNE 更有窯烤、open kitchen 與 relaxed dining 氣氛。放在最後一晚，是想用一餐成熟但不拘謹的 dinner 作為旅程高點。</p>
+<p>Quince 是 Michelin Selected contemporary European restaurant，以炭燒、木火烤料理、open kitchen 同 sharing-style dishes 為特色。放在最後一晚，是想用一餐有氣氛但不拘謹的 dinner 作為旅程高點。</p>
 <div class="chips"><span>Wood-fired</span><span>Open kitchen</span><span>Relaxed fine dining</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1672,8 +1654,6 @@ textarea{background:#fff !important;}
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-
-</div>
 <div class="bottom-nav">
 <button data-open="day3">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1696,10 +1676,10 @@ textarea{background:#fff !important;}
 <div class="block"><h3>Review Points</h3><div class="activity-grid">
 <article class="activity cardmark" data-card="day5-pho-viet-nam">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍜</span>Phở Việt Nam + 美術館</h4><div class="meta">Farewell Morning · VND 100k–150k pp + entry</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Museum%20of%20Fine%20Arts%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍜</span>Phở Việt Nam + 美術館</h4><div class="meta">Farewell Morning · VND 100k–150k pp + entry</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Museum%20of%20Fine%20Arts%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>最後一日上午不再跨區，所有安排都在酒店附近。河粉與美術館步行可接，既保留最後一組照片，也降低趕機風險。</p>
+<p>最後一日上午不再跨區，Phở Việt Nam 同美術館都在酒店附近。石鍋河粉有最後一口西貢味道，美術館則保留最後一組復古照片，同時降低趕機風險。</p>
 <div class="chips"><span>Close to hotel</span><span>Photo stop</span><span>Low risk</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1719,10 +1699,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day5-bep-me-in">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🍜</span>Bếp Mẹ Ỉn</h4><div class="meta">Farewell Lunch · VND 200k–350k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=B%E1%BA%BFp%20M%E1%BA%B9%20%E1%BB%88n%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🍜</span>Bếp Mẹ Ỉn</h4><div class="meta">Farewell Lunch · VND 200k–350k pp</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=B%E1%BA%BFp%20M%E1%BA%B9%20%E1%BB%88n%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Bếp Mẹ Ỉn 放在最後一日，是因為它是傳統越菜、容易分享，又在酒店生活圈附近。比起再追新區域，這餐更適合作為西貢味道的收結。</p>
+<p>Bếp Mẹ Ỉn 適合作為最後一餐越南味道：傳統菜式、容易 share、位置接近酒店與 Takashimaya。最後一日不再追新區域，重點是好食、方便同不影響機場時間。</p>
 <div class="chips"><span>Bib Gourmand</span><span>Traditional Vietnamese</span><span>Sharing lunch</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1742,10 +1722,10 @@ textarea{background:#fff !important;}
 </article>
 <article class="activity cardmark" data-card="day5-h-spa">
 <div class="activity-head">
-<div><h4><span class="tl-emoji">🧖</span>Hạ Spa</h4><div class="meta">Pre-flight Reset · Check package</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=H%E1%BA%A1%20Spa%20Ho%20Chi%20Minh%20City" target="_blank" rel="noopener">📍 睇地圖</a></div>
-<span>Why this plan</span>
+<div><h4><span class="tl-emoji">🧖</span>Hạ Spa</h4><div class="meta">Pre-flight Reset · Check package</div><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=H%E1%BA%A1%20Spa%20Ho%20Chi%20Minh%20City" rel="noopener" target="_blank">📍 睇地圖</a></div>
+<span>WHY THIS PICK</span>
 </div>
-<p>Hạ Spa 最大價值是近機場。把最後一段時間移到機場旁邊，可以避開下班塞車，也讓大家在登機前真正放鬆，而不是拖住行李等時間。</p>
+<p>Hạ Spa 最大優勢是機場旁邊。最後一段時間移到 Tân Bình，可以避開第一郡下班塞車，亦讓大家在登機前真正放鬆，而不是拖住行李等時間。</p>
 <div class="chips"><span>Near airport</span><span>Luggage friendly</span><span>Before flight</span></div>
 <div class="reaction">
 <button data-reaction="keep">👍 Keep</button>
@@ -1771,8 +1751,6 @@ textarea{background:#fff !important;}
 <div class="comment-actions"><button data-wrap-save="">Save Day Wrap-up</button><span class="wrap-status" data-wrap-note=""></span></div>
 </div>
 
-
-</div>
 <div class="bottom-nav">
 <button data-open="day4">← Previous Day</button>
 <button data-open="home">Journey</button>
@@ -1790,7 +1768,7 @@ textarea{background:#fff !important;}
 <details class="final-thoughts-summary day-summary-details">
 <summary><span>Final Thoughts Summary</span></summary>
 <div class="final-thoughts-summary-body">
-<div data-final-thoughts-summary-list></div>
+<div data-final-thoughts-summary-list=""></div>
 <div class="planner-notes cardmark" data-planner-notes="overall-planner-notes">
 <p class="eyebrow">CRYSTAL TO USE</p>
 <h4>Planner Notes</h4>
@@ -1799,15 +1777,14 @@ textarea{background:#fff !important;}
 </div>
 </div>
 </details>
-<div class="planner-tools" data-planner-tools hidden>
-  <h3>Planner Tools</h3>
-  <p>Crystal only. 輸入 PIN 後先可以清除所有 Review 資料、此裝置 local data、PWA cache，並重新選擇 Reviewer。</p>
-  <button data-reset-test-data>Clear Data</button> <span data-reset-note></span>
+<div class="planner-tools" data-planner-tools="" hidden="">
+<h3>Planner Tools</h3>
+<p>Crystal only. 輸入 PIN 後先可以清除所有 Review 資料、此裝置 local data、PWA cache，並重新選擇 Reviewer。</p>
+<button data-reset-test-data="">Clear Data</button> <span data-reset-note=""></span>
 </div>
 <div class="bottom-nav"><button data-open="day5">← Day 5</button></div>
 </div>
 </section>
-
 </main>
 <div class="build-badge">Build 11.38 Clear Data PIN Fix</div>
 <script>
@@ -2230,7 +2207,7 @@ function setupCollapsibleWhy(){
     const details=document.createElement('details');
     details.className='why-toggle';
     const summary=document.createElement('summary');
-    summary.textContent='Why this plan';
+    summary.textContent='WHY THIS PICK';
     const body=document.createElement('div');
     body.className='why-body';
     body.appendChild(p);
@@ -2856,7 +2833,6 @@ document.addEventListener('click',(ev)=>{
 });
 
 </script>
-
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -2864,19 +2840,17 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-
-
 <!-- Build 11.24: reviewer selector uses a native modal dialog, outside all sticky/scroll containers. -->
-<dialog id="ccmv-reviewer-dialog" aria-labelledby="ccmv-reviewer-dialog-title">
-  <div class="ccmv-reviewer-dialog-card">
-    <div class="ccmv-reviewer-dialog-head"><h2 id="ccmv-reviewer-dialog-title">Who’s reviewing?</h2><button type="button" data-reviewer-dialog-close aria-label="Close">×</button></div>
-    <div class="ccmv-reviewer-dialog-options">
-      <button type="button" data-reviewer-dialog-choice="Christal">🧸 Christal</button>
-      <button type="button" data-reviewer-dialog-choice="Crystal">👓 Crystal</button>
-      <button type="button" data-reviewer-dialog-choice="Mero">✝️ Mero</button>
-      <button type="button" data-reviewer-dialog-choice="Vivian">👟 Vivian</button>
-    </div>
-  </div>
+<dialog aria-labelledby="ccmv-reviewer-dialog-title" id="ccmv-reviewer-dialog">
+<div class="ccmv-reviewer-dialog-card">
+<div class="ccmv-reviewer-dialog-head"><h2 id="ccmv-reviewer-dialog-title">Who’s reviewing?</h2><button aria-label="Close" data-reviewer-dialog-close="" type="button">×</button></div>
+<div class="ccmv-reviewer-dialog-options">
+<button data-reviewer-dialog-choice="Christal" type="button">🧸 Christal</button>
+<button data-reviewer-dialog-choice="Crystal" type="button">👓 Crystal</button>
+<button data-reviewer-dialog-choice="Mero" type="button">✝️ Mero</button>
+<button data-reviewer-dialog-choice="Vivian" type="button">👟 Vivian</button>
+</div>
+</div>
 </dialog>
 <style>
 /* Build 11.25: desktop trigger fix for native reviewer dialog. */
@@ -2926,10 +2900,8 @@ if ('serviceWorker' in navigator) {
   dialog.addEventListener('click',function(ev){ if(ev.target===dialog){ if(dialog.open) dialog.close(); else dialog.removeAttribute('open'); } });
 })();
 </script>
-
-
 <style>
-/* Build 11.41: Possible Alternatives copy cleanup + Phở SOL/Bếp Mẹ Ỉn flexible fallback. UI-only, no review data changes. */
+/* Build 11.43: WHY THIS PICK copy refinement. UI copy only, no review data changes. */
 .practical-info{display:grid;gap:6px;margin:14px 0 4px;padding:12px 13px;border:1px solid rgba(142,111,63,.16);border-radius:18px;background:rgba(255,255,255,.44)}
 .practical-info div{font-size:12px;line-height:1.45;color:var(--muted)}
 .practical-info b{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-right:4px}
@@ -2944,7 +2916,6 @@ if ('serviceWorker' in navigator) {
 .alt-note{font-size:12px;line-height:1.45;color:var(--muted);margin:12px 2px 0}.alt-section-title{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-deep);font-weight:900;margin:14px 0 8px}.alt-map-link{display:inline-flex;margin-top:7px;font-size:12px;font-weight:800;color:var(--gold-deep);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:rgba(255,255,255,.62)}
 @media(max-width:640px){.alt-modal-card{top:auto;bottom:0;left:0;right:0;transform:none;width:100vw;max-height:82dvh;border-radius:26px 26px 0 0;padding:16px 14px calc(18px + env(safe-area-inset-bottom,0px))}.alt-modal-head h2{font-size:24px}.alt-card h3{font-size:20px}.practical-info{padding:10px 11px}}
 </style>
-
 <script>
 (function(){
   const ALT_DATA = {"day1-nha-suga-premium":{"title":"Nha Suga Premium","cards":[{"name":"J.HOUSE BEAUTY & HEALTHY SPA","tags":["HEAD SPA","MASSAGE","FACIAL"],"lines":{"STYLE":"Head Spa · Massage · Facial","WHY CONSIDER":"同樣位於 Cafe Apartments，除 Head Spa 外亦提供 Massage 同 Facial，服務種類比原方案更全面。","ROUTE FIT":"同一棟 42 Nguyễn Huệ，完全保留 Day 1 Cafe Apartments 動線。","ROUTE IMPACT":"NONE","HOURS":"Daily 09:00–20:00","BOOKING":"Appointment Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=J.HOUSE%20BEAUTY%20HEALTHY%20SPA%2042%20Nguyen%20Hue%20Ho%20Chi%20Minh"}],"flex":"spa"},"day1-omakase-tiger":{"title":"Omakase Tiger","cards":[{"name":"Sushi Koji","tags":["JAPANESE","OMAKASE"],"lines":{"STYLE":"Japanese Omakase","WHY CONSIDER":"相比 Omakase Tiger 更日式，適合想要較傳統板前體驗。","ROUTE FIT":"Central dinner replacement，唔需要改變 Day 1 整體節奏。","ROUTE IMPACT":"LOW","BOOKING":"Advance Reservation Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=Sushi%20Koji%20Ho%20Chi%20Minh%20City"}],"flex":"restaurant"},"day2-lune":{"title":"LÚNE","cards":[{"name":"Anan Saigon","tags":["CONTEMPORARY VIETNAMESE","DESTINATION DINING"],"lines":{"STYLE":"Contemporary Vietnamese · Destination Dining","WHY CONSIDER":"如果想將 refined European-style dinner 換成更具 Saigon identity 嘅 contemporary Vietnamese experience，呢個係最有意義嘅比較之一。","ROUTE FIT":"Central dinner replacement，適合 Day 2 Saturday evening。","ROUTE IMPACT":"LOW","BOOKING":"Advance Reservation Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=Anan%20Saigon"}],"flex":"restaurant"},"day3-afternoon-tea":{"title":"Bakes / Dreamers","cards":[{"name":"The Deck Saigon","tags":["RIVERSIDE","RELAXED"],"lines":{"STYLE":"Riverside Dining · Relaxed","WHY CONSIDER":"如果想將 café stop 變成河景 lunch / drinks experience，氣氛同原方案差異最大。","ROUTE FIT":"同樣留喺 Thảo Điền，唔需要離開 Day 3 route。","ROUTE IMPACT":"LOW","BOOKING":"Reservation Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=The%20Deck%20Saigon"}],"flex":"restaurant"},"day3-moc-huong-wellness":{"title":"Mộc Hương Wellness","cards":[{"name":"Lang Spa","tags":["BOUTIQUE SPA","MASSAGE"],"lines":{"STYLE":"Popular Boutique Spa · Massage & Wellness","WHY CONSIDER":"公開評價數量較多、營業時間亦較長，適合想要較高人氣、時間更彈性嘅 Spa。","ROUTE FIT":"同區 replacement，Sunday 正常營業，唔需要離開 Day 3 Thảo Điền route。","ROUTE IMPACT":"LOW","HOURS":"Daily 09:00–22:00","BOOKING":"Appointment Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=Lang%20Spa%20Thao%20Dien"}],"flex":"spa"},"day3-little-bear":{"title":"Little Bear","cards":[{"name":"CieL Dining","tags":["DESTINATION DINING","TASTING MENU"],"lines":{"STYLE":"Destination Dining · Tasting Menu","WHY CONSIDER":"如果想將 Little Bear 嘅 relaxed neighbourhood dinner 升級成今次旅行其中一餐完整 tasting-menu experience，可以考慮 CieL。","ROUTE FIT":"同樣位於 Thảo Điền / An Khánh area；Day 3 Sunday 營業，適合當晚使用。","ROUTE IMPACT":"LOW","BOOKING":"Advance Reservation Required"},"map":"https://www.google.com/maps/search/?api=1&query=CieL%20Dining%20Ho%20Chi%20Minh%20City"},{"name":"The Deck Saigon","tags":["RIVERSIDE","RELAXED"],"lines":{"STYLE":"Riverside Dining · Relaxed","WHY CONSIDER":"如果想要河景、飲酒、慢慢食，而唔係 neighbourhood-style dinner，呢個選擇體驗差異最清楚。","ROUTE FIT":"保持 Day 3 Thảo Điền route。","ROUTE IMPACT":"LOW","BOOKING":"Reservation Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=The%20Deck%20Saigon"}],"flex":"restaurant"},"day4-pizza-4ps":{"title":"Pizza 4P's","cards":[{"name":"Mặn Mòi","tags":["VIETNAMESE","HOMESTYLE SHARING"],"lines":{"STYLE":"Vietnamese · Homestyle Sharing","WHY CONSIDER":"如果想將 Pizza lunch 換成較地道嘅 Vietnamese sharing meal，可以由 War Museum 出嚟後就近食飯。","ROUTE FIT":"鄰近 War Remnants Museum，食完再前往 11 Garmentory；整體動線仍然自然。","ROUTE IMPACT":"LOW","BOOKING":"Reservation Recommended"},"map":"https://www.google.com/maps/search/?api=1&query=M%E1%BA%B7n%20M%C3%B2i%20B%E1%BA%BFn%20Ngh%C3%A9%20Ho%20Chi%20Minh"}],"flex":"restaurant"},"day4-quince":{"title":"Quince","cards":[{"name":"Ốc Oanh","tags":["CASUAL SEAFOOD","LOCAL & LIVELY"],"lines":{"STYLE":"Casual Seafood & Ốc · Local & Lively","WHY CONSIDER":"如果前三晚 refined dining 已經夠，可以將最後一晚轉成更熱鬧、更 local 嘅海鮮大排檔體驗。","ROUTE FIT":"位於 Vĩnh Khánh，從 Phú Nhuận shopping area 出發及晚餐後返酒店都比 Quince 稍遠。","ROUTE IMPACT":"MODERATE","HOURS":"Daily 13:00–03:00","BOOKING":"Walk-in Only · Busy periods may require waiting"},"map":"https://www.google.com/maps/search/?api=1&query=%E1%BB%90c%20Oanh%20534%20V%C4%A9nh%20Kh%C3%A1nh"},{"name":"Ốc Đào","tags":["CASUAL SEAFOOD","LOCAL FAVOURITE"],"lines":{"STYLE":"Casual Seafood & Ốc · Local Favourite","WHY CONSIDER":"如果想將 Quince 換成更 casual、更地道嘅海鮮晚餐，可以叫多款 seafood 同 ốc 一齊 share，價錢亦較輕鬆。","ROUTE FIT":"位於 Nguyễn Trãi，從 Phú Nhuận 出發及晚餐後返酒店都比 Quince 稍遠。","ROUTE IMPACT":"MODERATE","HOURS":"Daily 11:00–22:15","BOOKING":"Walk-in Only · Busy periods may require waiting"},"map":"https://www.google.com/maps/search/?api=1&query=%E1%BB%90c%20%C4%90%C3%A0o%20212B%2FD48%20Nguy%E1%BB%85n%20Tr%C3%A3i"}],"flex":"restaurant"},"day1-pho-sol":{"title":"Phở SOL","cards":[],"flex":"restaurant"},"day5-bep-me-in":{"title":"Bếp Mẹ Ỉn","cards":[],"flex":"restaurant"}};
@@ -3030,6 +3001,5 @@ if ('serviceWorker' in navigator) {
   window.CCMV_initAlternatives=initAlternatives;
 })();
 </script>
-
 </body>
 </html>
