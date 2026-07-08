@@ -2927,5 +2927,109 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
+
+<style>
+/* Build 11.40: Possible Alternatives + practical info layer. UI-only, no review data changes. */
+.practical-info{display:grid;gap:6px;margin:14px 0 4px;padding:12px 13px;border:1px solid rgba(142,111,63,.16);border-radius:18px;background:rgba(255,255,255,.44)}
+.practical-info div{font-size:12px;line-height:1.45;color:var(--muted)}
+.practical-info b{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-right:4px}
+.alt-actions{margin:14px 0 2px;display:flex;flex-wrap:wrap;gap:8px}.alt-open-btn{border:1px solid rgba(142,111,63,.28);background:rgba(255,250,243,.82);color:var(--gold-deep);border-radius:999px;padding:9px 12px;font-weight:800;cursor:pointer;box-shadow:0 6px 16px rgba(77,55,30,.04)}
+.alt-open-btn:hover,.alt-open-btn:active{background:rgba(184,150,94,.14)}
+#ccmv-alt-modal{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100dvh;margin:0;overflow:hidden;position:fixed;inset:0;z-index:2147482500}
+#ccmv-alt-modal::backdrop{background:rgba(45,35,25,.30);backdrop-filter:blur(4px)}
+.alt-modal-card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(620px,calc(100vw - 28px));max-height:min(78dvh,740px);overflow:auto;-webkit-overflow-scrolling:touch;background:#fffaf3;border:1px solid var(--line);border-radius:28px;box-shadow:0 26px 70px rgba(77,55,30,.25);font-family:var(--sans);padding:18px;z-index:2147482501}
+.alt-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}.alt-modal-head h2{font-family:var(--font);font-size:28px;margin:0}.alt-modal-head p{margin:4px 0 0;color:var(--muted);font-size:13px}.alt-modal-close{border:1px solid var(--line);background:#fff;border-radius:999px;width:38px;height:38px;font-size:22px;line-height:1;font-weight:700;cursor:pointer;color:var(--ink)}
+.alt-list{display:grid;gap:11px}.alt-card{border:1px solid rgba(142,111,63,.18);border-radius:20px;background:rgba(255,255,255,.58);padding:14px}.alt-card h3{font-family:var(--font);font-size:22px;margin:0 0 7px;color:var(--ink)}.alt-card.flex{background:rgba(255,250,243,.72)}
+.alt-line{font-size:13px;line-height:1.48;margin:5px 0;color:#4c4036}.alt-line b{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-right:5px}.alt-tag{display:inline-flex;align-items:center;border:1px solid rgba(142,111,63,.22);border-radius:999px;padding:5px 8px;margin:0 6px 7px 0;background:rgba(255,250,243,.86);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep)}
+.alt-note{font-size:12px;line-height:1.45;color:var(--muted);margin:12px 2px 0}.alt-section-title{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-deep);font-weight:900;margin:14px 0 8px}.alt-map-link{display:inline-flex;margin-top:7px;font-size:12px;font-weight:800;color:var(--gold-deep);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:rgba(255,255,255,.62)}
+@media(max-width:640px){.alt-modal-card{top:auto;bottom:0;left:0;right:0;transform:none;width:100vw;max-height:82dvh;border-radius:26px 26px 0 0;padding:16px 14px calc(18px + env(safe-area-inset-bottom,0px))}.alt-modal-head h2{font-size:24px}.alt-card h3{font-size:20px}.practical-info{padding:10px 11px}}
+</style>
+
+<script>
+(function(){
+  const ALT_DATA = {"day1-nha-suga-premium": {"title": "Nha Suga Premium", "cards": [{"name": "J.HOUSE BEAUTY & HEALTHY SPA", "tags": ["HEAD SPA", "MASSAGE", "FACIAL"], "lines": {"STYLE": "Head Spa · Massage · Facial", "WHY CONSIDER": "同樣位於 Cafe Apartments，服務種類較全面，適合想比較另一間同樓 Spa 嘅選擇。", "ROUTE FIT": "同一棟 42 Nguyễn Huệ，完全保留 Day 1 Cafe Apartments 動線。", "ROUTE IMPACT": "NONE", "HOURS": "Daily 09:00–20:00", "BOOKING": "Appointment Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=J.HOUSE%20BEAUTY%20HEALTHY%20SPA%2042%20Nguyen%20Hue%20Ho%20Chi%20Minh"}], "flex": "spa"}, "day1-omakase-tiger": {"title": "Omakase Tiger", "cards": [{"name": "Sushi Koji", "tags": ["JAPANESE", "OMAKASE"], "lines": {"STYLE": "Japanese Omakase", "WHY CONSIDER": "同樣保留 omakase dinner experience，適合比較另一間餐廳嘅 menu、價位及用餐氣氛。", "ROUTE FIT": "Central dinner replacement，唔需要改變 Day 1 整體節奏。", "ROUTE IMPACT": "LOW", "BOOKING": "Advance Reservation Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=Sushi%20Koji%20Ho%20Chi%20Minh%20City"}], "flex": "restaurant"}, "day2-lune": {"title": "LÚNE", "cards": [{"name": "Anan Saigon", "tags": ["CONTEMPORARY VIETNAMESE", "DESTINATION DINING"], "lines": {"STYLE": "Contemporary Vietnamese · Destination Dining", "WHY CONSIDER": "如果想將 refined European-style dinner 換成更具 Saigon identity 嘅 contemporary Vietnamese experience，呢個係最有意義嘅比較之一。", "ROUTE FIT": "Central dinner replacement，適合 Day 2 Saturday evening。", "ROUTE IMPACT": "LOW", "BOOKING": "Advance Reservation Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=Anan%20Saigon"}], "flex": "restaurant"}, "day3-afternoon-tea": {"title": "Bakes / Dreamers", "cards": [{"name": "The Deck Saigon", "tags": ["RIVERSIDE", "RELAXED"], "lines": {"STYLE": "Riverside Dining · Relaxed", "WHY CONSIDER": "如果想將 café stop 變成河景 lunch / drinks experience，氣氛同原方案差異最大。", "ROUTE FIT": "同樣留喺 Thảo Điền，唔需要離開 Day 3 route。", "ROUTE IMPACT": "LOW", "BOOKING": "Reservation Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=The%20Deck%20Saigon"}], "flex": "restaurant"}, "day3-moc-huong-wellness": {"title": "Mộc Hương Wellness", "cards": [{"name": "Lang Spa", "tags": ["BOUTIQUE SPA", "MASSAGE"], "lines": {"STYLE": "Popular Boutique Spa · Massage & Wellness", "WHY CONSIDER": "如果想留喺 Thảo Điền，但比較另一間公開評價數量更多、營業時間較長嘅 Spa，可以考慮 Lang Spa。", "ROUTE FIT": "同區 replacement，Sunday 正常營業，唔需要離開 Day 3 Thảo Điền route。", "ROUTE IMPACT": "LOW", "HOURS": "Daily 09:00–22:00", "BOOKING": "Appointment Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=Lang%20Spa%20Thao%20Dien"}], "flex": "spa"}, "day3-little-bear": {"title": "Little Bear", "cards": [{"name": "CieL Dining", "tags": ["DESTINATION DINING", "TASTING MENU"], "lines": {"STYLE": "Destination Dining · Tasting Menu", "WHY CONSIDER": "如果想將 Little Bear 嘅 relaxed neighbourhood dinner 升級成今次旅行其中一餐完整 tasting-menu experience，可以考慮 CieL。", "ROUTE FIT": "同樣位於 Thảo Điền / An Khánh area；Day 3 Sunday 營業，適合當晚使用。", "ROUTE IMPACT": "LOW", "BOOKING": "Advance Reservation Required"}, "map": "https://www.google.com/maps/search/?api=1&query=CieL%20Dining%20Ho%20Chi%20Minh%20City"}, {"name": "The Deck Saigon", "tags": ["RIVERSIDE", "RELAXED"], "lines": {"STYLE": "Riverside Dining · Relaxed", "WHY CONSIDER": "如果想要河景、飲酒、慢慢食，而唔係 neighbourhood-style dinner，呢個選擇體驗差異最清楚。", "ROUTE FIT": "保持 Day 3 Thảo Điền route。", "ROUTE IMPACT": "LOW", "BOOKING": "Reservation Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=The%20Deck%20Saigon"}], "flex": "restaurant"}, "day4-pizza-4ps": {"title": "Pizza 4P's", "cards": [{"name": "Mặn Mòi", "tags": ["VIETNAMESE", "HOMESTYLE SHARING"], "lines": {"STYLE": "Vietnamese · Homestyle Sharing", "WHY CONSIDER": "如果想將 Pizza lunch 換成較地道嘅 Vietnamese sharing meal，可以由 War Museum 出嚟後就近食飯。", "ROUTE FIT": "鄰近 War Remnants Museum，食完再前往 11 Garmentory；整體動線仍然自然。", "ROUTE IMPACT": "LOW", "BOOKING": "Reservation Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=M%E1%BA%B7n%20M%C3%B2i%20B%E1%BA%BFn%20Ngh%C3%A9%20Ho%20Chi%20Minh"}], "flex": "restaurant"}, "day4-quince": {"title": "Quince", "cards": [{"name": "Ốc Oanh", "tags": ["CASUAL SEAFOOD", "LOCAL & LIVELY"], "lines": {"STYLE": "Casual Seafood & Ốc · Local & Lively", "WHY CONSIDER": "如果前三晚 refined dining 已經夠，可以將最後一晚轉成更熱鬧、更 local 嘅海鮮大排檔體驗。", "ROUTE FIT": "位於 Vĩnh Khánh，從 Phú Nhuận shopping area 出發及晚餐後返酒店都比 Quince 稍遠。", "ROUTE IMPACT": "MODERATE", "HOURS": "Daily 13:00–03:00", "BOOKING": "Walk-in Only · Busy periods may require waiting"}, "map": "https://www.google.com/maps/search/?api=1&query=%E1%BB%90c%20Oanh%20534%20V%C4%A9nh%20Kh%C3%A1nh"}, {"name": "Ốc Đào", "tags": ["CASUAL SEAFOOD", "LOCAL FAVOURITE"], "lines": {"STYLE": "Casual Seafood & Ốc · Local Favourite", "WHY CONSIDER": "如果想將 Quince 換成更 casual、更地道嘅海鮮晚餐，可以叫多款 seafood 同 ốc 一齊 share，價錢亦較輕鬆。", "ROUTE FIT": "位於 Nguyễn Trãi，從 Phú Nhuận 出發及晚餐後返酒店都比 Quince 稍遠。", "ROUTE IMPACT": "MODERATE", "HOURS": "Daily 11:00–22:15", "BOOKING": "Walk-in Only · Busy periods may require waiting"}, "map": "https://www.google.com/maps/search/?api=1&query=%E1%BB%90c%20%C4%90%C3%A0o%20212B%2FD48%20Nguy%E1%BB%85n%20Tr%C3%A3i"}], "flex": "restaurant"}};
+  const PRACTICAL_DATA = {"day1-pho-sol": {"HOURS": "All day", "BOOKING": "Walk-in", "PRICE": "VND 150k–200k pp", "ROUTE": "Hotel area first meal · around 8–10 min walk / 3 min Grab"}, "day1-nha-suga-premium": {"HOURS": "Daily 09:00–20:00", "BOOKING": "Appointment Required", "PRICE": "VND 500k–800k pp", "ROUTE": "Inside The Cafe Apartments · keeps café, spa and night photo route together"}, "day1-omakase-tiger": {"HOURS": "17:30 & 20:00 seatings", "BOOKING": "Advance Reservation Required", "PRICE": "VND 780k–1.2m pp", "ROUTE": "Early sunset dinner · finish before the first night gets too late"}, "day2-moc-kim-spa": {"HOURS": "By appointment", "BOOKING": "Appointment Required", "PRICE": "Check package", "ROUTE": "Cooking Class → Spa → D1 shopping; built into the afternoon flow"}, "day2-lune": {"HOURS": "Mon–Sat 11:30–22:30", "BOOKING": "Advance Reservation Recommended", "PRICE": "VND 800k–1.5m pp", "ROUTE": "D1 shopping / Vincom → LÚNE around 5 min Grab"}, "day3-afternoon-tea": {"HOURS": "Afternoon café stop", "BOOKING": "Walk-in / flexible", "PRICE": "VND 80k–150k pp", "ROUTE": "Bakes and Dreamers are close together in Thảo Điền"}, "day3-moc-huong-wellness": {"HOURS": "Daily 09:00–21:00", "BOOKING": "Appointment Required", "PRICE": "VND 700k–1.1m pp", "ROUTE": "Thảo Điền shopping → spa → Louh × Alouane / dinner"}, "day3-little-bear": {"HOURS": "Tue–Sun 17:30–21:00", "BOOKING": "Advance Reservation Required", "PRICE": "VND 600k–1m pp", "ROUTE": "Mộc Hương → Little Bear around 3 min Grab"}, "day4-pizza-4ps": {"HOURS": "Mon–Fri 11:00–23:00", "BOOKING": "Reservation Recommended", "PRICE": "VND 200k–350k pp", "ROUTE": "War Museum → lunch → 11 Garmentory / Phú Nhuận"}, "day4-temple-leaf-spa-land": {"HOURS": "By appointment", "BOOKING": "Appointment Required", "PRICE": "Check package", "ROUTE": "Sits in the middle of the Trần Quang Diệu shopping route"}, "day4-quince": {"HOURS": "Dinner from 17:30 · last order 21:45", "BOOKING": "Advance Reservation Required", "PRICE": "USD 50–70 pp", "ROUTE": "Phú Nhuận → District 1 dinner; allow 30 min during peak traffic"}, "day5-bep-me-in": {"HOURS": "Daily 10:00–21:00", "BOOKING": "Walk-in / Reservation Recommended", "PRICE": "VND 150k–250k pp", "ROUTE": "Fine Arts Museum → Bếp Mẹ Ỉn → Takashimaya / hotel luggage"}, "day5-h-spa": {"HOURS": "Daily 09:00–21:00", "BOOKING": "Appointment Required", "PRICE": "VND 800k–1.2m pp", "ROUTE": "Hotel luggage → airport-area spa → airport check-in"}};
+  const FLEX_DATA = {"restaurant": {"name": "Miss Thu Restaurant", "tags": ["FLEXIBLE", "ANY DAY", "BAD WEATHER OPTION"], "lines": {"STYLE": "Elevated Vietnamese · Hotel Dining", "WHY CONSIDER": "如果落大雨、太攰唔想再搭 Grab，或者臨時想留喺酒店休息，可以直接喺酒店食飯。", "ROUTE FIT": "位於 Fusion Original 酒店內，零交通成本，適合任何一日作臨時 lunch / dinner backup。", "ROUTE IMPACT": "NONE", "BOOKING": "Reservation Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=Miss%20Thu%20Restaurant%20Fusion%20Original%20Saigon%20Centre"}, "spa": {"name": "Nola Urban Spa 2", "tags": ["FLEXIBLE", "ANY DAY", "LATE-NIGHT OPTION"], "lines": {"STYLE": "Boutique Urban Spa · Late-night Option", "WHY CONSIDER": "如果當日行程後仍想按摩，可以返到酒店附近再臨時決定，唔需要犧牲原有 activities。", "ROUTE FIT": "鄰近酒店區，適合任何一晚返酒店後使用；亦可作其他 Spa booking 未能配合時嘅 backup。", "ROUTE IMPACT": "LOW", "HOURS": "Late-night option", "BOOKING": "Appointment Recommended"}, "map": "https://www.google.com/maps/search/?api=1&query=Nola%20Urban%20Spa%202%2033%20T%C3%B4n%20Th%E1%BA%A5t%20Thi%E1%BB%87p"}};
+
+  function escapeHtml(str){
+    return String(str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
+  function line(label, value){
+    if(!value) return '';
+    return `<div class="alt-line"><b>${escapeHtml(label)}</b>${escapeHtml(value)}</div>`;
+  }
+  function renderAltCard(card, isFlex){
+    const tags=(card.tags||[]).map(t=>`<span class="alt-tag">${escapeHtml(t)}</span>`).join('');
+    const lines=card.lines||{};
+    return `<div class="alt-card${isFlex?' flex':''}"><h3>${escapeHtml(card.name)}</h3>${tags}`+
+      ['STYLE','WHY CONSIDER','ROUTE FIT','ROUTE IMPACT','HOURS','BOOKING'].map(k=>line(k,lines[k])).join('')+
+      (card.map?`<a class="alt-map-link" href="${escapeHtml(card.map)}" target="_blank" rel="noopener">📍 View Map</a>`:'')+
+      `</div>`;
+  }
+  function ensureModal(){
+    let modal=document.getElementById('ccmv-alt-modal');
+    if(modal) return modal;
+    modal=document.createElement('dialog');
+    modal.id='ccmv-alt-modal';
+    modal.innerHTML=`<div class="alt-modal-card" role="document"><div class="alt-modal-head"><div><h2>Possible Alternatives</h2><p data-alt-subtitle>睇完如果想換，可以返去選 Replace，再喺 comment 寫低想法。</p></div><button type="button" class="alt-modal-close" data-alt-close aria-label="Close">×</button></div><div class="alt-list" data-alt-list></div><p class="alt-note">Close 後會留返同一頁；已輸入嘅 review 內容不會受影響。</p></div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', ev=>{ if(ev.target===modal || ev.target.closest('[data-alt-close]')) closeModal(); });
+    document.addEventListener('keydown', ev=>{ if(ev.key==='Escape' && modal.open) closeModal(); });
+    return modal;
+  }
+  let lastScrollY=0;
+  function openModal(cardId){
+    const data=ALT_DATA[cardId]; if(!data) return;
+    lastScrollY=window.scrollY || document.documentElement.scrollTop || 0;
+    const modal=ensureModal();
+    const title=modal.querySelector('h2');
+    const subtitle=modal.querySelector('[data-alt-subtitle]');
+    const list=modal.querySelector('[data-alt-list]');
+    title.textContent='Possible Alternatives';
+    subtitle.textContent=`${data.title} 可以考慮嘅替代選擇。想換就選 Replace，再喺 comment 寫低原因。`;
+    const main=(data.cards||[]).map(c=>renderAltCard(c,false)).join('');
+    const flexData=data.flex ? FLEX_DATA[data.flex] : null;
+    const flex=flexData ? `<div class="alt-section-title">Flexible Backup</div>${renderAltCard(flexData,true)}` : '';
+    list.innerHTML=main+flex;
+    try{ modal.showModal(); }catch(err){ modal.setAttribute('open',''); }
+    setTimeout(()=>modal.querySelector('[data-alt-close]')?.focus({preventScroll:true}),20);
+  }
+  function closeModal(){
+    const modal=document.getElementById('ccmv-alt-modal'); if(!modal) return;
+    if(modal.open) modal.close(); else modal.removeAttribute('open');
+    requestAnimationFrame(()=>window.scrollTo({top:lastScrollY, left:0, behavior:'instant'}));
+  }
+  function addPracticalInfo(card, info){
+    if(!card || card.querySelector('.practical-info')) return;
+    const chips=card.querySelector('.chips'); if(!chips) return;
+    const box=document.createElement('div'); box.className='practical-info';
+    box.innerHTML=Object.entries(info).map(([k,v])=>`<div><b>${escapeHtml(k)}</b>${escapeHtml(v)}</div>`).join('');
+    chips.insertAdjacentElement('afterend',box);
+  }
+  function addAltButton(card, data){
+    if(!card || card.querySelector('[data-alt-open]')) return;
+    const reaction=card.querySelector('.reaction'); if(!reaction) return;
+    const wrap=document.createElement('div'); wrap.className='alt-actions';
+    wrap.innerHTML=`<button type="button" class="alt-open-btn" data-alt-open="${escapeHtml(card.dataset.card)}">Possible Alternatives →</button>`;
+    reaction.insertAdjacentElement('beforebegin',wrap);
+  }
+  function initAlternatives(){
+    document.querySelectorAll('.activity[data-card]').forEach(card=>{
+      const id=card.dataset.card;
+      if(PRACTICAL_DATA[id]) addPracticalInfo(card,PRACTICAL_DATA[id]);
+      if(ALT_DATA[id]) addAltButton(card,ALT_DATA[id]);
+    });
+  }
+  document.addEventListener('click', ev=>{
+    const btn=ev.target.closest && ev.target.closest('[data-alt-open]');
+    if(!btn) return;
+    ev.preventDefault(); ev.stopPropagation();
+    openModal(btn.dataset.altOpen);
+  }, true);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initAlternatives); else initAlternatives();
+  window.CCMV_initAlternatives=initAlternatives;
+})();
+</script>
+
 </body>
 </html>
